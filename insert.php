@@ -14,7 +14,7 @@ $result = $mysqli->query($sql);
 if (!$result) {
 die('Invalid query: ' . $mysqli->error);
 }
-header('location: http://localhost/TIG');
+header('location: http://albearth.herokuapp.com');
 mysqli_close($con);
 exit;
 
