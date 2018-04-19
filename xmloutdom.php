@@ -9,8 +9,12 @@ $node = $dom->createElement("markers");
 $parnode = $dom->appendChild($node); 
 
 // Opens a connection to a MySQL server and database
-
-$mysqli= new mysqli('localhost', $username, $password, $database);
+$url = parse_url(getenv("CLEARDB_DATABASE_URL"));
+$server = $url["host"];
+$username2 = $url["user"];
+$password2 = $url["pass"];
+$db = substr($url["path"], 1);
+$mysqli= new mysqli($server, $username2, $password2, $db);
 if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
 }
