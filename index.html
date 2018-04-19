@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Albearth 1.0</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" type="text/css" href="albearth.css">
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQp507Nd6PXQXvRzeDywxHomaSnWLTKUI&callback=initMap" type="text/javascript"></script>
+  </head>
+  <body>
+    <div>
+    <form id="mar" action="insert.php" method="post">
+      Latitude: <input type="text" name="lat" value="" />
+      Longitude: <input type="text" name="lng" value="" />
+      Nome: <input type="text" name="name" value=""/>
+      Categoria: <input type="text" name="type" value=""/>
+      <input type="submit" />
+    </form> 
+  </div>
+    <div id="map-canvas"> </div>
+    <script type="text/javascript" src="albearth.js"></script>
+  </body>
+</html>
