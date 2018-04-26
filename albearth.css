@@ -1,4 +1,5 @@
 html { height: 100% }
 body { height: 100%; margin: 0; padding: 0 }
-#mar { height: 30px; }
-#map-canvas { height: calc(100% - 30px); cursor: crosshair }
+#map-canvas { height: 100%; cursor: crosshair; }
+.no-padding { padding: 0;}
+.gm-style > div:nth-child(3) { visibility: hidden;}

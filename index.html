@@ -1,26 +1,61 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Albearth 1.0</title>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-    <link rel="stylesheet" type="text/css" href="albearth.css">
-    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQp507Nd6PXQXvRzeDywxHomaSnWLTKUI&callback=initMap" type="text/javascript"></script>
-  </head>
-  <body>
-    <div>
-      <form id="mar" action="insert.php" method="post">
-        Latitude: <input type="text" name="lat" value="" />
-        Longitude: <input type="text" name="lng" value="" />
-        Nome: <input type="text" name="name" value=""/>
-        Categoria: <input type="text" name="type" value=""/>
-        <input type="submit" />
+
+<head>
+  <title>Albearth 1.0</title>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <link rel="stylesheet" type="text/css" href="albearth.css">
+  <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQp507Nd6PXQXvRzeDywxHomaSnWLTKUI&callback=initMap"
+    type="text/javascript"></script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+    crossorigin="anonymous">
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+  <div class="col-12 no-padding" style="position: absolute; z-index: 1; bottom: 0;">
+    <form id="mar" action="insert.php" method="post">
+      <div class="row">
+        <div class="col-12 col-sm-8">
+          <input class="col-12 col-sm-6 col-md-3" style="float: right" type="text" name="lat" value="" placeholder="Latitude" />
+          <input class="col-12 col-sm-6 col-md-3" style="float: right" type="text" name="lng" value="" placeholder="Longitude" />
+          <input class="col-12 col-sm-6 col-md-3" style="float: right" type="text" name="name" value="" placeholder="Nome" />
+          <input class="col-12 col-sm-6 col-md-3" style="float: right" type="text" name="type" value="" placeholder="Categoria" />
+        </div>
+        <div class="col-12 col-sm-2">
+          <input class="col-12" value="Submit" type="submit" />
+        </div>
+      </div>
+    </form>
+    <form id="del" action="delete.php" method="post">
+      <div class="col-12 col-sm-2">
+        <input type="hidden" name="name" />
+        <input type="submit" value="Apagar Marcador" />
+      </div>
+    </form>
+    <form id="legenda">
+      <img src="http://labs.google.com/ridefinder/images/mm_20_red.png" /> Hotel
+      <input type="checkbox" name="type" value="hotel" checked="true" onchange="checkLegend()"/>
+      <img src="http://labs.google.com/ridefinder/images/mm_20_green.png" /> Servicos
+      <input type="checkbox" name="type" value="servicos" checked="true" onchange="checkLegend()"/>
+      <img src="http://labs.google.com/ridefinder/images/mm_20_white.png" /> Policia
+      <input type="checkbox" name="type" value="policia" checked="true" onchange="checkLegend()"/>
+      <img src="http://labs.google.com/ridefinder/images/mm_20_blue.png" /> Restaurante
+      <input type="checkbox" name="type" value="restaurantes" checked="true" onchange="checkLegend()"/>
+      <img src="http://labs.google.com/ridefinder/images/mm_20_yellow.png" /> Transportes
+      <input type="checkbox" name="type" value="transportes" checked="true" onchange="checkLegend()"/>
       </form>
-      <form id="del" action="delete.php" method="post">
-        <input type="hidden" name="name"/>
-        <input type="submit" value="Apagar Marcador"/>
-      </form>
-    </div>
-    <div id="map-canvas"> </div>
-    <script type="text/javascript" src="albearth.js"></script>
-  </body>
+  </div>
+  <div id="map-canvas"> </div>
+  <script type="text/javascript" src="albearth.js"></script>
+</body>
+
 </html>
