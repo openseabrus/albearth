@@ -8,14 +8,18 @@
   </head>
   <body>
     <div>
-    <form id="mar" action="insert.php" method="post">
-      Latitude: <input type="text" name="lat" value="" />
-      Longitude: <input type="text" name="lng" value="" />
-      Nome: <input type="text" name="name" value=""/>
-      Categoria: <input type="text" name="type" value=""/>
-      <input type="submit" />
-    </form> 
-  </div>
+      <form id="mar" action="insert.php" method="post">
+        Latitude: <input type="text" name="lat" value="" />
+        Longitude: <input type="text" name="lng" value="" />
+        Nome: <input type="text" name="name" value=""/>
+        Categoria: <input type="text" name="type" value=""/>
+        <input type="submit" />
+      </form>
+      <form id="del" action="delete.php" method="post">
+        <input type="hidden" name="name"/>
+        <input type="submit" value="Apagar Marcador"/>
+      </form>
+    </div>
     <div id="map-canvas"> </div>
     <script type="text/javascript" src="albearth.js"></script>
   </body>

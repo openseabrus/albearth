@@ -11,11 +11,11 @@ $parnode = $dom->appendChild($node);
 // Opens a connection to a MySQL server and database
 // $url = parse_url(getenv("CLEARDB_DATABASE_URL"));
 // $url = "mysql://baec497d590684:018358a8@eu-cdbr-west-02.cleardb.net/heroku_aa3f00257c04492?reconnect=true";
-$server = "eu-cdbr-west-02.cleardb.net";
+//$server = "eu-cdbr-west-02.cleardb.net";
 $username2 = "baec497d590684";
 $password2 = "018358a8";
 $db = "heroku_aa3f00257c04492";
-$mysqli= new mysqli($server, $username2, $password2, $db);
+$mysqli= new mysqli($server, $username, $password, $database);
 if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
 }
