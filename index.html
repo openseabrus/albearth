@@ -21,38 +21,39 @@
 </head>
 
 <body>
-  <div class="col-12 no-padding" style="position: absolute; z-index: 1; bottom: 0;">
-    <form id="mar" action="insert.php" method="post">
-      <div class="row">
-        <div class="col-12 col-sm-8">
-          <input class="col-12 col-sm-6 col-md-3" style="float: right" type="text" name="lat" value="" placeholder="Latitude" />
-          <input class="col-12 col-sm-6 col-md-3" style="float: right" type="text" name="lng" value="" placeholder="Longitude" />
-          <input class="col-12 col-sm-6 col-md-3" style="float: right" type="text" name="name" value="" placeholder="Nome" />
-          <input class="col-12 col-sm-6 col-md-3" style="float: right" type="text" name="type" value="" placeholder="Categoria" />
-        </div>
-        <div class="col-12 col-sm-2">
-          <input class="col-12" value="Submit" type="submit" />
-        </div>
+  <div class="col-12" style="position: absolute; z-index: 1; bottom: 0;">
+    <div class="row">
+      <div class="col-12 col-md-10">
+        <form class="row" id="mar" action="insert.php" method="post">
+          <div class="col-12 col-md-10 no-padding">
+            <input class="col-12 col-sm-6 col-md-3" style="float: right" type="text" name="lat" value="" placeholder="Latitude" />
+            <input class="col-12 col-sm-6 col-md-3" style="float: right" type="text" name="lng" value="" placeholder="Longitude" />
+            <input class="col-12 col-sm-6 col-md-3" style="float: right" type="text" name="name" value="" placeholder="Nome" />
+            <input class="col-12 col-sm-6 col-md-3" style="float: right" type="text" name="type" value="" placeholder="Categoria" />
+          </div>
+          <div class="col-12 col-md-2 no-padding">
+            <input class="col-12" value="Submit" type="submit" />
+          </div>
+        </form>
       </div>
-    </form>
-    <form id="del" action="delete.php" method="post">
-      <div class="col-12 col-sm-2">
+      <form class="col-12 col-md-2 no-padding" id="del" action="delete.php" method="post">
         <input type="hidden" name="name" />
-        <input type="submit" value="Apagar Marcador" />
-      </div>
-    </form>
-    <form id="legenda">
-      <img src="http://labs.google.com/ridefinder/images/mm_20_red.png" /> Hotel
-      <input type="checkbox" name="type" value="hotel" checked="true" onchange="checkLegend()"/>
-      <img src="http://labs.google.com/ridefinder/images/mm_20_green.png" /> Servicos
-      <input type="checkbox" name="type" value="servicos" checked="true" onchange="checkLegend()"/>
-      <img src="http://labs.google.com/ridefinder/images/mm_20_white.png" /> Policia
-      <input type="checkbox" name="type" value="policia" checked="true" onchange="checkLegend()"/>
-      <img src="http://labs.google.com/ridefinder/images/mm_20_blue.png" /> Restaurante
-      <input type="checkbox" name="type" value="restaurantes" checked="true" onchange="checkLegend()"/>
-      <img src="http://labs.google.com/ridefinder/images/mm_20_yellow.png" /> Transportes
-      <input type="checkbox" name="type" value="transportes" checked="true" onchange="checkLegend()"/>
+        <input class="col-12" type="submit" value="Apagar Marcador" />
       </form>
+    </div>
+  </div>
+  <form id="legenda">
+    <img src="http://labs.google.com/ridefinder/images/mm_20_red.png" /> Hotel
+    <input type="checkbox" name="type" value="hotel" checked="true" onchange="checkLegend()" />
+    <img src="http://labs.google.com/ridefinder/images/mm_20_green.png" /> Servicos
+    <input type="checkbox" name="type" value="servicos" checked="true" onchange="checkLegend()" />
+    <img src="http://labs.google.com/ridefinder/images/mm_20_white.png" /> Policia
+    <input type="checkbox" name="type" value="policia" checked="true" onchange="checkLegend()" />
+    <img src="http://labs.google.com/ridefinder/images/mm_20_blue.png" /> Restaurante
+    <input type="checkbox" name="type" value="restaurantes" checked="true" onchange="checkLegend()" />
+    <img src="http://labs.google.com/ridefinder/images/mm_20_yellow.png" /> Transportes
+    <input type="checkbox" name="type" value="transportes" checked="true" onchange="checkLegend()" />
+  </form>
   </div>
   <div id="map-canvas"> </div>
   <script type="text/javascript" src="albearth.js"></script>
