@@ -14,7 +14,7 @@ function initMap() {
     var infoWindow = new google.maps.InfoWindow;
     var geocoder = new google.maps.Geocoder;
     var bounds = new google.maps.LatLngBounds;
-    bounds = mapOptions.getCenter();
+    bounds = map.getCenter();
 
 
     google.maps.event.addListener(map, 'click', function (event) {
