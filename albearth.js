@@ -13,6 +13,9 @@ function initMap() {
 
     var infoWindow = new google.maps.InfoWindow;
     var geocoder = new google.maps.Geocoder;
+    var bounds = new google.maps.LatLngBounds;
+    bounds = mapOptions.getCenter();
+
 
     google.maps.event.addListener(map, 'click', function (event) {
         var marker = new google.maps.Marker({
@@ -70,6 +73,8 @@ function initMap() {
             });
             bindInfoWindow(markers[i], map, infoWindow, html);
             bindRemove(markers[i], name);
+            bounds.extend(point);
+            map.fitBounds(bounds);
         }
     });
 
