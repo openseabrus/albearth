@@ -6,7 +6,8 @@ require("login.php");
 
 $dom = new DOMDocument("1.0");
 $node = $dom->createElement("markers");
-$parnode = $dom->appendChild($node); 
+$parnode = $dom->appendChild($node);
+
 
 // Opens a connection to a MySQL server and database
 // $url = parse_url(getenv("CLEARDB_DATABASE_URL"));
@@ -23,6 +24,8 @@ if ($mysqli->connect_errno) {
 // Select all the rows in the markers table
 
 $query = "SELECT * FROM markers WHERE 1";
+$result = $mysqli->query('SET NAMES utf8');
+$result = $mysqli->query('SET CHARACTER SET utf8');
 $result = $mysqli->query($query);
 if (!$result) {  
   die('Invalid query: ' . $mysqli->error);

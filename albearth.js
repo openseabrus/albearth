@@ -12,6 +12,7 @@ function initMap() {
         mapOptions);
 
     var infoWindow = new google.maps.InfoWindow;
+    var geocoder = new google.maps.Geocoder;
 
     google.maps.event.addListener(map, 'click', function (event) {
         var marker = new google.maps.Marker({
@@ -19,11 +20,7 @@ function initMap() {
             map: map,
             title: "New Marker"
         });
-        var form = document.getElementById("mar");
-        var latf = form.elements[0];
-        latf.value = event.latLng.lat();
-        var lngf = form.elements[1];
-        lngf.value = event.latLng.lng();
+        geocodeLatLng(geocoder, map, infoWindow, event.latLng);
     });
 
 
@@ -117,4 +114,30 @@ function checkLegend() {
         else if (xmlmarkers[i].getAttribute("type")[0] == "t")
             markers[i].setVisible(transportes.checked);
     }
+}
+
+function geocodeLatLng(geocoder, map, infowindow, latLng) {
+    var address = "";
+    geocoder.geocode({ 'location': latLng }, function (results, status) {
+        if (status === 'OK') {
+            if (results[0]) {
+                var marker = new google.maps.Marker({
+                    position: latLng,
+                    map: map
+                });
+                setForm(latLng.lat(), latLng.lng(), results[0].formatted_address);
+            } else {
+                window.alert('No results found');
+            }
+        } else {
+            window.alert('Geocoder failed due to: ' + status);
+        }
+    });
+}
+
+function setForm(lat, lng, name) {
+    var form = document.getElementById("mar");
+    form[0].value = lat;
+    form[1].value = lng;
+    form[2].value = name;
 }
