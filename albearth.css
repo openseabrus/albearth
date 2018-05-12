@@ -6,3 +6,5 @@ body { height: 100%; margin: 0; padding: 0; background-color: lightgrey !importa
 /* .gm-style > div:nth-child(3) { visibility: hidden;} */
 #navbar{ background-color: red !important; }
 .pink{ background-color: pink !important; width: 100px}
+.modal-content{ margin-top: calc(50% - 112px);}
+#login-btn{ width: 200px }
