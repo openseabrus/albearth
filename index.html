@@ -22,7 +22,9 @@
 </head>
 
 <body>
-  <div class="col-12" style="position: absolute; z-index: 1; bottom: 0;">
+  <!-- include the actual image from PS ??? -->
+  <div id="navbar">Albearth</div>
+<!--   <div class="col-12" style="position: absolute; z-index: 1; bottom: 0;">
     <div class="row">
       <div class="col-12 col-md-10">
         <form class="row" id="mar" action="insert.php" method="post">
@@ -42,21 +44,32 @@
         <input class="col-12" type="submit" value="Apagar Marcador" />
       </form>
     </div>
+  </div> -->
+  <div class="col-12 row" id="main-container">
+	  <div class="col-9" id="map-canvas"></div>
+	  <form class="col-3" id="legenda">
+		<div class="col-12">
+			<img src="http://labs.google.com/ridefinder/images/mm_20_red.png" /> Hotel
+			<input type="checkbox" name="type" value="hotel" checked="true" onchange="checkLegend()" />
+		</div>
+		<div class="col-12">
+			<img src="http://labs.google.com/ridefinder/images/mm_20_green.png" /> Servicos
+			<input type="checkbox" name="type" value="servicos" checked="true" onchange="checkLegend()" />
+		</div>
+		<div class="col-12">
+			<img src="http://labs.google.com/ridefinder/images/mm_20_white.png" /> Policia
+			<input type="checkbox" name="type" value="policia" checked="true" onchange="checkLegend()" />
+		</div>
+		<div class="col-12">
+			<img src="http://labs.google.com/ridefinder/images/mm_20_blue.png" /> Restaurante
+			<input type="checkbox" name="type" value="restaurantes" checked="true" onchange="checkLegend()" />
+		</div>
+		<div class="col-12">
+			<img src="http://labs.google.com/ridefinder/images/mm_20_yellow.png" /> Transportes
+			<input type="checkbox" name="type" value="transportes" checked="true" onchange="checkLegend()" />
+		</div>
+	  </form>
   </div>
-  <form id="legenda" style="position: absolute; z-index: 1;">
-    <img src="http://labs.google.com/ridefinder/images/mm_20_red.png" /> Hotel
-    <input type="checkbox" name="type" value="hotel" checked="true" onchange="checkLegend()" />
-    <img src="http://labs.google.com/ridefinder/images/mm_20_green.png" /> Servicos
-    <input type="checkbox" name="type" value="servicos" checked="true" onchange="checkLegend()" />
-    <img src="http://labs.google.com/ridefinder/images/mm_20_white.png" /> Policia
-    <input type="checkbox" name="type" value="policia" checked="true" onchange="checkLegend()" />
-    <img src="http://labs.google.com/ridefinder/images/mm_20_blue.png" /> Restaurante
-    <input type="checkbox" name="type" value="restaurantes" checked="true" onchange="checkLegend()" />
-    <img src="http://labs.google.com/ridefinder/images/mm_20_yellow.png" /> Transportes
-    <input type="checkbox" name="type" value="transportes" checked="true" onchange="checkLegend()" />
-  </form>
-  </div>
-  <div id="map-canvas"> </div>
   <script type="text/javascript" src="albearth.js"></script>
 </body>
 
