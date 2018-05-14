@@ -26,7 +26,13 @@ angular.module('albearth').controller('albearthCtrl', function ($scope, $http, $
         if(c) {
             $scope.logon(c["username"], c["email"], c["picture"]);
         }
-        console.log(c);
-        console.log(c["username"] + " " + c["email"] + " " + c["picture"]);
+
     }
+
+    $scope.logout = function() {
+        $scope.loggedIn = false;
+        $scope.picture = "";
+        $window.Cookies.remove('loggedUser');
+    }
+
 });
