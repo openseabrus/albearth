@@ -14,6 +14,9 @@
 	
 	<script src="angular.min.js"></script>
 	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 	crossorigin="anonymous">
 	
@@ -29,9 +32,8 @@
 <body id="albearth" ng-app="albearth" ng-controller="albearthCtrl" ng-init="checkCookies()">
 	<!-- include the actual image from PS ??? -->
 	<nav id="navbar" class="navbar navbar-light bg-light">
-		<a class="navbar-brand" href="#">
-			Albearth
-			<img src="icon.png" alt="xD" width="30" height="30" class="d-inline-block align-top" alt="">
+		<a class="navbar-brand">
+			<img src="albearth.png" alt="Albearth" class="d-inline-block align-top" alt="">
 		</a>
 		<div style="margin-right: 5%" ng-cloak>
 			<img ng-show="loggedIn" id="userPic" ng-src="{{picture}}" />
@@ -121,56 +123,115 @@
 	</div> -->
 	
 	<!-- Sidebar -->
-	<div class="col-12 row" id="main-container">
+	<div class="col-12 row no-padding" id="main-container">
 		<div class="col-9" id="map-canvas"></div>
+		
+		<!-- VIEW - Locais de Estudo -->
 		<form class="col-3" id="legenda">
-			<div class="col-12">
+			<div class="col-12 section-title">
 				Locais de estudo
 			</div>
-			<div class="col-12">
+			<div class="col-12 sub-section-title">
 				Tipo de local
 			</div>
 			<div class="col-12">
 				<img src="Markers/mm_20_red.png" /> Bibliotecas
-				<input type="checkbox" name="type" value="hotel" checked="true" onchange="checkLegend()" />
+				<input class="pull-right" style="margin-top: 10px" type="checkbox" name="type" value="hotel" checked="true" onchange="checkLegend()" />
 			</div>
 			<div class="col-12">
 				<img src="Markers/mm_20_green.png" /> Jardins
-				<input type="checkbox" name="type" value="servicos" checked="true" onchange="checkLegend()" />
+				<input class="pull-right" style="margin-top: 10px" type="checkbox" name="type" value="servicos" checked="true" onchange="checkLegend()" />
 			</div>
 			<div class="col-12">
 				<img src="Markers/mm_20_white.png" /> Salas de Leitura
-				<input type="checkbox" name="type" value="policia" checked="true" onchange="checkLegend()" />
+				<input class="pull-right" style="margin-top: 10px" type="checkbox" name="type" value="policia" checked="true" onchange="checkLegend()" />
 			</div>
-			<div class="col-12">
+			<div class="col-12" style="margin-bottom: 10px">
 				<img src="Markers/mm_20_blue.png" /> Cafés
-				<input type="checkbox" name="type" value="restaurantes" checked="true" onchange="checkLegend()" />
+				<input class="pull-right" style="margin-top: 10px" type="checkbox" name="type" value="restaurantes" checked="true" onchange="checkLegend()" />
 			</div>
-			<div class="col-12">
-				Horário
+			<div class="col-12" style="margin-bottom: 10px">
+				<span class="sub-section-title">Horário</span>
 				<rzslider rz-slider-model="openTime" rz-slider-high="closeTime" rz-slider-options="slider.options"></rzslider>
 				Entre as {{openTime}}h e {{closeTime}}h
 			</div>
-			<div class="col-12">
-				Acesso a tomadas
-				<input type="checkbox" name="type" />
+			<div class="col-12" style="margin-bottom: 10px">
+				<span class="sub-section-title">Acesso a tomadas</span>
+				<input class="pull-right" style="margin-top: 5px"type="checkbox" name="type" />
 			</div>
 			<div class="col-12">
-				Acesso a computadores
-				<input type="checkbox" name="type" />
+				<span class="sub-section-title">Acesso a computadores</span>
+				<input class="pull-right"  style="margin-top: 5px"type="checkbox" name="type" />
 			</div>
 			<div class="col-12">
-				<label for="noiseSelect">Nível de ruído</label>
-				<select name="noise" id="noiseSelect" ng-options="option for option in noise.options" ng-model="noise.selected"></select>
+				<label class="sub-section-title" for="noiseSelect">Nível de ruído</label>
+				<select class="pull-right" style="margin-top: 10px" name="noise" id="noiseSelect" ng-options="option for option in noise.options" ng-model="noise.selected"></select>
 				<!--{{noise.selected}} -->
 			</div>
 			<div class="col-12">
-				Avaliação mínima
-				<input type="checkbox" name="type" ng-repeat="star in rating.options" ng-model="rating.selected[$index]" ng-click="rate(star)"/>
-				
+				<span class="sub-section-title">Avaliação mínima</span>
+				<input class="pull-right" style="margin-top: 5px" type="checkbox" name="type" ng-repeat="star in rating.options" ng-model="rating.selected[$index]" ng-click="rate(star)"/>
 			</div>
-			<div class="col-12">
-				<input type="button" name="type" value="Adicionar Local de Estudo" text="Add" />
+			<div class="col-12" style="margin: 0; position: absolute; bottom: 15px">
+				<input class="btn btn-danger col-12" align="center" type="button" name="type" value="Adicionar Local de Estudo" text="Add" />
+			</div>
+		</form>
+		
+		<!-- VIEW - Detalhes -->
+		<form class="col-3 collapse no-padding" id="detalhes">
+			<div class="col-12 section-title">
+				Detalhes
+			</div>
+			<div class="col-12" style="margin-top: 5px;">
+				<span class="sub-section-title">Tipo de local: </span>
+				<span>{{ type }}</span>
+			</div>
+			<div class="col-12" style="margin-top: 5px;">
+				<span class="sub-section-title">Horário: </span>
+				<span>{{openTime}}h - {{closeTime}}h</span>
+			</div>
+			<div class="col-12" style="margin-top: 5px;">
+				<span class="sub-section-title">Acesso a tomadas: </span>
+				<span>{{ access_1 }}</span>
+			</div>
+			<div class="col-12" style="margin-top: 5px;">
+				<span class="sub-section-title">Acesso a computadores: </span>
+				<span>{{ access_2 }}</span>
+			</div>
+			<div class="col-12" style="margin-top: 5px;">
+				<span class="sub-section-title">Nível de ruído: </span>
+				<span>{{ noise.selected }}</span>
+			</div>
+			<div class="col-12" style="margin-top: 5px;">
+				<span class="sub-section-title">Avaliação mínima: </span>
+				<span>{{ rating.stars }}</span>
+			</div>
+			<div class="col-12" style="margin-top: 15px;" align="center">
+				<input class="btn btn-danger" type="button" name="type" value="Avaliar/ver comentários" text="Add" />
+			</div>
+			
+			<div class="col-12 section-title" style="margin-top: 30px;">
+				Direções
+			</div>
+			<div class="col-12 row" style="margin: 0; margin-top: 10px;">
+				<span class="col-12 sub-section-title">Modo de viagem: </span>
+				<div class="col-4 row" style="margin: 0">
+					<span class="col-12" align="center"><i class="fa fa-car" style="color: #fe2626"></i></span>
+					<input class="col-12" type="radio" name="transp" value="car">
+				</div>
+				<div class="col-4 row" style="margin: 0">
+					<span class="col-12" align="center"><i class="fa fa-bus" style="color: #fe2626"></i></span>
+					<input class="col-12" type="radio" name="transp" value="bus">
+				</div>
+				<div class="col-4 row" style="margin: 0">
+					<span class="col-12" align="center"><i class="material-icons" style="color: #fe2626">directions_walk</i></span>
+					<input class="col-12" type="radio" name="transp" value="foot">
+				</div>
+				<span class="col-12 sub-section-title">A partir de: </span>
+				<div class="col-12" style="margin: 0; margin-top: 8px;" align="center">
+					<input class="btn btn-danger col-12" type="button" style="font-size: 14px" name="type" value="Localização actual" text="Add" />
+					<input class="btn btn-danger col-12" style="margin-top: 2px; font-size: 14px" type="button" name="type" value="Ponto no mapa" text="Add" />
+				</div>
 			</div>
 		</form>
 	</div>
