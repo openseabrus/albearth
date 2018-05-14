@@ -5,7 +5,7 @@ require("login.php");
 // Start XML file, create parent node
 
 $dom = new DOMDocument("1.0");
-$node = $dom->createElement("markers");
+$node = $dom->createElement("locais");
 $parnode = $dom->appendChild($node);
 
 
@@ -23,7 +23,7 @@ if ($mysqli->connect_errno) {
 
 // Select all the rows in the markers table
 
-$query = "SELECT * FROM markers WHERE 1";
+$query = "SELECT * FROM locais";
 $result = $mysqli->query('SET NAMES utf8');
 $result = $mysqli->query('SET CHARACTER SET utf8');
 $result = $mysqli->query($query);
@@ -37,13 +37,18 @@ header("Content-type: text/xml");
 
 while ($row = @mysqli_fetch_assoc($result)){  
   // ADD TO XML DOCUMENT NODE  
-  $node = $dom->createElement("marker");  
-  $newnode = $parnode->appendChild($node);   
-  $newnode->setAttribute("name",$row['name']);
-  //$newnode->setAttribute("address", $row['address']);  
-  $newnode->setAttribute("lat", $row['lat']);  
-  $newnode->setAttribute("lng", $row['lng']);  
-  $newnode->setAttribute("type", $row['type']);
+  $node = $dom->createElement("local");  
+  $newnode = $parnode->appendChild($node);
+  $newnode->setAttribute("idLocal",$row['idLocal']);
+  $newnode->setAttribute("tipoEstudo",$row['tipoEstudo']);
+  $newnode->setAttribute("nome",$row['nome']);
+  $newnode->setAttribute("tomadas",$row['tomadas']);
+  $newnode->setAttribute("ruido",$row['ruido']);
+  $newnode->setAttribute("computadores",$row['computadores']);
+  $newnode->setAttribute("horario",$row['horario']);
+  $newnode->setAttribute("encerramento",$row['encerramento']);
+  $newnode->setAttribute("latitude",$row['latitude']);
+  $newnode->setAttribute("longitude",$row['longitude']);
 } 
 
 echo $dom->saveXML();

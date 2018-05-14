@@ -1,5 +1,5 @@
-var markers = new Array();
-var xmlmarkers = new Array();
+var locais = new Array();
+var xmllocais = new Array();
 
 function initMap() {
     var mapOptions = {
@@ -46,32 +46,30 @@ function initMap() {
 
     downloadUrl("xmloutdom.php", function (data) {
         var xml = data.responseXML;
-        xmlmarkers = xml.documentElement.getElementsByTagName("marker");
-        for (var i = 0; i < xmlmarkers.length; i++) {
-            var name = xmlmarkers[i].getAttribute("name");
-            var type = xmlmarkers[i].getAttribute("type");
+        xmllocais = xml.documentElement.getElementsByTagName("local");
+        for (var i = 0; i < xmllocais.length; i++) {
+            var name = xmllocais[i].getAttribute("nome");
+            var type = xmllocais[i].getAttribute("tipoEstudo");
             var point = new google.maps.LatLng(
-                parseFloat(xmlmarkers[i].getAttribute("lat")),
-                parseFloat(xmlmarkers[i].getAttribute("lng")));
+                parseFloat(xmllocais[i].getAttribute("latitude")),
+                parseFloat(xmllocais[i].getAttribute("longitude")));
             var html = "<b>" + name + "</b> <br/>" + type;
             var icon = null;
-            if (type == "hotel")
-                icon = "http://labs.google.com/ridefinder/images/mm_20_red.png";
-            else if (type == "restaurante")
-                icon = "http://labs.google.com/ridefinder/images/mm_20_blue.png";
-            else if (type == "servicos")
-                icon = "http://labs.google.com/ridefinder/images/mm_20_green.png";
-            else if (type == "transportes")
-                icon = "http://labs.google.com/ridefinder/images/mm_20_yellow.png";
-            else if (type == "policia")
-                icon = "http://labs.google.com/ridefinder/images/mm_20_white.png";
-            markers[i] = new google.maps.Marker({
+            if (type.toUpperCase() == "BIBLIOTECA")
+                icon = "Markers/mm_20_red.png";
+            else if (type.toUpperCase() == "CAFE")
+                icon = "Markers/mm_20_blue.png";
+            else if (type.toUpperCase() == "SALA DE LEITURA")
+                icon = "Markers/mm_20_white.png";
+            else if (type.toUpperCase() == "JARDIM")
+                icon = "Markers/mm_20_green.png";
+            locais[i] = new google.maps.Marker({
                 map: map,
                 position: point,
                 icon: icon
             });
-            bindInfoWindow(markers[i], map, infoWindow, html);
-            bindRemove(markers[i], name);
+            bindInfoWindow(locais[i], map, infoWindow, html);
+            bindRemove(locais[i], name);
             bounds.extend(point);
             map.fitBounds(bounds);
         }
@@ -106,17 +104,17 @@ function checkLegend() {
     var restaurantes = legenda.elements[3];
     var transportes = legenda.elements[4];
 
-    for (var i = 0; i < markers.length; i++) {
-        if (xmlmarkers[i].getAttribute("type")[0] == "h")
-            markers[i].setVisible(hotel.checked);
-        else if (xmlmarkers[i].getAttribute("type")[0] == "r")
-            markers[i].setVisible(restaurantes.checked);
-        else if (xmlmarkers[i].getAttribute("type")[0] == "s")
-            markers[i].setVisible(servicos.checked);
-        else if (xmlmarkers[i].getAttribute("type")[0] == "p")
-            markers[i].setVisible(policia.checked);
-        else if (xmlmarkers[i].getAttribute("type")[0] == "t")
-            markers[i].setVisible(transportes.checked);
+    for (var i = 0; i < locais.length; i++) {
+        if (xmllocais[i].getAttribute("type")[0] == "h")
+            locais[i].setVisible(hotel.checked);
+        else if (xmllocais[i].getAttribute("type")[0] == "r")
+            locais[i].setVisible(restaurantes.checked);
+        else if (xmllocais[i].getAttribute("type")[0] == "s")
+            locais[i].setVisible(servicos.checked);
+        else if (xmllocais[i].getAttribute("type")[0] == "p")
+            locais[i].setVisible(policia.checked);
+        else if (xmllocais[i].getAttribute("type")[0] == "t")
+            locais[i].setVisible(transportes.checked);
     }
 }
 
