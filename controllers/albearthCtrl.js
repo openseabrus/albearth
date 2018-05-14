@@ -45,8 +45,8 @@ angular.module('albearth', ['rzModule']).controller('albearthCtrl', function ($s
     }
 
     $scope.noise = {
-        options: ["Alto", "Baixo"],
-        selected: "Alto"
+        options: ["Muito Alto", "Alto", "Moderado", "Baixo", "Muito Baixo"],
+        selected: "Moderado"
     }
 
     $scope.rating = {
