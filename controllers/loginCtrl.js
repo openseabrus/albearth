@@ -12,7 +12,7 @@ angular.module('albearth').controller('loginCtrl', ['$scope', '$http', function(
             data: encodedString,
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function(data) {
-            $scope.logon(data["data"], $scope.email, null);
+            $scope.logon(data["data"]["username"], $scope.email, data["data"]["picture"]);
             //if (data.status === 200) {
             //    window.location.href = 'welcome.php';
             //} else {
