@@ -117,6 +117,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
             bounds.extend(point);
             map.fitBounds(bounds);
         }
+        $scope.performAllChecks();
     });
 
 
@@ -224,7 +225,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
             visible = visible && ($scope.bools.includes('Computadores') == xmllocais[i].getAttribute('computadores'));
 
             //Verificar qual o nivel de ruido
-            visible = visible && (xmllocais[i].getAttribute('ruido') == $scope.noise.selected || $scope.noise.selected === "Todos");
+            visible = visible && (xmllocais[i].getAttribute('ruido') == $scope.noise.selected || $scope.noise.selected == "Todos");
 
 
 
