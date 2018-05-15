@@ -8,11 +8,11 @@
 	<link rel="stylesheet" type="text/css" href="albearth.css">
 	<link href="Slider/rzslider.min.css" rel="stylesheet" />
 	<link rel="icon" href="icon.png">
-	<script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQp507Nd6PXQXvRzeDywxHomaSnWLTKUI&callback=initMap"
+	<script src="angular.min.js"></script>
+	<script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQp507Nd6PXQXvRzeDywxHomaSnWLTKUI"
 	type="text/javascript"></script>
 	
 	
-	<script src="angular.min.js"></script>
 	
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -124,48 +124,48 @@
 	
 	<!-- Sidebar -->
 	<div class="col-12 row" id="main-container">
-		<div class="col-9" id="map-canvas"></div>
+		<div class="col-9" id="map" ng-controller="mapCtrl"></div>
 		
 		<!-- VIEW - Locais de Estudo -->
-		<form class="col-3" id="legenda">
+		<form class="col-3" id="legenda" ng-controller="mapCtrl">
 			<div class="col-12 section-title">
 				Locais de estudo
 			</div>
 			<div class="col-12 sub-section-title">
 				Tipo de local
 			</div>
-			<div class="col-12">
+			<div class="col-12" id="bibliotecas">
 				<img src="Markers/mm_20_red.png" /> Bibliotecas
-				<input class="pull-right" type="checkbox" name="type" value="hotel" checked="true" onchange="checkLegend()" />
+				<input class="pull-right" type="checkbox" name="type" value="hotel" ng-checked="studies.includes('Biblioteca')" ng-click="clickType('Biblioteca')" />
 			</div>
-			<div class="col-12">
+			<div class="col-12" id="jardins">
 				<img src="Markers/mm_20_green.png" /> Jardins
-				<input class="pull-right" type="checkbox" name="type" value="servicos" checked="true" onchange="checkLegend()" />
+				<input class="pull-right" type="checkbox" name="type" value="servicos"  ng-checked="studies.includes('Jardim')" ng-click="clickType('Jardim')" />
 			</div>
-			<div class="col-12">
+			<div class="col-12" id="salas">
 				<img src="Markers/mm_20_white.png" /> Salas de Leitura
-				<input class="pull-right" type="checkbox" name="type" value="policia" checked="true" onchange="checkLegend()" />
+				<input class="pull-right" type="checkbox" name="type" value="policia"  ng-checked="studies.includes('Sala de Leitura')" ng-click="clickType('Sala de Leitura')" />
 			</div>
-			<div class="col-12" style="margin-bottom: 10px">
+			<div class="col-12" style="margin-bottom: 10px" id="cafes">
 				<img src="Markers/mm_20_blue.png" /> Cafés
-				<input class="pull-right" type="checkbox" name="type" value="restaurantes" checked="true" onchange="checkLegend()" />
+				<input class="pull-right" type="checkbox" name="type" value="restaurantes"  ng-checked="studies.includes('Café')" ng-click="clickType('Café')" />
 			</div>
 			<div class="col-12" style="margin-bottom: 10px">
 				<span class="sub-section-title">Horário</span>
-				<rzslider rz-slider-model="openTime" rz-slider-high="closeTime" rz-slider-options="slider.options"></rzslider>
+				<rzslider class="custom-slider" rz-slider-model="openTime" rz-slider-high="closeTime" rz-slider-options="slider.options" rz-slider-on-change="performAllChecks()"></rzslider>
 				Entre as {{openTime}}h e {{closeTime}}h
 			</div>
 			<div class="col-12" style="margin-bottom: 10px">
 				<span class="sub-section-title">Acesso a tomadas</span>
-				<input class="pull-right" type="checkbox" name="type" />
+				<input class="pull-right" type="checkbox" name="type" ng-checked="bools.includes('Tomadas')" ng-click="clickBool('Tomadas')"/>
 			</div>
 			<div class="col-12">
 				<span class="sub-section-title">Acesso a computadores</span>
-				<input class="pull-right" type="checkbox" name="type" />
+				<input class="pull-right" type="checkbox" name="type" ng-checked="bools.includes('Computadores')" ng-click="clickBool('Computadores')"/>
 			</div>
 			<div class="col-12">
 				<label class="sub-section-title" for="noiseSelect">Nível de ruído</label>
-				<select class="pull-right" name="noise" id="noiseSelect" ng-options="option for option in noise.options" ng-model="noise.selected"></select>
+				<select class="pull-right" name="noise" id="noiseSelect" ng-options="option for option in noise.options" ng-model="noise.selected" ng-change="performAllChecks()"></select>
 				<!--{{noise.selected}} -->
 			</div>
 			<div class="col-12">
@@ -241,8 +241,8 @@
 	<script type="text/javascript" src="controllers/albearthCtrl.js"></script>
 	<script type="text/javascript" src="controllers/loginCtrl.js"></script>
 	<script type="text/javascript" src="controllers/registerCtrl.js"></script>
+	<script type="text/javascript" src="controllers/mapCtrl.js"></script>
 	<script type="text/javascript" src="cookies/cookies.js"></script>
-	<script type="text/javascript" src="albearth.js"></script>
 	<script src="Slider/rzslider.min.js"></script>
 </body>
 

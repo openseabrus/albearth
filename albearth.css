@@ -57,3 +57,11 @@ body {
 	font-size: 16px;
 	margin-top: 10px;
 }
+
+div.gmnoprint:nth-child(11) {
+	visibility: hidden;
+}
+
+.gm-svpc {
+	visibility: hidden;
+}

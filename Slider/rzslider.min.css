@@ -96,6 +96,7 @@
     border-radius: 16px
 }
 
+/*
 .rzslider .rz-pointer:after {
     position: absolute;
     top: 12px;
@@ -107,7 +108,7 @@
     -moz-border-radius: 4px;
     border-radius: 4px;
     content: ''
-}
+}*/
 
 .rzslider .rz-pointer:hover:after {
     background-color: #fff
@@ -121,6 +122,7 @@
     background-color: #a9a9a9
 }
 
+/*
 .rzslider .rz-bubble {
     bottom: 16px;
     padding: 1px 3px;
@@ -130,7 +132,7 @@
 
 .rzslider .rz-bubble.rz-limit {
     color: #55637d
-}
+}*/
 
 .rzslider .rz-ticks {
     position: absolute;
@@ -149,6 +151,7 @@
     bottom: -32px
 }
 
+/*
 .rzslider .rz-tick {
     position: absolute;
     top: 0;
@@ -178,7 +181,7 @@
     max-width: 50px;
     white-space: normal;
     transform: translate(-50%, 0)
-}
+}*/
 
 .rzslider.rz-vertical {
     position: relative;
@@ -255,4 +258,31 @@
     right: 24px;
     bottom: initial;
     left: initial
+}
+
+
+.custom-slider.rzslider .rz-pointer:after {
+  display: none;
+}
+
+.custom-slider.rzslider .rz-bubble {
+  bottom: 14px;
+}
+
+.custom-slider.rzslider .rz-limit {
+    font-size: 75%;
+  color: rgb(104, 104, 104);
+}
+
+.custom-slider.rzslider .rz-tick {
+  width: 1px;
+  height: 10px;
+  margin-left: 4px;
+  border-radius: 0;
+  background: #ffe4d1;
+  top: -1px;
+}
+
+.custom-slider.rzslider .rz-tick.rz-selected {
+  background: orange;
 }
