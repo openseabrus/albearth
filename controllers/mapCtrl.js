@@ -97,11 +97,11 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
             html += "<b> Tomadas</b> " + (tomadas ? "Sim" : "Não");
             html += "<br/><b>Computadores</b> " + (computadores ? "Sim" : "Não");
             html += "<br/><b>Horário</b> " + horario;
-            html += "<br/><b>Encerra</b> " + encerramento;
+            html += encerramento ? "<br/><b>Encerra</b> " + encerramento : "";
             var icon = null;
             if (type.toUpperCase() == "BIBLIOTECA")
                 icon = "Markers/mm_20_red.png";
-            else if (type.toUpperCase() == "CAFE")
+            else if (type.toUpperCase() == "CAFÉ")
                 icon = "Markers/mm_20_blue.png";
             else if (type.toUpperCase() == "SALA DE LEITURA")
                 icon = "Markers/mm_20_white.png";
