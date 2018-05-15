@@ -136,15 +136,15 @@
 			</div>
 			<div class="col-12">
 				<img src="Markers/mm_20_red.png" /> Bibliotecas
-				<input class="pull-right" style="margin-top: 10px" type="checkbox" name="type" value="hotel" checked="true" onchange="checkLegend()" />
+				<input class="pull-right" type="checkbox" name="type" value="hotel" checked="true" onchange="checkLegend()" />
 			</div>
 			<div class="col-12">
 				<img src="Markers/mm_20_green.png" /> Jardins
-				<input class="pull-right" style="margin-top: 10px" type="checkbox" name="type" value="servicos" checked="true" onchange="checkLegend()" />
+				<input class="pull-right" type="checkbox" name="type" value="servicos" checked="true" onchange="checkLegend()" />
 			</div>
 			<div class="col-12">
 				<img src="Markers/mm_20_white.png" /> Salas de Leitura
-				<input class="pull-right" style="margin-top: 10px" type="checkbox" name="type" value="policia" checked="true" onchange="checkLegend()" />
+				<input class="pull-right" type="checkbox" name="type" value="policia" checked="true" onchange="checkLegend()" />
 			</div>
 			<div class="col-12" style="margin-bottom: 10px">
 				<img src="Markers/mm_20_blue.png" /> Cafés
@@ -157,20 +157,22 @@
 			</div>
 			<div class="col-12" style="margin-bottom: 10px">
 				<span class="sub-section-title">Acesso a tomadas</span>
-				<input class="pull-right" style="margin-top: 5px"type="checkbox" name="type" />
+				<input class="pull-right" type="checkbox" name="type" />
 			</div>
 			<div class="col-12">
 				<span class="sub-section-title">Acesso a computadores</span>
-				<input class="pull-right"  style="margin-top: 5px"type="checkbox" name="type" />
+				<input class="pull-right" type="checkbox" name="type" />
 			</div>
 			<div class="col-12">
 				<label class="sub-section-title" for="noiseSelect">Nível de ruído</label>
-				<select class="pull-right" style="margin-top: 10px" name="noise" id="noiseSelect" ng-options="option for option in noise.options" ng-model="noise.selected"></select>
+				<select class="pull-right" name="noise" id="noiseSelect" ng-options="option for option in noise.options" ng-model="noise.selected"></select>
 				<!--{{noise.selected}} -->
 			</div>
 			<div class="col-12">
 				<span class="sub-section-title">Avaliação mínima</span>
-				<input class="pull-right" style="margin-top: 5px" type="checkbox" name="type" ng-repeat="star in rating.options" ng-model="rating.selected[$index]" ng-click="rate(star)"/>
+				<div class="pull-right">
+					<input class="pull-left" style="margin-top: 5px" type="checkbox" name="type" ng-repeat="star in rating.options" ng-model="rating.selected[$index]" ng-click="rate(star)"/>
+				</div>
 			</div>
 			<div class="col-12" style="margin: 0; position: absolute; bottom: 15px">
 				<input class="btn btn-danger col-12" align="center" type="button" name="type" value="Adicionar Local de Estudo" text="Add" />
