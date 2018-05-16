@@ -45,7 +45,7 @@
 			<button ng-if="!loggedIn" class="btn pink" style="margin: 2px" data-toggle="modal" data-target="#registerModal">Registo</button>
 			<div ng-show="loggedIn" style="padding: .500rem .75rem">Welcome, {{username}}!</div>
 			<button ng-show="loggedIn" ng-click="logout()" class="btn pink">Log out</button>
-			<span ng-show="!loggedIn" style="font-size:30px; cursor:pointer; margin-left: 40px" id="openNav">&#9776;</span>
+			<span ng-show="!loggedIn" style="font-size:30px; cursor:pointer; margin-left: 40px" ng-click="openNav()">&#9776;</span>
 		</div>
 	</nav>
 	<!-- Login Modal -->
@@ -134,7 +134,7 @@
 	
 	<!-- Sidebar -->
 	<div id="mySidenav" class="sidenav">
-		<a href="javascript:void(0)" class="closebtn" id="closeNav">&times;</a>
+		<a href="javascript:void(0)" class="closebtn" ng-click="closeNav()">&times;</a>
 	
 		<!-- VIEW - Locais de Estudo -->
 		<form style="margin-left: 5px; margin-right: 5px" id="legenda" ng-controller="mapCtrl">

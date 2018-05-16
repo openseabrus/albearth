@@ -1,4 +1,4 @@
-angular.module('albearth', ['rzModule']).controller('albearthCtrl', function ($scope, $http, $window) {
+angular.module('albearth', ['rzModule']).controller('albearthCtrl', function ($scope, $http, $window, $timeout) {
 
     var setFields = function (loggedIn, username, email, picture) {
         $scope.loggedIn = loggedIn ? loggedIn : false;
@@ -38,6 +38,23 @@ angular.module('albearth', ['rzModule']).controller('albearthCtrl', function ($s
     //##############################
     //####### MAP MANAGEMENT #######
     //##############################
+	
+	// loading the page with hidden sidenav causes slider to not render correctly
+    // this should fix that
+    var refreshSlider = function () {
+	    $timeout(function () {
+		    $scope.$broadcast('rzSliderForceRender');
+	    });
+    };
+	
+	$scope.openNav = function() {
+        angular.element(document.querySelector('#mySidenav')).addClass("open-sidenav");
+		refreshSlider();
+    };
+	
+	$scope.closeNav = function() {
+        angular.element(document.querySelector('#mySidenav')).removeClass("open-sidenav");
+    };
 
     
 });
