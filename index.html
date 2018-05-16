@@ -33,14 +33,19 @@
 	<!-- include the actual image from PS ??? -->
 	<nav id="navbar" class="navbar navbar-light bg-light">
 		<a class="navbar-brand">
-			<img src="albearth.png" alt="Albearth" class="d-inline-block align-top" alt="">
+			<!-- icon for big screens -->
+			<img class="d-none d-sm-block" src="albearth.png" alt="Albearth" class="d-inline-block align-top" alt="">
+
+			<!-- icon for small screens -->
+			<img class="d-block d-sm-none" class="d-inline-block align-top" alt="A">
 		</a>
-		<div style="margin-right: 5%" ng-cloak>
+		<div class="row" style="margin-right: 2%" ng-cloak>
 			<img ng-show="loggedIn" id="userPic" ng-src="{{picture}}" />
-			<button ng-if="!loggedIn" class="btn pink" data-toggle="modal" data-target="#loginModal">Login</button>
-			<button ng-if="!loggedIn" class="btn pink" data-toggle="modal" data-target="#registerModal">Registo</button>
-			<div ng-show="loggedIn">Welcome, {{username}}!</div>
+			<button ng-if="!loggedIn" class="btn pink" style="margin: 2px" data-toggle="modal" data-target="#loginModal">Login</button>
+			<button ng-if="!loggedIn" class="btn pink" style="margin: 2px" data-toggle="modal" data-target="#registerModal">Registo</button>
+			<div ng-show="loggedIn" style="padding: .500rem .75rem">Welcome, {{username}}!</div>
 			<button ng-show="loggedIn" ng-click="logout()" class="btn pink">Log out</button>
+			<span ng-show="!loggedIn" style="font-size:30px; cursor:pointer; margin-left: 40px" id="openNav">&#9776;</span>
 		</div>
 	</nav>
 	<!-- Login Modal -->
@@ -122,12 +127,17 @@
 		</div>
 	</div> -->
 	
+
+	<div id="main-container" >
+		<div style="width: 100%; height: 100%" id="map" ng-controller="mapCtrl"></div>
+	</div>
+	
 	<!-- Sidebar -->
-	<div class="col-12 row" id="main-container">
-		<div class="col-9" id="map" ng-controller="mapCtrl"></div>
-		
+	<div id="mySidenav" class="sidenav">
+		<a href="javascript:void(0)" class="closebtn" id="closeNav">&times;</a>
+	
 		<!-- VIEW - Locais de Estudo -->
-		<form class="col-3" id="legenda" ng-controller="mapCtrl">
+		<form style="margin-left: 5px; margin-right: 5px" id="legenda" ng-controller="mapCtrl">
 			<div class="col-12 section-title">
 				Locais de estudo
 			</div>
@@ -152,7 +162,7 @@
 			</div>
 			<div class="col-12" style="margin-bottom: 10px">
 				<span class="sub-section-title">Horário</span>
-				<rzslider class="custom-slider" rz-slider-model="openTime" rz-slider-high="closeTime" rz-slider-options="slider.options" rz-slider-on-change="performAllChecks()"></rzslider>
+				<rzslider class="custom-slider col-12" rz-slider-model="openTime" rz-slider-high="closeTime" rz-slider-options="slider.options" rz-slider-on-change="performAllChecks()"></rzslider>
 				Entre as {{openTime}}h e {{closeTime}}h
 			</div>
 			<div class="col-12" style="margin-bottom: 10px">
@@ -180,7 +190,7 @@
 		</form>
 		
 		<!-- VIEW - Detalhes -->
-		<form class="col-3 collapse no-padding" id="detalhes">
+		<form class="collapse no-padding" id="detalhes">
 			<div class="col-12 section-title">
 				Detalhes
 			</div>
@@ -216,27 +226,28 @@
 				Direções
 			</div>
 			<div class="col-12 row" style="margin: 0; margin-top: 10px;">
-				<span class="col-12 sub-section-title">Modo de viagem: </span>
-				<div class="col-4 row" style="margin: 0">
-					<span class="col-12" align="center"><i class="fa fa-car" style="color: #fe2626"></i></span>
-					<input class="col-12" type="radio" name="transp" value="car">
-				</div>
-				<div class="col-4 row" style="margin: 0">
-					<span class="col-12" align="center"><i class="fa fa-bus" style="color: #fe2626"></i></span>
-					<input class="col-12" type="radio" name="transp" value="bus">
-				</div>
-				<div class="col-4 row" style="margin: 0">
-					<span class="col-12" align="center"><i class="material-icons" style="color: #fe2626">directions_walk</i></span>
-					<input class="col-12" type="radio" name="transp" value="foot">
-				</div>
-				<span class="col-12 sub-section-title">A partir de: </span>
-				<div class="col-12" style="margin: 0; margin-top: 8px;" align="center">
-					<input class="btn btn-danger col-12" type="button" style="font-size: 14px" name="type" value="Localização actual" text="Add" />
-					<input class="btn btn-danger col-12" style="margin-top: 2px; font-size: 14px" type="button" name="type" value="Ponto no mapa" text="Add" />
-				</div>
+			<span class="col-12 sub-section-title">Modo de viagem: </span>
+			<div class="col-4 row" style="margin: 0">
+				<span class="col-12" align="center"><i class="fa fa-car" style="color: #fe2626"></i></span>
+				<input class="col-12" type="radio" name="transp" value="car">
 			</div>
+			<div class="col-4 row" style="margin: 0">
+				<span class="col-12" align="center"><i class="fa fa-bus" style="color: #fe2626"></i></span>
+				<input class="col-12" type="radio" name="transp" value="bus">
+			</div>
+			<div class="col-4 row" style="margin: 0">
+				<span class="col-12" align="center"><i class="material-icons" style="color: #fe2626">directions_walk</i></span>
+				<input class="col-12" type="radio" name="transp" value="foot">
+			</div>
+			<span class="col-12 sub-section-title">A partir de: </span>
+			<div class="col-12" style="margin: 0; margin-top: 8px;" align="center">
+				<input class="btn btn-danger col-12" type="button" style="font-size: 14px" name="type" value="Localização actual" text="Add" />
+				<input class="btn btn-danger col-12" style="margin-top: 2px; font-size: 14px" type="button" name="type" value="Ponto no mapa" text="Add" />
+			</div>
+		</div>
 		</form>
 	</div>
+
 	<script type="text/javascript" src="controllers/albearth.js"></script>
 	<script type="text/javascript" src="controllers/albearthCtrl.js"></script>
 	<script type="text/javascript" src="controllers/loginCtrl.js"></script>
@@ -244,6 +255,7 @@
 	<script type="text/javascript" src="controllers/mapCtrl.js"></script>
 	<script type="text/javascript" src="cookies/cookies.js"></script>
 	<script src="Slider/rzslider.min.js"></script>
+	
 </body>
 
 </html>

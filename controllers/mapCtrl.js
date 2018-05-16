@@ -1,4 +1,4 @@
-angular.module('albearth').controller('mapCtrl', function ($scope, $http, $window) {
+angular.module('albearth').controller('mapCtrl', function ($scope, $http, $window, $timeout) {
     $scope.studies = ['Biblioteca', 'Jardim', 'Sala de Leitura', 'Café'];
     $scope.openTime = 11;
     $scope.closeTime = 17;
@@ -24,6 +24,23 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
             }
         }
     };
+
+    // loading the page with hidden sidenav causes slider to not render correctly
+    // this should fix that
+    var refreshSlider = function () {
+	    $timeout(function () {
+		    $scope.$broadcast('rzSliderForceRender');
+	    });
+    };
+
+    $("#openNav").on("click", function(){
+	    $("#mySidenav").addClass("open-sidenav");
+	    refreshSlider();
+    });
+
+    $("#closeNav").on("click", function(){
+	    $("#mySidenav").removeClass("open-sidenav");
+    });
 
     var map = $window.map;
     var addState = false;
