@@ -8,6 +8,8 @@ angular.module('albearth', ['rzModule']).controller('albearthCtrl', function ($s
     }
     setFields();
 
+    $scope.sidenav = "";
+
     $scope.logon = function (username, email, picture) {
         $scope.loggedIn = true;
         $scope.username = username;
@@ -38,23 +40,58 @@ angular.module('albearth', ['rzModule']).controller('albearthCtrl', function ($s
     //##############################
     //####### MAP MANAGEMENT #######
     //##############################
-	
-	// loading the page with hidden sidenav causes slider to not render correctly
+
+    // loading the page with hidden sidenav causes slider to not render correctly
     // this should fix that
-    var refreshSlider = function () {
-	    $timeout(function () {
-		    $scope.$broadcast('rzSliderForceRender');
-	    });
-    };
-	
-	$scope.openNav = function() {
-        angular.element(document.querySelector('#mySidenav')).addClass("open-sidenav");
-		refreshSlider();
-    };
-	
-	$scope.closeNav = function() {
-        angular.element(document.querySelector('#mySidenav')).removeClass("open-sidenav");
+    $scope.refreshSlider = function () {
+        $timeout(function () {
+            $scope.$broadcast('rzSliderForceRender');
+        });
     };
 
-    
-});
+    $scope.toggleNav = function () {
+        $scope.sidenav = $scope.sidenav ? "" : "open-sidenav";
+    }
+
+
+}).directive('transitionEnd', ['$parse', function ($parse) {
+    var transitions = {
+        "transition": "transitionend",
+        "OTransition": "oTransitionEnd",
+        "MozTransition": "transitionend",
+        "WebkitTransition": "webkitTransitionEnd"
+    };
+
+    var whichTransitionEvent = function () {
+        var t,
+            el = document.createElement("fakeelement");
+
+        for (t in transitions) {
+            if (el.style[t] !== undefined) {
+                return transitions[t];
+            }
+        }
+    };
+
+    var transitionEvent = whichTransitionEvent();
+
+    return {
+        'restrict': 'A',
+        'link': function (scope, element, attrs) {
+            var expr = attrs['transitionEnd'];
+            var fn = $parse(expr);
+
+            element.bind(transitionEvent, function (evt) {
+                console.log('got a css transition event', evt);
+
+                var phase = scope.$root.$$phase;
+
+                if (phase === '$apply' || phase === '$digest') {
+                    fn();
+                } else {
+                    scope.$apply(fn);
+                }
+            });
+        },
+    };
+}]);

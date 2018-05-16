@@ -103,7 +103,6 @@ div.gmnoprint:nth-child(11) {
 
 .open-sidenav{
 	width: 25%;
-	min-width: 350px;
 }
 
 .rating {
@@ -131,10 +130,10 @@ div.gmnoprint:nth-child(11) {
     /*background: white;  image here */
 }
 
-.rating-star:before {
+/* .rating-star:before {
 	color: grey;
 	font-size: 20px;
-}
+} */
 
 /*.rating-star:hover,
 .rating-star:hover ~ .rating-star,
@@ -143,6 +142,15 @@ div.gmnoprint:nth-child(11) {
     background-position: 0 0;
 }*/
 
-.rating-input:checked ~ .rating-star:before {
+/* .rating-input:checked ~ .rating-star:before {
 	color: yellow;
+} */
+
+.rating-unselected {
+	color: grey;
+	font-size: 20px;
+}
+
+.rating-selected {
+	color:yellow;
 }

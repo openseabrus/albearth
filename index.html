@@ -45,7 +45,7 @@
 			<button ng-if="!loggedIn" class="btn pink" style="margin: 2px" data-toggle="modal" data-target="#registerModal">Registo</button>
 			<div ng-show="loggedIn" style="padding: .500rem .75rem">Welcome, {{username}}!</div>
 			<button ng-show="loggedIn" ng-click="logout()" class="btn pink">Log out</button>
-			<span ng-show="!loggedIn" style="font-size:30px; cursor:pointer; margin-left: 40px" ng-click="openNav()">&#9776;</span>
+			<span ng-show="!loggedIn" style="font-size:30px; cursor:pointer; margin-left: 40px" ng-click="toggleNav()">&#9776;</span>
 		</div>
 	</nav>
 	<!-- Login Modal -->
@@ -133,8 +133,8 @@
 	</div>
 	
 	<!-- Sidebar -->
-	<div id="mySidenav" class="sidenav">
-		<a href="javascript:void(0)" class="closebtn" ng-click="closeNav()">&times;</a>
+	<div id="mySidenav" ng-class="sidenav" class="sidenav" transition-end="refreshSlider()">
+		<a href="javascript:void(0)" class="closebtn" ng-click="toggleNav()">&times;</a>
 	
 		<!-- VIEW - Locais de Estudo -->
 		<form style="margin-left: 5px; margin-right: 5px" id="legenda" ng-controller="mapCtrl">
@@ -171,8 +171,7 @@
 			</div>
 			<div class="col-12 rating">
 				<span class="sub-section-title">Acesso a computadores</span>
-				<input class="pull-right rating-input" id="rating-input-id" type="checkbox" name="type" ng-checked="bools.includes('Computadores')" ng-click="clickBool('Computadores')"/>
-				<label for="rating-input-id" class="rating-star fa fa-star"></label>
+				<input class="pull-right" id="rating-input-id" type="checkbox" name="type" ng-checked="bools.includes('Computadores')" ng-click="clickBool('Computadores')"/>
 				<!-- label must refer specific input id -->
 			</div>
 			<div class="col-12">
@@ -184,7 +183,8 @@
 			<div class="col-12">
 				<span class="sub-section-title">Avaliação mínima</span>
 				<div class="pull-right">
-					<input class="pull-left" style="margin-top: 5px" type="checkbox" name="type" ng-repeat="star in rating.options" ng-model="rating.selected[$index]" ng-click="rate(star)"/>
+					<input class="pull-left rating-input" id="rating-input-{{$index}}" style="margin-top: 5px" type="checkbox" name="type" ng-repeat="star in rating.options" ng-model="rating.selected[$index]" ng-click="rate(star)"/>
+					<label for="rating-input-{{$index}}" ng-class="{'rating-selected': rating.selected[$index] }" class="rating-star fa fa-star pull-left" ng-checked="rating.selected[$index]" ng-repeat="star in rating.options"></label>
 				</div>
 			</div>
 			<div class="col-12" style="margin: 0; position: absolute; bottom: 15px">
