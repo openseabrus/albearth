@@ -169,15 +169,18 @@
 				<span class="sub-section-title">Acesso a tomadas</span>
 				<input class="pull-right" type="checkbox" name="type" ng-checked="bools.includes('Tomadas')" ng-click="clickBool('Tomadas')"/>
 			</div>
-			<div class="col-12">
+			<div class="col-12 rating">
 				<span class="sub-section-title">Acesso a computadores</span>
-				<input class="pull-right" type="checkbox" name="type" ng-checked="bools.includes('Computadores')" ng-click="clickBool('Computadores')"/>
+				<input class="pull-right rating-input" id="rating-input-id" type="checkbox" name="type" ng-checked="bools.includes('Computadores')" ng-click="clickBool('Computadores')"/>
+				<label for="rating-input-id" class="rating-star fa fa-star"></label>
+				<!-- label must refer specific input id -->
 			</div>
 			<div class="col-12">
 				<label class="sub-section-title" for="noiseSelect">Nível de ruído</label>
 				<select class="pull-right" name="noise" id="noiseSelect" ng-options="option for option in noise.options" ng-model="noise.selected" ng-change="performAllChecks()"></select>
 				<!--{{noise.selected}} -->
 			</div>
+
 			<div class="col-12">
 				<span class="sub-section-title">Avaliação mínima</span>
 				<div class="pull-right">
