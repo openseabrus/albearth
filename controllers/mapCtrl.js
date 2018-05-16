@@ -151,7 +151,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
                     if (locais[j].idLocal == idLocal) {
                         locais[j].ratings.push(aval);
                         google.maps.event.addListener(locais[j].marker, 'click', function () {
-                            infoWindow.setContent(infoWindow.getContent() + "<br/><b>Rating</b> " + getRating(j));
+                            infoWindow.setContent(infoWindow.getContent() + "<br/><b>Rating</b> " + getRating(j) + " / 5");
                             infoWindow.open(map, locais[j].marker);
                         });
                         break;
