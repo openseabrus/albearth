@@ -38,7 +38,6 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
     };
 
     var locais = [];
-    var xmllocais = [];
 
     map = new google.maps.Map(document.getElementById("map"), options);
 
@@ -79,48 +78,109 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
 
     downloadUrl("xmloutdom.php", function (data) {
         var xml = data.responseXML;
-        xmllocais = xml.documentElement.getElementsByTagName("local");
-        for (var i = 0; i < xmllocais.length; i++) {
-            var name = xmllocais[i].getAttribute("nome");
-            var type = xmllocais[i].getAttribute("tipoEstudo");
-            var tomadas = xmllocais[i].getAttribute("tomadas");
-            var computadores = xmllocais[i].getAttribute("computadores");
-            var horario = xmllocais[i].getAttribute("horario");
-            var encerramento = xmllocais[i].getAttribute("encerramento");
 
+        //PROCESS ALL LOCALS
+        var xmllocais = xml.documentElement.getElementsByTagName("local");
+        for (var i = 0; i < xmllocais.length; i++) {
+            locais[i] = {};
+            var loc = xmllocais[i];
+            locais[i].idLocal = loc.getAttribute("idLocal");
+            locais[i].type = loc.childNodes[0].childNodes[0].nodeValue; //tipoEstudo
+            locais[i].name = loc.childNodes[1].childNodes[0].nodeValue;
+            locais[i].tomadas = loc.childNodes[2].childNodes[0].nodeValue;
+            locais[i].ruido = loc.childNodes[3].childNodes[0].nodeValue;
+            locais[i].computadores = loc.childNodes[4].childNodes[0].nodeValue;
+            locais[i].horario = loc.childNodes[5].childNodes[0].nodeValue;
+            var encerramento = loc.childNodes[6].childNodes[0];
+            locais[i].encerramento = encerramento ? encerramento.nodeValue : null;
+            locais[i].ratings = [];
+
+            //console.log(loc.childNodes[5].childNodes[0]);
 
             var point = new google.maps.LatLng(
-                parseFloat(xmllocais[i].getAttribute("latitude")),
-                parseFloat(xmllocais[i].getAttribute("longitude"))
+                parseFloat(loc.childNodes[7].childNodes[0].nodeValue),
+                parseFloat(loc.childNodes[8].childNodes[0].nodeValue)
             );
-            var html = "<b>" + name + "</b> <br/>" + type + "<br/><br/>"
-            html += "<b> Tomadas</b> " + (tomadas ? "Sim" : "Não");
-            html += "<br/><b>Computadores</b> " + (computadores ? "Sim" : "Não");
-            html += "<br/><b>Horário</b> " + horario;
-            html += encerramento ? "<br/><b>Encerra</b> " + encerramento : "";
+            var html = "<b>" + locais[i].name + "</b> <br/>" + locais[i].type + "<br/><br/>"
+            html += "<b> Tomadas</b> " + (locais[i].tomadas ? "Sim" : "Não");
+            html += "<br/><b>Computadores</b> " + (locais[i].computadores ? "Sim" : "Não");
+            html += "<br/><b>Horário</b> " + locais[i].horario;
+            html += locais[i].encerramento ? "<br/><b>Encerra</b> " + locais[i].encerramento : "";
             var icon = null;
-            if (type.toUpperCase() == "BIBLIOTECA")
+            if (locais[i].type.toUpperCase() == "BIBLIOTECA")
                 icon = "Markers/mm_20_red.png";
-            else if (type.toUpperCase() == "CAFÉ")
+            else if (locais[i].type.toUpperCase() == "CAFÉ")
                 icon = "Markers/mm_20_blue.png";
-            else if (type.toUpperCase() == "SALA DE LEITURA")
+            else if (locais[i].type.toUpperCase() == "SALA DE LEITURA")
                 icon = "Markers/mm_20_white.png";
-            else if (type.toUpperCase() == "JARDIM")
+            else if (locais[i].type.toUpperCase() == "JARDIM")
                 icon = "Markers/mm_20_green.png";
-            locais[i] = new google.maps.Marker({
+            locais[i].marker = new google.maps.Marker({
                 map: map,
                 position: point,
                 icon: icon
             });
-            bindInfoWindow(locais[i], map, infoWindow, html);
+            bindInfoWindow(locais[i].marker, map, infoWindow, html);
             //bindRemove(locais[i], name);
             bounds.extend(point);
             map.fitBounds(bounds);
         }
+
+
+        //PROCESS ALL evaluations
+        /*
+        <avaliacao idAvaliacao="1">
+            <username>alberto</username>
+            <idLocal>11</idLocal>
+            <avaliacao>2</avaliacao>
+            <comentario>Biblioteca demasiado barulhenta. É impossível estudar neste local. NÃO FREQUENTAR!</comentario>
+        </avaliacao>
+        */
+        var xmlavals = xml.documentElement.getElementsByTagName("avaliacao");
+        for (var i = 0; i < xmlavals.length; i++) {
+            var loc = xmlavals[i];
+            console.log(loc.childNodes[1]);
+            var idLocal = loc.childNodes[1].childNodes[0].nodeValue;
+            var aval = loc.childNodes[2].childNodes[0];
+            aval = aval ? aval.nodeValue : null;
+            var comment = loc.childNodes[3].childNodes[0];
+            comment = comment ? comment.nodeValue : null;
+
+            if (aval) {
+                for (var j = 0; j < locais.length; j++) {
+                    if (locais[j].idLocal == idLocal) {
+                        locais[j].ratings.push(aval);
+                        google.maps.event.addListener(locais[j].marker, 'click', function () {
+                            infoWindow.setContent(infoWindow.getContent() + "<br/><b>Rating</b> " + getRating(j));
+                            infoWindow.open(map, locais[j].marker);
+                        });
+                        break;
+                    }
+                }
+            }
+
+
+            //bindInfoWindow(locais[i].marker, map, infoWindow, html);
+            //bindRemove(locais[i], name);
+            //bounds.extend(point);
+            //map.fitBounds(bounds);
+        }
+
+        //console.log(locais);
+
         $scope.performAllChecks();
     });
 
 
+    function getRating(index) {
+        if(locais[index].ratings.length == 0)
+            return 1;
+        return Math.round(locais[index].ratings.reduce(getSum) / locais[index].ratings.length);
+    }
+
+    function getSum(total, num) {
+        return total + num;
+    }
 
     function bindInfoWindow(marker, map, infoWindow, html) {
         google.maps.event.addListener(marker, 'click', function () {
@@ -205,7 +265,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
             else
                 $scope.rating.selected[i] = false;
         }
-        console.log($scope.rating.stars);
+        $scope.performAllChecks();
     }
 
     $scope.performAllChecks = function () {
@@ -213,23 +273,24 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
             var visible;
 
             //Verificar tipo de estudo
-            visible = $scope.studies.includes(xmllocais[i].getAttribute('tipoEstudo'));
+            visible = $scope.studies.includes(locais[i].type);
 
             //Verificar se o horario bate certo
-            visible = visible && checkHours(xmllocais[i].getAttribute('horario'));
+            visible = visible && checkHours(locais[i].horario);
 
             //Verificar se tem ou nao tomadas
-            visible = visible && ($scope.bools.includes('Tomadas') == xmllocais[i].getAttribute('tomadas'));
+            visible = visible && ($scope.bools.includes('Tomadas') == locais[i].tomadas);
 
             //Verificar se tem ou nao computadores
-            visible = visible && ($scope.bools.includes('Computadores') == xmllocais[i].getAttribute('computadores'));
+            visible = visible && ($scope.bools.includes('Computadores') == locais[i].computadores);
 
             //Verificar qual o nivel de ruido
-            visible = visible && (xmllocais[i].getAttribute('ruido') == $scope.noise.selected || $scope.noise.selected == "Todos");
+            visible = visible && (locais[i].ruido == $scope.noise.selected || $scope.noise.selected == "Todos");
+
+            visible = visible && (getRating(i) >= $scope.rating.stars)
 
 
-
-            locais[i].setVisible(visible);
+            locais[i].marker.setVisible(visible);
         }
     }
 
