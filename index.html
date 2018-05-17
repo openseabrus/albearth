@@ -136,15 +136,15 @@
 	</div>
 
 	<div class="col-12" style="position: absolute; bottom: 15px">
-		<input class="btn btn-danger" type="button" name="type" value="Adicionar Local de Estudo" text="Add" />
+		<input class="btn btn-danger" type="button" name="type" value="Adicionar Local de Estudo" ng-click="setView('add', true, true)"  />
 	</div>
 
 	<!-- Sidebar -->
-	<div id="mySidenav" ng-class="{ 'open-sidenav': sidenav }" class="sidenav" transition-end="refreshSlider()">
+	<div id="mySidenav" ng-class="{ 'open-sidenav': sidenav }" class="sidenav" transition-end="refreshSlider()" ng-controller="mapCtrl">
 		<a href="javascript:void(0)" class="closebtn" ng-click="toggleNav()">&times;</a>
 
 		<!-- VIEW - Locais de Estudo -->
-		<form style="margin-left: 5px; margin-right: 5px" id="legenda" ng-class="{ 'collapse': !filters }" ng-controller="mapCtrl">
+		<form style="margin-left: 5px; margin-right: 5px" id="legenda" ng-show="currentView == 'filters'" ng-controller="mapCtrl">
 			<div class="col-12 section-title">
 				Locais de estudo
 			</div>
@@ -223,34 +223,34 @@
 		</form>
 
 		<!-- VIEW - Detalhes -->
-		<form ng-class="{'collapse': filters}" class="no-padding" id="detalhes">
+		<form class="no-padding" ng-show="currentView == 'details'" id="detalhes">
 			<div class="col-12 section-title">
 				Detalhes
 			</div>
 			<div class="col-12" style="margin-top: 5px;">
 				<span class="sub-section-title">Tipo de local: </span>
-				<span>{{ type }}</span>
+				<!-- <span>{{ type }}</span> -->
 			</div>
 			<div class="col-12" style="margin-top: 5px;">
 				<span class="sub-section-title">Horário: </span>
-				<div id="slider-range"></div>
-				<span>{{openTime}}h - {{closeTime}}h</span>
+				<!-- <div id="slider-range"></div> -->
+				<!-- <span>{{openTime}}h - {{closeTime}}h</span> -->
 			</div>
 			<div class="col-12" style="margin-top: 5px;">
 				<span class="sub-section-title">Acesso a tomadas: </span>
-				<span>{{ access_1 }}</span>
+				<!-- <span>{{ access_1 }}</span> -->
 			</div>
 			<div class="col-12" style="margin-top: 5px;">
 				<span class="sub-section-title">Acesso a computadores: </span>
-				<span>{{ access_2 }}</span>
+				<!-- <span>{{ access_2 }}</span> -->
 			</div>
 			<div class="col-12" style="margin-top: 5px;">
 				<span class="sub-section-title">Nível de ruído: </span>
-				<span>{{ noise.selected }}</span>
+				<!-- <span>{{ noise.selected }}</span> -->
 			</div>
 			<div class="col-12" style="margin-top: 5px;">
 				<span class="sub-section-title">Avaliação mínima: </span>
-				<span>{{ rating.stars }}</span>
+				<!-- <span>{{ rating.stars }}</span> -->
 			</div>
 			<div class="col-12" style="margin-top: 15px;" align="center">
 				<input class="btn btn-danger" type="button" name="type" value="Avaliar/ver comentários" text="Add" />
@@ -285,6 +285,7 @@
 					/>
 					<input class="btn btn-danger col-12" style="margin-top: 2px; font-size: 14px" type="button" name="type" value="Ponto no mapa"
 					    text="Add" />
+					<input pull-bottom ng-click="setView('filters', true, true)" class="btn btn-danger col-12" style="margin-top: 10px; font-size: 14px" type="button" name="type" value="Voltar" text="Add" />
 				</div>
 			</div>
 		</form>
@@ -298,9 +299,9 @@
 				<input class="btn btn-danger" type="button" name="type" value="Voltar" text="Add" />
 			</div>
 		</div>
-		
+
 		<!-- VIEW de Adicionar Local -->
-		<form style="margin-left: 5px; margin-right: 5px" class="collapse" id="add-local" ng-controller="mapCtrl">
+		<form ng-show="currentView == 'add'"  style="margin-left: 5px; margin-right: 5px" id="add-local">
 			<div class="col-12 section-title">
 				Adicionar local
 			</div>
@@ -337,20 +338,20 @@
 			</div>
 			<div class="col-12" style="margin-bottom: 10px">
 				<span class="sub-section-title">Horário</span>
-				<div id="slider-range1" ng-model="values"></div>
-				Entre as {{openTime}}h e {{closeTime}}h
+				<!-- <div id="ranger1" ng-model="values"></div> -->
+				<!-- Entre as {{openTime}}h e {{closeTime}}h -->
 			</div>
 			<div class="col-12" style="margin-bottom: 10px">
 				<span class="sub-section-title">Acesso a tomadas</span>
 				<div class="redCheck">
-					<input id="tom-input1" class="pull-right" type="checkbox" name="type"/>
+					<input id="tom-input1" class="pull-right" type="checkbox" name="type" />
 					<label for="tom-input1">
 				</div>
 			</div>
 			<div class="col-12">
 				<span class="sub-section-title">Acesso a computadores</span>
 				<div class="redCheck">
-					<input id="com-input1" class="pull-right" type="checkbox" name="type"/>
+					<input id="com-input1" class="pull-right" type="checkbox" name="type" />
 					<label for="com-input1">
 				</div>
 			</div>
@@ -364,7 +365,7 @@
 				<input class="btn btn-danger" type="button" name="type" value="Adicionar" text="Add" />
 			</div>
 		</form>
-		
+
 		<!-- VIEW de comentários/avaliação -->
 		<div class="collapse">
 			<div class="col-12 section-title">
@@ -377,7 +378,7 @@
 				<input class="btn btn-danger" type="button" name="type" value="Voltar" text="Add" />
 			</div>
 		</div>
-		
+
 	</div>
 
 	<script type="text/javascript" src="controllers/albearth.js"></script>

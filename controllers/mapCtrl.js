@@ -13,18 +13,6 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         stars: 1
     };
 
-    $scope.slider = {
-        options: {
-            id: '1904',
-            floor: 0,
-            ceil: 24,
-            step: 1,
-            onChange: function (id) {
-                $scope.performAllChecks();
-            }
-        }
-    };
-
     var map = $window.map;
     var addState = false;
 
@@ -102,10 +90,11 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
                 parseFloat(loc.childNodes[8].childNodes[0].nodeValue)
             );
             var html = "<b>" + locais[i].name + "</b> <br/>" + locais[i].type + "<br/><br/>"
-            html += "<b> Tomadas</b> " + (locais[i].tomadas ? "Sim" : "Não");
-            html += "<br/><b>Computadores</b> " + (locais[i].computadores ? "Sim" : "Não");
+            //html += "<b> Tomadas</b> " + (locais[i].tomadas ? "Sim" : "Não");
+            //html += "<br/><b>Computadores</b> " + (locais[i].computadores ? "Sim" : "Não");
             html += "<br/><b>Horário</b> " + locais[i].horario;
             html += locais[i].encerramento ? "<br/><b>Encerra</b> " + locais[i].encerramento : "";
+            html += "<br/><br/><br/><center><input onclick=\"angular.element(this).scope().setView('details')\" class='btn btn-danger' type='button' name='type' value='Ver detalhes' /></center>"
             var icon = null;
             if (locais[i].type.toUpperCase() == "BIBLIOTECA")
                 icon = "Markers/mm_20_red.png";
@@ -125,7 +114,6 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
             bounds.extend(point);
             map.fitBounds(bounds);
         }
-
 
         //PROCESS ALL evaluations
         /*
@@ -303,14 +291,14 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
     $scope.setTimes = function (open, close) {
         $scope.openTime = open;
         $scope.closeTime = close;
-        console.log($scope.openTime + " ---- " + $scope.closeTime);
+        console.log($scope.openTime + " -- " + $scope.closeTime);
         $scope.refreshSlider();
         $scope.performAllChecks();
     }
 
     $scope.start = function () {
         $(function () {
-			// change this so they are independent from each other
+            // change this so they are independent from each other
             $("#slider-range, #slider-range1").slider({
                 range: true,
                 min: 0,

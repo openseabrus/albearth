@@ -1,5 +1,9 @@
 angular.module('albearth').controller('albearthCtrl', function ($scope, $http, $window, $timeout) {
 
+    $scope.sidenav = false;
+    $scope.filters = true;
+    $scope.currentView = "filters";
+
     var setFields = function (loggedIn, username, email, picture) {
         $scope.loggedIn = loggedIn ? loggedIn : false;
         $scope.username = username ? username : "";
@@ -8,8 +12,6 @@ angular.module('albearth').controller('albearthCtrl', function ($scope, $http, $
     }
     setFields();
 
-    $scope.sidenav = false;
-    $scope.filters = true;
 
     $scope.logon = function (username, email, picture) {
         $scope.loggedIn = true;
@@ -50,18 +52,20 @@ angular.module('albearth').controller('albearthCtrl', function ($scope, $http, $
         });
     };
 
-    $scope.toggleNav = function () {
-        $scope.sidenav = !$scope.sidenav;
+
+
+    $scope.toggleNav = function (state) {
+        $scope.sidenav = state ? state : !$scope.sidenav;
         console.log($scope.sidenav);
     };
 
-    $scope.toggleDetails = function () {
-        $scope.filters = !$scope.sidenav;
-        console.log($scope.sidenav);
+    $scope.setView = function(view, changeNav, newNavState) {
+        $scope.currentView = view;
+        $scope.toggleNav(changeNav ? newNavState : $scope.sidenav);
+        $scope.refreshSlider();
     }
 
-
-}).directive('transitionEnd', ['$parse', function ($parse) {
+});/* .directive('transitionEnd', ['$parse', function ($parse) {
     var transitions = {
         "transition": "transitionend",
         "OTransition": "oTransitionEnd",
@@ -101,4 +105,4 @@ angular.module('albearth').controller('albearthCtrl', function ($scope, $http, $
             });
         },
     };
-}]);
+}]); */
