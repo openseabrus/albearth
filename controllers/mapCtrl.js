@@ -310,7 +310,8 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
 
     $scope.start = function () {
         $(function () {
-            $("#slider-range").slider({
+			// change this so they are independent from each other
+            $("#slider-range, #slider-range1").slider({
                 range: true,
                 min: 0,
                 max: 24,
