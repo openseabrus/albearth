@@ -127,24 +127,7 @@ div.gmnoprint:nth-child(11) {
     display: block;
     width: 20px;
     height: 20px;
-    /*background: white;  image here */
 }
-
-/* .rating-star:before {
-	color: grey;
-	font-size: 20px;
-} */
-
-/*.rating-star:hover,
-.rating-star:hover ~ .rating-star,
-.rating-input:checked ~ .rating-star {
-	background: yellow;
-    background-position: 0 0;
-}*/
-
-/* .rating-input:checked ~ .rating-star:before {
-	color: yellow;
-} */
 
 .rating-unselected {
 	color: grey;

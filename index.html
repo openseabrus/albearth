@@ -132,6 +132,10 @@
 		<div style="width: 100%; height: 100%" id="map" ng-controller="mapCtrl"></div>
 	</div>
 	
+	<div class="col-12" style="position: absolute; bottom: 15px">
+		<input class="btn btn-danger" type="button" name="type" value="Adicionar Local de Estudo" text="Add" />
+	</div>
+	
 	<!-- Sidebar -->
 	<div id="mySidenav" ng-class="{ 'open-sidenav': sidenav }" class="sidenav" transition-end="refreshSlider()">
 		<a href="javascript:void(0)" class="closebtn" ng-click="toggleNav()">&times;</a>
@@ -186,9 +190,6 @@
 					<input class="pull-left rating-input" id="rating-input-{{$index}}" style="margin-top: 5px" type="checkbox" name="type" ng-repeat="star in rating.options" ng-model="rating.selected[$index]" ng-click="rate(star)"/>
 					<label for="rating-input-{{$index}}" ng-class="{'rating-selected': rating.selected[$index] }" class="rating-star fa fa-star pull-left" ng-checked="rating.selected[$index]" ng-repeat="star in rating.options"></label>
 				</div>
-			</div>
-			<div class="col-12" style="margin: 0; position: absolute; bottom: 15px">
-				<input class="btn btn-danger col-12" align="center" type="button" name="type" value="Adicionar Local de Estudo" text="Add" />
 			</div>
 		</form>
 		
