@@ -150,19 +150,31 @@
 			</div>
 			<div class="col-12" id="bibliotecas">
 				<img src="Markers/mm_20_red.png" /> Bibliotecas
-				<input class="pull-right" type="checkbox" name="type" value="hotel" ng-checked="studies.includes('Biblioteca')" ng-click="clickType('Biblioteca')" />
+				<div class="redCheck">
+					<input id="bib-input" type="checkbox" name="type" value="hotel" ng-checked="studies.includes('Biblioteca')" ng-click="clickType('Biblioteca')" />
+					<label for="bib-input">
+				</div>
 			</div>
 			<div class="col-12" id="jardins">
 				<img src="Markers/mm_20_green.png" /> Jardins
-				<input class="pull-right" type="checkbox" name="type" value="servicos"  ng-checked="studies.includes('Jardim')" ng-click="clickType('Jardim')" />
+				<div class="redCheck">
+					<input id="gar-input" class="pull-right" type="checkbox" name="type" value="servicos"  ng-checked="studies.includes('Jardim')" ng-click="clickType('Jardim')" />
+					<label for="gar-input">
+				</div>
 			</div>
 			<div class="col-12" id="salas">
 				<img src="Markers/mm_20_white.png" /> Salas de Leitura
-				<input class="pull-right" type="checkbox" name="type" value="policia"  ng-checked="studies.includes('Sala de Leitura')" ng-click="clickType('Sala de Leitura')" />
+				<div class="redCheck">
+					<input id="sala-input" class="pull-right" type="checkbox" name="type" value="policia"  ng-checked="studies.includes('Sala de Leitura')" ng-click="clickType('Sala de Leitura')" />
+					<label for="sala-input">
+				</div>
 			</div>
 			<div class="col-12" style="margin-bottom: 10px" id="cafes">
 				<img src="Markers/mm_20_blue.png" /> Cafés
-				<input class="pull-right" type="checkbox" name="type" value="restaurantes"  ng-checked="studies.includes('Café')" ng-click="clickType('Café')" />
+				<div class="redCheck">
+					<input id="caf-input" class="pull-right" type="checkbox" name="type" value="restaurantes"  ng-checked="studies.includes('Café')" ng-click="clickType('Café')" />
+					<label for="caf-input">
+				</div>	
 			</div>
 			<div class="col-12" style="margin-bottom: 10px">
 				<span class="sub-section-title">Horário</span>
@@ -171,22 +183,27 @@
 			</div>
 			<div class="col-12" style="margin-bottom: 10px">
 				<span class="sub-section-title">Acesso a tomadas</span>
-				<input class="pull-right" type="checkbox" name="type" ng-checked="bools.includes('Tomadas')" ng-click="clickBool('Tomadas')"/>
-			</div>
-			<div class="col-12 rating">
-				<span class="sub-section-title">Acesso a computadores</span>
-				<input class="pull-right" id="rating-input-id" type="checkbox" name="type" ng-checked="bools.includes('Computadores')" ng-click="clickBool('Computadores')"/>
-				<!-- label must refer specific input id -->
+				<div class="redCheck">
+					<input id="tom-input" class="pull-right" type="checkbox" name="type" ng-checked="bools.includes('Tomadas')" ng-click="clickBool('Tomadas')"/>
+					<label for="tom-input">
+				</div>						
 			</div>
 			<div class="col-12">
-				<label class="sub-section-title" for="noiseSelect">Nível de ruído</label>
-				<select class="pull-right" name="noise" id="noiseSelect" ng-options="option for option in noise.options" ng-model="noise.selected" ng-change="performAllChecks()"></select>
+				<span class="sub-section-title">Acesso a computadores</span>
+				<div class="redCheck">
+					<input id="com-input" class="pull-right" type="checkbox" name="type" ng-checked="bools.includes('Computadores')" ng-click="clickBool('Computadores')"/>
+					<label for="com-input">
+				</div>						
+			</div>
+			<div class="col-12">
+				<label class="sub-section-title" style="margin-top: 8px" for="noiseSelect">Nível de ruído</label>
+				<select class="pull-right" style="margin: 8px 0" name="noise" id="noiseSelect" ng-options="option for option in noise.options" ng-model="noise.selected" ng-change="performAllChecks()"></select>
 				<!--{{noise.selected}} -->
 			</div>
 
 			<div class="col-12">
 				<span class="sub-section-title">Avaliação mínima</span>
-				<div class="pull-right">
+				<div class="pull-right" style="margin-top: -20px">
 					<input class="pull-left rating-input" id="rating-input-{{$index}}" style="margin-top: 5px" type="checkbox" name="type" ng-repeat="star in rating.options" ng-model="rating.selected[$index]" ng-click="rate(star)"/>
 					<label for="rating-input-{{$index}}" ng-class="{'rating-selected': rating.selected[$index] }" class="rating-star fa fa-star pull-left" ng-checked="rating.selected[$index]" ng-repeat="star in rating.options"></label>
 				</div>

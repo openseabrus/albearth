@@ -105,6 +105,7 @@ div.gmnoprint:nth-child(11) {
 	width: 350px;
 }
 
+/* rating stars */
 .rating {
     overflow: hidden;
     display: inline-block;
@@ -136,4 +137,69 @@ div.gmnoprint:nth-child(11) {
 
 .rating-selected {
 	color:yellow;
+}
+
+.rating {
+    overflow: hidden;
+    display: inline-block;
+}
+
+.rating-input {
+    float: right;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    margin: 0 0 0 -20px;
+    opacity: 0;
+}
+
+.rating-star {
+	margin: 1px;
+    cursor: pointer;
+    position: relative;
+	float: right;
+    display: block;
+    width: 20px;
+    height: 20px;
+}
+
+.rating-unselected {
+	color: grey;
+	font-size: 20px;
+}
+
+.rating-selected {
+	color:yellow;
+}
+
+/* red checkboxes */
+.redCheck {
+	width: 20px;
+	height: 20px;
+	background: #ddd;
+	margin: 2px 0px;
+	float: right;
+	border-radius: 3px;
+	position: relative;
+	box-shadow: 0px 1px 3px rgba(0,0,0,0.5);
+}
+
+.redCheck label {
+	width: 16px;
+	height: 16px;
+	border-radius: 3px;
+	transition: all .5s ease;
+	cursor: pointer;
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	background: grey;
+	box-shadow:inset 0px 1px 3px rgba(0,0,0,0.5);
+}
+
+.redCheck input[type=checkbox]:checked + label {
+	background: #fe2626;
+}
+.redCheck input[type=checkbox]{
+    display: none;
 }
