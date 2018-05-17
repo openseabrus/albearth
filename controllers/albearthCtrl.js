@@ -8,7 +8,8 @@ angular.module('albearth', ['rzModule']).controller('albearthCtrl', function ($s
     }
     setFields();
 
-    $scope.sidenav = "";
+    $scope.sidenav = false;
+    $scope.filters = true;
 
     $scope.logon = function (username, email, picture) {
         $scope.loggedIn = true;
@@ -50,7 +51,13 @@ angular.module('albearth', ['rzModule']).controller('albearthCtrl', function ($s
     };
 
     $scope.toggleNav = function () {
-        $scope.sidenav = $scope.sidenav ? "" : "open-sidenav";
+        $scope.sidenav = !$scope.sidenav;
+        console.log($scope.sidenav);
+    };
+
+    $scope.toggleDetails = function () {
+        $scope.filters = !$scope.sidenav;
+        console.log($scope.sidenav);
     }
 
 

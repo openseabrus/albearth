@@ -133,11 +133,11 @@
 	</div>
 	
 	<!-- Sidebar -->
-	<div id="mySidenav" ng-class="sidenav" class="sidenav" transition-end="refreshSlider()">
+	<div id="mySidenav" ng-class="{ 'open-sidenav': sidenav }" class="sidenav" transition-end="refreshSlider()">
 		<a href="javascript:void(0)" class="closebtn" ng-click="toggleNav()">&times;</a>
 	
 		<!-- VIEW - Locais de Estudo -->
-		<form style="margin-left: 5px; margin-right: 5px" id="legenda" ng-controller="mapCtrl">
+		<form style="margin-left: 5px; margin-right: 5px" id="legenda" ng-class="{ 'collapse': !filters }" ng-controller="mapCtrl">
 			<div class="col-12 section-title">
 				Locais de estudo
 			</div>
@@ -193,7 +193,7 @@
 		</form>
 		
 		<!-- VIEW - Detalhes -->
-		<form class="collapse no-padding" id="detalhes">
+		<form ng-class="{'collapse': filters}" class="no-padding" id="detalhes">
 			<div class="col-12 section-title">
 				Detalhes
 			</div>
