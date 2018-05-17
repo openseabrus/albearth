@@ -229,28 +229,27 @@
 			</div>
 			<div class="col-12" style="margin-top: 5px;">
 				<span class="sub-section-title">Tipo de local: </span>
-				<!-- <span>{{ type }}</span> -->
+				<span>{{chosenDetail.type}}</span>
 			</div>
 			<div class="col-12" style="margin-top: 5px;">
 				<span class="sub-section-title">Horário: </span>
-				<!-- <div id="slider-range"></div> -->
-				<!-- <span>{{openTime}}h - {{closeTime}}h</span> -->
+				<span>{{chosenDetail.horario}}</span>
 			</div>
 			<div class="col-12" style="margin-top: 5px;">
 				<span class="sub-section-title">Acesso a tomadas: </span>
-				<!-- <span>{{ access_1 }}</span> -->
+				<span>{{chosenDetail.tomadas == 1 ? "Sim" : "Não"}}</span>
 			</div>
 			<div class="col-12" style="margin-top: 5px;">
 				<span class="sub-section-title">Acesso a computadores: </span>
-				<!-- <span>{{ access_2 }}</span> -->
+				<span>{{chosenDetail.computadores == 1 ? "Sim" : "Não"}}</span>
 			</div>
 			<div class="col-12" style="margin-top: 5px;">
 				<span class="sub-section-title">Nível de ruído: </span>
-				<!-- <span>{{ noise.selected }}</span> -->
+				<span>{{chosenDetail.ruido}}</span>
 			</div>
 			<div class="col-12" style="margin-top: 5px;">
-				<span class="sub-section-title">Avaliação mínima: </span>
-				<!-- <span>{{ rating.stars }}</span> -->
+				<span class="sub-section-title">Avaliação média: </span>
+				{{chosenDetail.ratings ? getRating(chosenDetail.ratings) : "Sem avaliações."}}
 			</div>
 			<div class="col-12" style="margin-top: 15px;" align="center">
 				<input class="btn btn-danger" type="button" name="type" value="Avaliar/ver comentários" text="Add" />

@@ -1,4 +1,4 @@
-angular.module('albearth').controller('mapCtrl', function ($scope, $http, $window) {
+angular.module('albearth').controller('mapCtrl', function ($scope, $http, $window, $rootScope) {
     $scope.studies = ['Biblioteca', 'Jardim', 'Sala de Leitura', 'Café'];
     $scope.openTime = 11;
     $scope.closeTime = 17;
@@ -89,12 +89,6 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
                 parseFloat(loc.childNodes[7].childNodes[0].nodeValue),
                 parseFloat(loc.childNodes[8].childNodes[0].nodeValue)
             );
-            var html = "<b>" + locais[i].name + "</b> <br/>" + locais[i].type + "<br/><br/>"
-            //html += "<b> Tomadas</b> " + (locais[i].tomadas ? "Sim" : "Não");
-            //html += "<br/><b>Computadores</b> " + (locais[i].computadores ? "Sim" : "Não");
-            html += "<br/><b>Horário</b> " + locais[i].horario;
-            html += locais[i].encerramento ? "<br/><b>Encerra</b> " + locais[i].encerramento : "";
-            html += "<br/><br/><br/><center><input onclick=\"angular.element(this).scope().setView('details')\" class='btn btn-danger' type='button' name='type' value='Ver detalhes' /></center>"
             var icon = null;
             if (locais[i].type.toUpperCase() == "BIBLIOTECA")
                 icon = "Markers/mm_20_red.png";
@@ -109,6 +103,14 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
                 position: point,
                 icon: icon
             });
+
+            var html = "<b>" + locais[i].name + "</b> <br/>" + locais[i].type + "<br/><br/>"
+            //html += "<b> Tomadas</b> " + (locais[i].tomadas ? "Sim" : "Não");
+            //html += "<br/><b>Computadores</b> " + (locais[i].computadores ? "Sim" : "Não");
+            html += "<br/><b>Horário</b> " + locais[i].horario;
+            html += locais[i].encerramento ? "<br/><b>Encerra</b> " + locais[i].encerramento : "";
+            html += "<br/><br/><br/><center><input onclick=\"angular.element(this).scope().getDetails('" + i + "')\" class='btn btn-danger' type='button' name='type' value='Ver detalhes' /></center>";
+
             bindInfoWindow(locais[i].marker, map, infoWindow, html);
             //bindRemove(locais[i], name);
             bounds.extend(point);
@@ -175,6 +177,10 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
             infoWindow.setContent(html);
             infoWindow.open(map, marker);
         });
+    }
+
+    $rootScope.getLocal = function (l) {
+        return locais[l];
     }
 
     /* REMOVE MARKER

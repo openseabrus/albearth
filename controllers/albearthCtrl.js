@@ -1,8 +1,9 @@
-angular.module('albearth').controller('albearthCtrl', function ($scope, $http, $window, $timeout) {
+angular.module('albearth').controller('albearthCtrl', function ($scope, $http, $window, $timeout, $rootScope) {
 
     $scope.sidenav = false;
     $scope.filters = true;
     $scope.currentView = "filters";
+    $scope.chosenDetail = {};
 
     var setFields = function (loggedIn, username, email, picture) {
         $scope.loggedIn = loggedIn ? loggedIn : false;
@@ -63,6 +64,23 @@ angular.module('albearth').controller('albearthCtrl', function ($scope, $http, $
         $scope.currentView = view;
         $scope.toggleNav(changeNav ? newNavState : $scope.sidenav);
         $scope.refreshSlider();
+    }
+
+    $scope.getDetails = function(index) {
+        $scope.chosenDetail = $rootScope.getLocal(index);
+        $scope.chosenDetail.index = index;
+        console.log($scope.chosenDetail);
+        $scope.setView('details', true, true);
+    }
+
+    $scope.getRating = function(ratings) {
+        if (ratings.length == 0)
+            return "Sem avaliações.";
+        return Math.round(ratings.reduce(getSum) / ratings.length);
+    }
+
+    function getSum(total, num) {
+        return total + num;
     }
 
 });/* .directive('transitionEnd', ['$parse', function ($parse) {
