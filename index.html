@@ -6,27 +6,30 @@
 	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 	<meta charset="utf-8" />
 	<link rel="stylesheet" type="text/css" href="albearth.css">
-	<link href="Slider/rzslider.min.css" rel="stylesheet" />
+	<link rel="stylesheet" type="text/css" href="jqui/jquery-ui-1.12.1.custom/jquery-ui.css">
+
 	<link rel="icon" href="icon.png">
 	<script src="angular.min.js"></script>
-	<script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQp507Nd6PXQXvRzeDywxHomaSnWLTKUI"
-	type="text/javascript"></script>
-	
-	
-	
+	<script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQp507Nd6PXQXvRzeDywxHomaSnWLTKUI" type="text/javascript"></script>
+	<link href="jqui/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet">
+
+
+
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	
+
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-	crossorigin="anonymous">
-	
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-	crossorigin="anonymous"></script>
+	    crossorigin="anonymous">
+
+	<!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script> -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-	crossorigin="anonymous"></script>
+	    crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-1.12.1.js"></script>
+	<script src="jqui/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-	crossorigin="anonymous"></script>
-	
+	    crossorigin="anonymous"></script>
+
 </head>
 
 <body id="albearth" ng-app="albearth" ng-controller="albearthCtrl" ng-init="checkCookies()">
@@ -51,7 +54,7 @@
 	<!-- Login Modal -->
 	<div id="loginModal" class="modal fade" role="dialog">
 		<div class="modal-dialog">
-			
+
 			<!-- Modal content-->
 			<div class="modal-content" ng-controller="loginCtrl">
 				<div class="modal-header">
@@ -68,14 +71,14 @@
 					<button id="login-btn" ng-click="login()" class="btn btn-primary col-4 offset-4" data-dismiss="modal">Enter</button>
 				</div>
 			</div>
-			
+
 		</div>
 	</div>
-	
+
 	<!-- Register Modal -->
 	<div id="registerModal" class="modal fade" role="dialog">
 		<div class="modal-dialog">
-			
+
 			<!-- Modal content-->
 			<div class="modal-content" ng-controller="registerCtrl">
 				<div class="modal-header">
@@ -98,11 +101,11 @@
 					<div class="form-group">
 						<input ng-model="picture" type="url" class="form-control" id="registerPicture" placeholder="Picture URL">
 					</div>
-					
+
 					<button id="login-btn" ng-click="register()" class="btn btn-primary col-4 offset-4" data-dismiss="modal">Enter</button>
 				</div>
 			</div>
-			
+
 		</div>
 	</div>
 	<!--   <div class="col-12" style="position: absolute; z-index: 1; bottom: 0;">
@@ -126,20 +129,20 @@
 			</form>
 		</div>
 	</div> -->
-	
 
-	<div id="main-container" >
+
+	<div id="main-container">
 		<div style="width: 100%; height: 100%" id="map" ng-controller="mapCtrl"></div>
 	</div>
-	
+
 	<div class="col-12" style="position: absolute; bottom: 15px">
 		<input class="btn btn-danger" type="button" name="type" value="Adicionar Local de Estudo" text="Add" />
 	</div>
-	
+
 	<!-- Sidebar -->
 	<div id="mySidenav" ng-class="{ 'open-sidenav': sidenav }" class="sidenav" transition-end="refreshSlider()">
 		<a href="javascript:void(0)" class="closebtn" ng-click="toggleNav()">&times;</a>
-	
+
 		<!-- VIEW - Locais de Estudo -->
 		<form style="margin-left: 5px; margin-right: 5px" id="legenda" ng-class="{ 'collapse': !filters }" ng-controller="mapCtrl">
 			<div class="col-12 section-title">
@@ -151,65 +154,74 @@
 			<div class="col-12" id="bibliotecas">
 				<img src="Markers/mm_20_red.png" /> Bibliotecas
 				<div class="redCheck">
-					<input id="bib-input" type="checkbox" name="type" value="hotel" ng-checked="studies.includes('Biblioteca')" ng-click="clickType('Biblioteca')" />
+					<input id="bib-input" type="checkbox" name="type" value="hotel" ng-checked="studies.includes('Biblioteca')" ng-click="clickType('Biblioteca')"
+					/>
 					<label for="bib-input">
 				</div>
 			</div>
 			<div class="col-12" id="jardins">
 				<img src="Markers/mm_20_green.png" /> Jardins
 				<div class="redCheck">
-					<input id="gar-input" class="pull-right" type="checkbox" name="type" value="servicos"  ng-checked="studies.includes('Jardim')" ng-click="clickType('Jardim')" />
+					<input id="gar-input" class="pull-right" type="checkbox" name="type" value="servicos" ng-checked="studies.includes('Jardim')"
+					    ng-click="clickType('Jardim')" />
 					<label for="gar-input">
 				</div>
 			</div>
 			<div class="col-12" id="salas">
 				<img src="Markers/mm_20_white.png" /> Salas de Leitura
 				<div class="redCheck">
-					<input id="sala-input" class="pull-right" type="checkbox" name="type" value="policia"  ng-checked="studies.includes('Sala de Leitura')" ng-click="clickType('Sala de Leitura')" />
+					<input id="sala-input" class="pull-right" type="checkbox" name="type" value="policia" ng-checked="studies.includes('Sala de Leitura')"
+					    ng-click="clickType('Sala de Leitura')" />
 					<label for="sala-input">
 				</div>
 			</div>
 			<div class="col-12" style="margin-bottom: 10px" id="cafes">
 				<img src="Markers/mm_20_blue.png" /> Cafés
 				<div class="redCheck">
-					<input id="caf-input" class="pull-right" type="checkbox" name="type" value="restaurantes"  ng-checked="studies.includes('Café')" ng-click="clickType('Café')" />
+					<input id="caf-input" class="pull-right" type="checkbox" name="type" value="restaurantes" ng-checked="studies.includes('Café')"
+					    ng-click="clickType('Café')" />
 					<label for="caf-input">
-				</div>	
+				</div>
 			</div>
 			<div class="col-12" style="margin-bottom: 10px">
 				<span class="sub-section-title">Horário</span>
-				<rzslider class="custom-slider col-12" rz-slider-model="openTime" rz-slider-high="closeTime" rz-slider-options="slider.options" rz-slider-on-change="performAllChecks()"></rzslider>
+				<div id="slider-range" ng-model="values"></div>
 				Entre as {{openTime}}h e {{closeTime}}h
 			</div>
 			<div class="col-12" style="margin-bottom: 10px">
 				<span class="sub-section-title">Acesso a tomadas</span>
 				<div class="redCheck">
-					<input id="tom-input" class="pull-right" type="checkbox" name="type" ng-checked="bools.includes('Tomadas')" ng-click="clickBool('Tomadas')"/>
+					<input id="tom-input" class="pull-right" type="checkbox" name="type" ng-checked="bools.includes('Tomadas')" ng-click="clickBool('Tomadas')"
+					/>
 					<label for="tom-input">
-				</div>						
+				</div>
 			</div>
 			<div class="col-12">
 				<span class="sub-section-title">Acesso a computadores</span>
 				<div class="redCheck">
-					<input id="com-input" class="pull-right" type="checkbox" name="type" ng-checked="bools.includes('Computadores')" ng-click="clickBool('Computadores')"/>
+					<input id="com-input" class="pull-right" type="checkbox" name="type" ng-checked="bools.includes('Computadores')" ng-click="clickBool('Computadores')"
+					/>
 					<label for="com-input">
-				</div>						
+				</div>
 			</div>
 			<div class="col-12">
 				<label class="sub-section-title" style="margin-top: 8px" for="noiseSelect">Nível de ruído</label>
-				<select class="pull-right" style="margin: 8px 0" name="noise" id="noiseSelect" ng-options="option for option in noise.options" ng-model="noise.selected" ng-change="performAllChecks()"></select>
+				<select class="pull-right" style="margin: 8px 0" name="noise" id="noiseSelect" ng-options="option for option in noise.options"
+				    ng-model="noise.selected" ng-change="performAllChecks()"></select>
 				<!--{{noise.selected}} -->
 			</div>
 
 			<div class="col-12">
 				<span class="sub-section-title">Avaliação mínima</span>
 				<div class="pull-right" style="margin-top: -20px">
-					<input class="pull-left rating-input" id="rating-input-{{$index}}" style="margin-top: 5px" type="checkbox" name="type" ng-repeat="star in rating.options" ng-model="rating.selected[$index]" ng-click="rate(star)"/>
-					<label for="rating-input-{{$index}}" ng-class="{'rating-selected': rating.selected[$index] }" class="rating-star fa fa-star pull-left" ng-checked="rating.selected[$index]" ng-repeat="star in rating.options"></label>
+					<input class="pull-left rating-input" id="rating-input-{{$index}}" style="margin-top: 5px" type="checkbox" name="type" ng-repeat="star in rating.options"
+					    ng-model="rating.selected[$index]" ng-click="rate(star)" />
+					<label for="rating-input-{{$index}}" ng-class="{'rating-selected': rating.selected[$index] }" class="rating-star fa fa-star pull-left"
+					    ng-checked="rating.selected[$index]" ng-repeat="star in rating.options"></label>
 				</div>
 			</div>
 		</form>
-		
+
 		<!-- VIEW - Detalhes -->
 		<form ng-class="{'collapse': filters}" class="no-padding" id="detalhes">
 			<div class="col-12 section-title">
@@ -221,6 +233,7 @@
 			</div>
 			<div class="col-12" style="margin-top: 5px;">
 				<span class="sub-section-title">Horário: </span>
+				<div id="slider-range"></div>
 				<span>{{openTime}}h - {{closeTime}}h</span>
 			</div>
 			<div class="col-12" style="margin-top: 5px;">
@@ -242,32 +255,40 @@
 			<div class="col-12" style="margin-top: 15px;" align="center">
 				<input class="btn btn-danger" type="button" name="type" value="Avaliar/ver comentários" text="Add" />
 			</div>
-			
+
 			<div class="col-12 section-title" style="margin-top: 30px;">
 				Direções
 			</div>
 			<div class="col-12 row" style="margin: 0; margin-top: 10px;">
-			<span class="col-12 sub-section-title">Modo de viagem: </span>
-			<div class="col-4 row" style="margin: 0">
-				<span class="col-12" align="center"><i class="fa fa-car" style="color: #fe2626"></i></span>
-				<input class="col-12" type="radio" name="transp" value="car">
+				<span class="col-12 sub-section-title">Modo de viagem: </span>
+				<div class="col-4 row" style="margin: 0">
+					<span class="col-12" align="center">
+						<i class="fa fa-car" style="color: #fe2626"></i>
+					</span>
+					<input class="col-12" type="radio" name="transp" value="car">
+				</div>
+				<div class="col-4 row" style="margin: 0">
+					<span class="col-12" align="center">
+						<i class="fa fa-bus" style="color: #fe2626"></i>
+					</span>
+					<input class="col-12" type="radio" name="transp" value="bus">
+				</div>
+				<div class="col-4 row" style="margin: 0">
+					<span class="col-12" align="center">
+						<i class="material-icons" style="color: #fe2626">directions_walk</i>
+					</span>
+					<input class="col-12" type="radio" name="transp" value="foot">
+				</div>
+				<span class="col-12 sub-section-title">A partir de: </span>
+				<div class="col-12" style="margin: 0; margin-top: 8px;" align="center">
+					<input class="btn btn-danger col-12" type="button" style="font-size: 14px" name="type" value="Localização actual" text="Add"
+					/>
+					<input class="btn btn-danger col-12" style="margin-top: 2px; font-size: 14px" type="button" name="type" value="Ponto no mapa"
+					    text="Add" />
+				</div>
 			</div>
-			<div class="col-4 row" style="margin: 0">
-				<span class="col-12" align="center"><i class="fa fa-bus" style="color: #fe2626"></i></span>
-				<input class="col-12" type="radio" name="transp" value="bus">
-			</div>
-			<div class="col-4 row" style="margin: 0">
-				<span class="col-12" align="center"><i class="material-icons" style="color: #fe2626">directions_walk</i></span>
-				<input class="col-12" type="radio" name="transp" value="foot">
-			</div>
-			<span class="col-12 sub-section-title">A partir de: </span>
-			<div class="col-12" style="margin: 0; margin-top: 8px;" align="center">
-				<input class="btn btn-danger col-12" type="button" style="font-size: 14px" name="type" value="Localização actual" text="Add" />
-				<input class="btn btn-danger col-12" style="margin-top: 2px; font-size: 14px" type="button" name="type" value="Ponto no mapa" text="Add" />
-			</div>
-		</div>
 		</form>
-		
+
 		<!-- VIEW de Direções -->
 		<div class="collapse">
 			<div class="col-12 section-title">
@@ -309,8 +330,7 @@
 	<script type="text/javascript" src="controllers/registerCtrl.js"></script>
 	<script type="text/javascript" src="controllers/mapCtrl.js"></script>
 	<script type="text/javascript" src="cookies/cookies.js"></script>
-	<script src="Slider/rzslider.min.js"></script>
-	
+
 </body>
 
 </html>

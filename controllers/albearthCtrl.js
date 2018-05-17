@@ -1,4 +1,4 @@
-angular.module('albearth', ['rzModule']).controller('albearthCtrl', function ($scope, $http, $window, $timeout) {
+angular.module('albearth').controller('albearthCtrl', function ($scope, $http, $window, $timeout) {
 
     var setFields = function (loggedIn, username, email, picture) {
         $scope.loggedIn = loggedIn ? loggedIn : false;

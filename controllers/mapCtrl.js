@@ -173,7 +173,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
 
 
     function getRating(index) {
-        if(locais[index].ratings.length == 0)
+        if (locais[index].ratings.length == 0)
             return 1;
         return Math.round(locais[index].ratings.reduce(getSum) / locais[index].ratings.length);
     }
@@ -298,5 +298,44 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         addState = true;
     }
 
+    $scope.values = [11, 17];
+
+    $scope.setTimes = function (open, close) {
+        $scope.openTime = open;
+        $scope.closeTime = close;
+        console.log($scope.openTime + " ---- " + $scope.closeTime);
+        $scope.refreshSlider();
+        $scope.performAllChecks();
+    }
+
+    $scope.start = function () {
+        $(function () {
+            $("#slider-range").slider({
+                range: true,
+                min: 0,
+                max: 24,
+                values: [11, 17],
+                slide: function (event, ui) {
+                    $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+                    $scope.setTimes(ui.values[0], ui.values[1]);
+                }
+            });
+        });
+    }
+    $scope.start();
+
+    /*  $(function () {
+         $("#slider-range").slider({
+             range: true,
+             min: 0,
+             max: 500,
+             values: [75, 300],
+             slide: function (event, ui) {
+                 $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+             }
+         });
+         $("#amount").val("$" + $("#slider-range").slider("values", 0) +
+             " - $" + $("#slider-range").slider("values", 1));
+     }); */
 
 });
