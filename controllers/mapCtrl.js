@@ -305,6 +305,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         $scope.closeTime = close;
         console.log($scope.openTime + " ---- " + $scope.closeTime);
         $scope.refreshSlider();
+        $scope.performAllChecks();
     }
 
     $scope.start = function () {
