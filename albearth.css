@@ -128,6 +128,7 @@ div.gmnoprint:nth-child(11) {
     display: block;
     width: 20px;
     height: 20px;
+	text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
 .rating-unselected {
@@ -136,40 +137,7 @@ div.gmnoprint:nth-child(11) {
 }
 
 .rating-selected {
-	color:yellow;
-}
-
-.rating {
-    overflow: hidden;
-    display: inline-block;
-}
-
-.rating-input {
-    float: right;
-    width: 20px;
-    height: 20px;
-    padding: 0;
-    margin: 0 0 0 -20px;
-    opacity: 0;
-}
-
-.rating-star {
-	margin: 1px;
-    cursor: pointer;
-    position: relative;
-	float: right;
-    display: block;
-    width: 20px;
-    height: 20px;
-}
-
-.rating-unselected {
-	color: grey;
-	font-size: 20px;
-}
-
-.rating-selected {
-	color:yellow;
+	color: #fe2626;
 }
 
 /* red checkboxes */
