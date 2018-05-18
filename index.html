@@ -144,7 +144,7 @@
 		<a href="javascript:void(0)" class="closebtn" ng-click="toggleNav()">&times;</a>
 
 		<!-- VIEW - Locais de Estudo -->
-		<form style="margin-left: 5px; margin-right: 5px" id="legenda" ng-show="currentView == 'filters'" ng-controller="mapCtrl">
+		<form style="margin-left: 5px; margin-right: 5px" id="legenda" ng-show="currentView == 'filters'">
 			<div class="col-12 section-title">
 				Locais de estudo
 			</div>
@@ -186,7 +186,7 @@
 			<div class="col-12" style="margin-bottom: 10px">
 				<span class="sub-section-title">Horário</span>
 				<div id="slider-range" ng-model="values"></div>
-				Entre as {{openTime}}h e {{closeTime}}h
+				Aberto entre as {{openTime}}h e as {{closeTime}}h
 			</div>
 			<div class="col-12" style="margin-bottom: 10px">
 				<span class="sub-section-title">Acesso a tomadas</span>
@@ -310,54 +310,54 @@
 			<div class="col-12" id="bibliotecas">
 				<img src="Markers/mm_20_red.png" /> Bibliotecas
 				<div class="redCheck1">
-					<input id="bib-input1" class="pull-right" type="radio" name="type_add" value="hotel" checked />
+					<input id="bib-input1" class="pull-right" type="radio" name="type_add" value="hotel" ng-checked="add.study == 'Biblioteca'" ng-click="add.study = 'Biblioteca'" />
 					<label for="bib-input1">
 				</div>
 			</div>
 			<div class="col-12" id="jardins">
 				<img src="Markers/mm_20_green.png" /> Jardins
 				<div class="redCheck1">
-					<input id="gar-input1" class="pull-right" type="radio" name="type_add" value="servicos" />
+					<input id="gar-input1" class="pull-right" type="radio" name="type_add" value="servicos" ng-checked="add.study == 'Jardim'" ng-click="add.study = 'Jardim'" />
 					<label for="gar-input1">
 				</div>
 			</div>
 			<div class="col-12" id="salas">
 				<img src="Markers/mm_20_white.png" /> Salas de Leitura
 				<div class="redCheck1">
-					<input id="sala-input1" class="pull-right" type="radio" name="type_add" value="policia" />
+					<input id="sala-input1" class="pull-right" type="radio" name="type_add" value="policia" ng-checked="add.study == 'Sala de Leitura'" ng-click="add.study = 'Sala de Leitura'" />
 					<label for="sala-input1">
 				</div>
 			</div>
 			<div class="col-12" style="margin-bottom: 10px" id="cafes">
 				<img src="Markers/mm_20_blue.png" /> Cafés
 				<div class="redCheck1">
-					<input id="caf-input1" class="pull-right" type="radio" name="type_add" value="restaurantes" />
+					<input id="caf-input1" class="pull-right" type="radio" name="type_add" value="restaurantes" ng-checked="add.study == 'Café'" ng-click="add.study = 'Café'" />
 					<label for="caf-input1">
 				</div>
 			</div>
 			<div class="col-12" style="margin-bottom: 10px">
 				<span class="sub-section-title">Horário</span>
-				<!-- <div id="ranger1" ng-model="values"></div> -->
-				<!-- Entre as {{openTime}}h e {{closeTime}}h -->
+				<div id="slider-range-add"></div>
+				Aberto entre as {{add.open}}h e as {{add.close}}h
 			</div>
 			<div class="col-12" style="margin-bottom: 10px">
 				<span class="sub-section-title">Acesso a tomadas</span>
 				<div class="redCheck">
-					<input id="tom-input1" class="pull-right" type="checkbox" name="type" />
+					<input id="tom-input1" class="pull-right" type="checkbox" name="type" ng-model="add.tomadas" />
 					<label for="tom-input1">
 				</div>
 			</div>
 			<div class="col-12">
 				<span class="sub-section-title">Acesso a computadores</span>
 				<div class="redCheck">
-					<input id="com-input1" class="pull-right" type="checkbox" name="type" />
+					<input id="com-input1" class="pull-right" type="checkbox" name="type" ng-model="add.computadores" />
 					<label for="com-input1">
 				</div>
 			</div>
 			<div class="col-12">
 				<label class="sub-section-title" style="margin-top: 8px" for="noiseSelect">Nível de ruído</label>
-				<select class="pull-right" style="margin: 8px 0" name="noise" id="noiseSelect" ng-options="option for option in noise.options"
-				    ng-model="noise.selected" ng-change="performAllChecks()"></select>
+				<select class="pull-right" style="margin: 8px 0" name="noise" id="noiseSelect" ng-options="option for option in add.noiseOptions"
+				    ng-model="add.noiseSelected"></select>
 				<!--{{noise.selected}} -->
 			</div>
 			<div class="col-12" align="center" style="position: absolute; bottom: 15px">

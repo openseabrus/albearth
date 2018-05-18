@@ -2,6 +2,17 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
     $scope.studies = ['Biblioteca', 'Jardim', 'Sala de Leitura', 'Café'];
     $scope.openTime = 11;
     $scope.closeTime = 17;
+
+    $scope.add = {
+        open: 9,
+        close: 20,
+        study: "Biblioteca",
+        noiseOptions: ["Muito Alto", "Alto", "Moderado", "Baixo", "Muito Baixo"],
+        noiseSelected: "Moderado",
+        tomadas: false,
+        computadores: false
+    };
+
     $scope.bools = ["Tomadas", "Computadores"];
     $scope.noise = {
         options: ["Todos", "Muito Alto", "Alto", "Moderado", "Baixo", "Muito Baixo"],
@@ -294,10 +305,16 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
 
     $scope.values = [11, 17];
 
-    $scope.setTimes = function (open, close) {
-        $scope.openTime = open;
-        $scope.closeTime = close;
-        console.log($scope.openTime + " -- " + $scope.closeTime);
+    $scope.setTimes = function (open, close, add) {
+        if (!add) {
+            $scope.openTime = open;
+            $scope.closeTime = close;
+            console.log($scope.openTime);
+        } else {
+            $scope.add.open = open;
+            $scope.add.close = close;
+            console.log($scope.addOpen);
+        }
         $scope.refreshSlider();
         $scope.performAllChecks();
     }
@@ -305,32 +322,82 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
     $scope.start = function () {
         $(function () {
             // change this so they are independent from each other
-            $("#slider-range, #slider-range1").slider({
+            $("#slider-range").slider({
                 range: true,
                 min: 0,
                 max: 24,
                 values: [11, 17],
                 slide: function (event, ui) {
-                    $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
-                    $scope.setTimes(ui.values[0], ui.values[1]);
+                    $scope.setTimes(ui.values[0], ui.values[1], false);
+                }
+            });
+        });
+
+        $(function () {
+            // change this so they are independent from each other
+            $("#slider-range-add").slider({
+                range: true,
+                min: 0,
+                max: 24,
+                values: [9, 20],
+                slide: function (event, ui) {
+                    $scope.setTimes(ui.values[0], ui.values[1], true);
                 }
             });
         });
     }
     $scope.start();
 
-    /*  $(function () {
-         $("#slider-range").slider({
-             range: true,
-             min: 0,
-             max: 500,
-             values: [75, 300],
-             slide: function (event, ui) {
-                 $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
-             }
-         });
-         $("#amount").val("$" + $("#slider-range").slider("values", 0) +
-             " - $" + $("#slider-range").slider("values", 1));
-     }); */
+    /*
+    {
+        open: 9,
+        close: 20,
+        study: "Biblioteca",
+        noiseOptions: ["Muito Alto", "Alto", "Moderado", "Baixo", "Muito Baixo"],
+        noiseSelected: "Moderado",
+        tomadas: false,
+        computadores: false
 
+        $tipoEstudo = $_POST['tipoEstudo'];
+$nome = $_POST["nome"];
+$tomadas = $_POST['tomadas'];
+$ruido = $_POST['ruido'];
+$computadores = $_POST['computadores'];
+$horario = $_POST['horario'];
+$encerramento = $_POST['encerramento'];
+$latitude = $_POST['latitude'];
+$longitude = $_POST['longitude'];
+    }*/
+
+
+    $scope.addLocal = function() {
+        var encodedString = 'tipoEstudo=' + $scope.add.study +
+            '&password=';
+
+        console.log(encodedString);
+        $http({
+            method: 'POST',
+            url: 'addLocal.php',
+            data: encodedString,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(function (data) {
+            $scope.logon(data["data"]["username"], $scope.email, data["data"]["picture"]);
+            //if (data.status === 200) {
+            //    window.location.href = 'welcome.php';
+            //} else {
+            //    console.log(data);
+            //    $scope.errorMsg = "Username and password do not match.";
+            //}
+            console.log(data);
+            console.log("YES");
+        }, function error(data) {
+            console.log("ERROR");
+        });
+    }
+    /*
+INSERT INTO locais (tipoEstudo, nome, tomadas, ruido, computadores, horario, encerramento, latitude, longitude)
+VALUES ("Biblioteca", "Biblioteca Municipal de Cascais", 1, "Moderado", 1, "10:00-24:00", "Domingos e feriados.", 38.701190, -9.420704);
+*/
 });

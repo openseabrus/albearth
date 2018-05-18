@@ -3,9 +3,6 @@ ini_set('display_errors', 1);
 require("login.php");
 
 
-$username2 = "baec497d590684";
-$password2 = "018358a8";
-$db = "heroku_aa3f00257c04492";
 $mysqli= new mysqli($server, $username, $password, $database);
 
 $pw = hash('sha512', $_POST['password']);
