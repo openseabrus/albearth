@@ -11,8 +11,12 @@ $data = json_decode($content, true);
 $tipoEstudo = $data['study'];
 $nome = $data["nome"];
 $tomadas = $data['tomadas'];
+if($tomadas == false)
+    $tomadas = "0";
 $ruido = $data['noiseSelected'];
 $computadores = $data['computadores'];
+if($computadores == false)
+    $computadores = "0";
 $horario = $data['open'] . ":00-" . $data['close'] . ":00";
 $encerramento = $data['encerramento'];
 $latitude = $data['latitude'];
@@ -29,7 +33,7 @@ VALUES ("Biblioteca", "Biblioteca Municipal de Cascais", 1, "Moderado", 1, "10:0
 */
 $result = $mysqli->query($stmt);
 if (!$result) {
-    die('DECLINED');
+    die($tipoEstudo);
 }
 
 echo 'ACCEPTED';
