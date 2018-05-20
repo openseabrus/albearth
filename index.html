@@ -304,6 +304,10 @@
 			<div class="col-12 section-title">
 				Adicionar local
 			</div>
+			<div class="col-12" style="margin-bottom: 10px">
+				<span class="sub-section-title">Nome do Local</span>
+				<input type="text" name="localName" ng-model="add.nome">
+			</div>
 			<div class="col-12 sub-section-title">
 				Tipo de local
 			</div>
@@ -341,6 +345,10 @@
 				Aberto entre as {{add.open}}h e as {{add.close}}h
 			</div>
 			<div class="col-12" style="margin-bottom: 10px">
+				<span class="sub-section-title">Encerramento</span>
+				<input type="text" name="localClosing" ng-model="add.encerramento">
+			</div>
+			<div class="col-12" style="margin-bottom: 10px">
 				<span class="sub-section-title">Acesso a tomadas</span>
 				<div class="redCheck">
 					<input id="tom-input1" class="pull-right" type="checkbox" name="type" ng-model="add.tomadas" />
@@ -361,7 +369,7 @@
 				<!--{{noise.selected}} -->
 			</div>
 			<div class="col-12" align="center" style="position: absolute; bottom: 15px">
-				<input class="btn btn-danger" type="button" name="type" value="Adicionar" text="Add" />
+				<input class="btn btn-danger" type="button" name="type" value="Adicionar" text="Add" ng-click="addLocal()" />
 			</div>
 		</form>
 

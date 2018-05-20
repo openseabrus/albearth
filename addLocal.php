@@ -5,15 +5,18 @@ require("login.php");
 
 $mysqli= new mysqli($server, $username, $password, $database);
 
-$tipoEstudo = $_POST['tipoEstudo'];
-$nome = $_POST["nome"];
-$tomadas = $_POST['tomadas'];
-$ruido = $_POST['ruido'];
-$computadores = $_POST['computadores'];
-$horario = $_POST['horario'];
-$encerramento = $_POST['encerramento'];
-$latitude = $_POST['latitude'];
-$longitude = $_POST['longitude'];
+$content = trim(file_get_contents("php://input"));
+$data = json_decode($content, true);
+
+$tipoEstudo = $data['study'];
+$nome = $data["nome"];
+$tomadas = $data['tomadas'];
+$ruido = $data['noiseSelected'];
+$computadores = $data['computadores'];
+$horario = $data['open'] . ":00-" . $data['close'] . ":00";
+$encerramento = $data['encerramento'];
+$latitude = $data['latitude'];
+$longitude = $data['longitude'];
 
 $stmt = "INSERT INTO locais (tipoEstudo, nome, tomadas, ruido, computadores, horario, encerramento, latitude, longitude)
 VALUES ('$tipoEstudo', '$nome', '$tomadas', '$ruido', '$computadores', '$horario', '$encerramento', '$latitude', '$longitude')";

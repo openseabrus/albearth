@@ -4,13 +4,17 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
     $scope.closeTime = 17;
 
     $scope.add = {
+        nome: "",
         open: 9,
         close: 20,
         study: "Biblioteca",
         noiseOptions: ["Muito Alto", "Alto", "Moderado", "Baixo", "Muito Baixo"],
         noiseSelected: "Moderado",
         tomadas: false,
-        computadores: false
+        computadores: false,
+        encerramento: "",
+        latitude: 38.716591,
+        longitude: -9.333057
     };
 
     $scope.bools = ["Tomadas", "Computadores"];
@@ -313,7 +317,6 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         } else {
             $scope.add.open = open;
             $scope.add.close = close;
-            console.log($scope.addOpen);
         }
         $scope.refreshSlider();
         $scope.performAllChecks();
@@ -358,32 +361,28 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         tomadas: false,
         computadores: false
 
-        $tipoEstudo = $_POST['tipoEstudo'];
-$nome = $_POST["nome"];
-$tomadas = $_POST['tomadas'];
-$ruido = $_POST['ruido'];
-$computadores = $_POST['computadores'];
-$horario = $_POST['horario'];
+        $tipoEstudo = $_POST['tipoEstudo'];     x
+$nome = $_POST["nome"];                         x
+$tomadas = $_POST['tomadas'];                   x
+$ruido = $_POST['ruido'];                       x
+$computadores = $_POST['computadores'];         x
+$horario = $_POST['horario'];                   x
 $encerramento = $_POST['encerramento'];
 $latitude = $_POST['latitude'];
 $longitude = $_POST['longitude'];
+38.716591, -9.333057
     }*/
 
 
     $scope.addLocal = function() {
-        var encodedString = 'tipoEstudo=' + $scope.add.study +
-            '&password=';
-
-        console.log(encodedString);
         $http({
             method: 'POST',
             url: 'addLocal.php',
-            data: encodedString,
+            data: $scope.add,
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
+                'Content-Type': 'application/json'
             }
         }).then(function (data) {
-            $scope.logon(data["data"]["username"], $scope.email, data["data"]["picture"]);
             //if (data.status === 200) {
             //    window.location.href = 'welcome.php';
             //} else {
