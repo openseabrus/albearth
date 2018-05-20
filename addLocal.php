@@ -32,6 +32,6 @@ if (!$result) {
     die('DECLINED');
 }
 
-echo 'ACCEPTED'
+echo 'ACCEPTED';
 
 ?>

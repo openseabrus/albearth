@@ -13,8 +13,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         tomadas: false,
         computadores: false,
         encerramento: "",
-        latitude: 38.716591,
-        longitude: -9.333057
+        error: ""
     };
 
     $scope.bools = ["Tomadas", "Computadores"];
@@ -29,7 +28,6 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
     };
 
     var map = $window.map;
-    var addState = false;
 
     var options = {
         center: {
@@ -50,14 +48,22 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
 
 
     google.maps.event.addListener(map, 'click', function (event) {
-        if (addState) {
-            var marker = new google.maps.Marker({
-                position: event.latLng,
-                map: map,
-                title: "New Marker"
-            });
-            geocodeLatLng(geocoder, map, infoWindow, event.latLng);
+        if ($scope.local.add) {
+            $scope.add.error = "";
+            if ($scope.local.marker)
+                $scope.local.marker.setPosition(event.latLng);
+            else {
+                $scope.local.marker = new google.maps.Marker({
+                    position: event.latLng,
+                    map: map,
+                    title: "Drag me!",
+                    draggable: true
+                });
+            }
+            //geocodeLatLng(geocoder, map, infoWindow, event.latLng);
         }
+        $scope.addVerifications();
+        $scope.refreshSlider();
     });
 
 
@@ -303,11 +309,6 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         }
     }
 
-    $scope.setAddState = function () {
-        addState = true;
-    }
-
-    $scope.values = [11, 17];
 
     $scope.setTimes = function (open, close, add) {
         if (!add) {
@@ -351,30 +352,15 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
     }
     $scope.start();
 
-    /*
-    {
-        open: 9,
-        close: 20,
-        study: "Biblioteca",
-        noiseOptions: ["Muito Alto", "Alto", "Moderado", "Baixo", "Muito Baixo"],
-        noiseSelected: "Moderado",
-        tomadas: false,
-        computadores: false
 
-        $tipoEstudo = $_POST['tipoEstudo'];     x
-$nome = $_POST["nome"];                         x
-$tomadas = $_POST['tomadas'];                   x
-$ruido = $_POST['ruido'];                       x
-$computadores = $_POST['computadores'];         x
-$horario = $_POST['horario'];                   x
-$encerramento = $_POST['encerramento'];
-$latitude = $_POST['latitude'];
-$longitude = $_POST['longitude'];
-38.716591, -9.333057
-    }*/
-
-
-    $scope.addLocal = function() {
+    $scope.addLocal = function () {
+        if (!$scope.addVerifications()) {
+            return;
+        }
+        var latlng = $scope.local.marker.getPosition();
+        $scope.add.latitude = latlng.lat();
+        $scope.add.longitude = latlng.lng();
+        console.log($scope.add);
         $http({
             method: 'POST',
             url: 'addLocal.php',
@@ -390,13 +376,37 @@ $longitude = $_POST['longitude'];
             //    $scope.errorMsg = "Username and password do not match.";
             //}
             console.log(data);
+            if (data.data.toUpperCase() == "ACCEPTED")
+                $window.location.reload();
             console.log("YES");
         }, function error(data) {
             console.log("ERROR");
         });
+    };
+
+    $scope.$on('add', function (e) {
+        map.setOptions({
+            draggableCursor: "crosshair"
+        });
+        $scope.addVerifications();
+    });
+
+    $scope.$on("!add", function (e) {
+        map.setOptions({
+            draggableCursor: ""
+        });
+    })
+
+    $scope.addVerifications = function () {
+        if (!$scope.add.nome) {
+            $scope.add.error = "Campo Nome vazio.";
+            return false;
+        } else if (!$scope.local.marker) {
+            $scope.add.error = "Selecionar um local no mapa.";
+            return false;
+        }
+        $scope.add.error = "";
+        return true;
     }
-    /*
-INSERT INTO locais (tipoEstudo, nome, tomadas, ruido, computadores, horario, encerramento, latitude, longitude)
-VALUES ("Biblioteca", "Biblioteca Municipal de Cascais", 1, "Moderado", 1, "10:00-24:00", "Domingos e feriados.", 38.701190, -9.420704);
-*/
+
 });

@@ -136,12 +136,12 @@
 	</div>
 
 	<div class="col-12" style="position: absolute; bottom: 15px">
-		<input class="btn btn-danger" type="button" name="type" value="Adicionar Local de Estudo" ng-click="setView('add', true, true)"  />
+		<input class="btn btn-danger" ng-hide="local.add" type="button" name="type" value="Adicionar Local de Estudo" ng-click="setAddState(true)"  />
 	</div>
 
 	<!-- Sidebar -->
 	<div id="mySidenav" ng-class="{ 'open-sidenav': sidenav }" class="sidenav" transition-end="refreshSlider()" ng-controller="mapCtrl">
-		<a href="javascript:void(0)" class="closebtn" ng-click="toggleNav()">&times;</a>
+		<a href="javascript:void(0)" class="closebtn" ng-click="setAddState(false)">&times;</a>
 
 		<!-- VIEW - Locais de Estudo -->
 		<form style="margin-left: 5px; margin-right: 5px" id="legenda" ng-show="currentView == 'filters'">
@@ -306,7 +306,7 @@
 			</div>
 			<div class="col-12" style="margin-bottom: 10px">
 				<span class="sub-section-title">Nome do Local</span>
-				<input type="text" name="localName" ng-model="add.nome">
+				<input type="text" name="localName" ng-model="add.nome" ng-change="addVerifications()">
 			</div>
 			<div class="col-12 sub-section-title">
 				Tipo de local
@@ -368,6 +368,9 @@
 				    ng-model="add.noiseSelected"></select>
 				<!--{{noise.selected}} -->
 			</div>
+			<div class="col-12 sub-section-title">
+				{{add.error}}
+			</div>			
 			<div class="col-12" align="center" style="position: absolute; bottom: 15px">
 				<input class="btn btn-danger" type="button" name="type" value="Adicionar" text="Add" ng-click="addLocal()" />
 			</div>

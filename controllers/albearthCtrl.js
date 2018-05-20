@@ -5,6 +5,11 @@ angular.module('albearth').controller('albearthCtrl', function ($scope, $http, $
     $scope.currentView = "filters";
     $scope.chosenDetail = {};
 
+    $scope.local = {
+        add: false,
+        marker: null
+    };
+
     var setFields = function (loggedIn, username, email, picture) {
         $scope.loggedIn = loggedIn ? loggedIn : false;
         $scope.username = username ? username : "";
@@ -60,20 +65,20 @@ angular.module('albearth').controller('albearthCtrl', function ($scope, $http, $
         console.log($scope.sidenav);
     };
 
-    $scope.setView = function(view, changeNav, newNavState) {
+    $scope.setView = function (view, changeNav, newNavState) {
         $scope.currentView = view;
         $scope.toggleNav(changeNav ? newNavState : $scope.sidenav);
         $scope.refreshSlider();
     }
 
-    $scope.getDetails = function(index) {
+    $scope.getDetails = function (index) {
         $scope.chosenDetail = $rootScope.getLocal(index);
         $scope.chosenDetail.index = index;
         console.log($scope.chosenDetail);
         $scope.setView('details', true, true);
     }
 
-    $scope.getRating = function(ratings) {
+    $scope.getRating = function (ratings) {
         if (ratings.length == 0)
             return "Sem avaliações.";
         return Math.round(ratings.reduce(getSum) / ratings.length);
@@ -83,44 +88,21 @@ angular.module('albearth').controller('albearthCtrl', function ($scope, $http, $
         return total + num;
     }
 
-});/* .directive('transitionEnd', ['$parse', function ($parse) {
-    var transitions = {
-        "transition": "transitionend",
-        "OTransition": "oTransitionEnd",
-        "MozTransition": "transitionend",
-        "WebkitTransition": "webkitTransitionEnd"
-    };
-
-    var whichTransitionEvent = function () {
-        var t,
-            el = document.createElement("fakeelement");
-
-        for (t in transitions) {
-            if (el.style[t] !== undefined) {
-                return transitions[t];
-            }
+    $scope.setAddState = function (state) {
+        console.log($scope.local);
+        $scope.local.add = state;
+        if (state) {
+            $scope.setView('add', true, true);
+            $scope.$broadcast('add');
+        } else {
+            $scope.setView('filters', true, false);
+            if ($scope.local.marker)
+                $scope.local.marker.setVisible(false);
+            $scope.local.marker = null;
+            $scope.$broadcast("!add");
         }
-    };
 
-    var transitionEvent = whichTransitionEvent();
 
-    return {
-        'restrict': 'A',
-        'link': function (scope, element, attrs) {
-            var expr = attrs['transitionEnd'];
-            var fn = $parse(expr);
+    }
 
-            element.bind(transitionEvent, function (evt) {
-                console.log('got a css transition event', evt);
-
-                var phase = scope.$root.$$phase;
-
-                if (phase === '$apply' || phase === '$digest') {
-                    fn();
-                } else {
-                    scope.$apply(fn);
-                }
-            });
-        },
-    };
-}]); */
+});
