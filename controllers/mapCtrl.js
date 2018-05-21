@@ -45,6 +45,35 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
     var infoWindow = new google.maps.InfoWindow;
     var geocoder = new google.maps.Geocoder;
     var bounds = new google.maps.LatLngBounds;
+    var directionsService = new google.maps.DirectionsService();
+    var directionsDisplay = new google.maps.DirectionsRenderer();
+    directionsDisplay.setMap(map);
+
+    $scope.directions = function () {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                var request = {
+                    origin: pos,
+                    destination: $scope.chosenDetail.marker.position,
+                    travelMode: "DRIVING",
+                    unitSystem: google.maps.UnitSystem.METRIC
+                };
+        
+                directionsService.route(request, function (result, status) {
+                    if (status == "OK") {
+                        directionsDisplay.setDirections(result);
+                    }
+                });
+            }, function () {
+                console.log("JJJJJ");
+            });
+        } else {
+            // Browser doesn't support Geolocation
+            alert("O seu browser não suporta Geolocalização.");
+            return;
+        }
+    }
 
 
     google.maps.event.addListener(map, 'click', function (event) {
