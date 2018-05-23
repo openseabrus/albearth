@@ -27,8 +27,11 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         stars: 1
     };
 
+    var directions = {
+        state: false,
+        point: null
+    };
     var map = $window.map;
-
     var options = {
         center: {
             lat: 38.644711,
@@ -58,7 +61,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
     $scope.directions = function (b) {
         if (b) {
             var request = {
-                origin: "Estoril",
+                origin: directions.point,
                 destination: $scope.chosenDetail.marker.position,
                 travelMode: "DRIVING",
                 unitSystem: google.maps.UnitSystem.METRIC
@@ -113,6 +116,13 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
                 });
             }
             //geocodeLatLng(geocoder, map, infoWindow, event.latLng);
+        } else if (directions.state) {
+            directions.state = false;
+            map.setOptions({
+                draggableCursor: ""
+            });
+            directions.point = event.latLng;
+            $scope.directions(true);
         }
         $scope.addVerifications();
         $scope.refreshSlider();
@@ -203,20 +213,22 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         for (var i = 0; i < xmlavals.length; i++) {
             var loc = xmlavals[i];
             console.log(loc.childNodes[1]);
+            var username = loc.childNodes[0].childNodes[0].nodeValue;
             var idLocal = loc.childNodes[1].childNodes[0].nodeValue;
             var aval = loc.childNodes[2].childNodes[0];
             aval = aval ? aval.nodeValue : null;
             var comment = loc.childNodes[3].childNodes[0];
             comment = comment ? comment.nodeValue : null;
 
-            if (aval) {
+            if (aval || true) {
                 for (var j = 0; j < locais.length; j++) {
                     if (locais[j].idLocal == idLocal) {
-                        locais[j].ratings.push(aval);
-                        google.maps.event.addListener(locais[j].marker, 'click', function () {
-                            infoWindow.setContent(infoWindow.getContent() + "<br/><b>Rating</b> " + getRating(j) + " / 5");
-                            infoWindow.open(map, locais[j].marker);
-                        });
+                        var eval = {
+                            username: username,
+                            rating: aval,
+                            comment: comment
+                        };
+                        locais[j].ratings.push(eval);
                         break;
                     }
                 }
@@ -238,11 +250,16 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
     function getRating(index) {
         if (locais[index].ratings.length == 0)
             return 1;
-        return Math.round(locais[index].ratings.reduce(getSum) / locais[index].ratings.length);
+        var rates = [];
+        for (var i = 0; i < locais[index].ratings.length; i++) {
+            rates.push(locais[index].ratings[i].rating);
+        }
+        var sum = rates.reduce(getSum);
+        return Math.round(rates.reduce(getSum) / rates.length);
     }
 
     function getSum(total, num) {
-        return total + num;
+        return parseInt(total) + parseInt(num);
     }
 
     function bindInfoWindow(marker, map, infoWindow, html) {
@@ -323,16 +340,26 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         return (abertura.split(":")[0] <= $scope.openTime && fecho.split(":")[0] >= $scope.closeTime);
     }
 
-    $scope.rate = function (star) {
-        $scope.rating.stars = star;
-        var i;
-        for (i = 0; i < $scope.rating.options.length; i++) {
-            if (i < star)
-                $scope.rating.selected[i] = true;
-            else
-                $scope.rating.selected[i] = false;
+    $scope.rate = function (star, evaluating) {
+        if (!evaluating) {
+            $scope.rating.stars = star;
+            var i;
+            for (i = 0; i < $scope.rating.options.length; i++) {
+                if (i < star)
+                    $scope.rating.selected[i] = true;
+                else
+                    $scope.rating.selected[i] = false;
+            }
+            $scope.performAllChecks();
+        } else {
+            $scope.chosenDetail.rating.stars = star;
+            for (i = 0; i < $scope.chosenDetail.rating.options.length; i++) {
+                if (i < star)
+                    $scope.chosenDetail.rating.selected[i] = true;
+                else
+                    $scope.chosenDetail.rating.selected[i] = false;
+            }
         }
-        $scope.performAllChecks();
     }
 
     $scope.performAllChecks = function () {
@@ -436,6 +463,36 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         });
     };
 
+    $scope.submitRating = function (username, place) {
+        var data = {
+            username: username,
+            idLocal: place.idLocal,
+            avaliacao: place.rating.stars,
+            comentario: place.rating.comment
+        }
+        $http({
+            method: 'POST',
+            url: 'addRating.php',
+            data: data,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(function (data) {
+            //if (data.status === 200) {
+            //    window.location.href = 'welcome.php';
+            //} else {
+            //    console.log(data);
+            //    $scope.errorMsg = "Username and password do not match.";
+            //}
+            console.log(data);
+            if (data.data.toUpperCase() == "ACCEPTED")
+                $window.location.reload();
+            console.log("YES");
+        }, function error(data) {
+            console.log("ERROR");
+        });
+    }
+
     $scope.$on('add', function (e) {
         map.setOptions({
             draggableCursor: "crosshair"
@@ -451,7 +508,16 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
 
     $scope.$on("clearDirs", function (e) {
         directionsDisplay.setMap(null);
+        directions.state = false;
     });
+
+    $scope.setPoint = function () {
+        directionsDisplay.setMap(null);
+        directions.state = true;
+        map.setOptions({
+            draggableCursor: "crosshair"
+        });
+    }
 
     $scope.addVerifications = function () {
         if (!$scope.add.nome) {

@@ -74,6 +74,12 @@ angular.module('albearth').controller('albearthCtrl', function ($scope, $http, $
     $scope.getDetails = function (index) {
         $scope.chosenDetail = $rootScope.getLocal(index);
         $scope.chosenDetail.index = index;
+        $scope.chosenDetail.rating = {
+            options: [1, 2, 3, 4, 5],
+            selected: [true, false, false, false, false],
+            stars: 1,
+            comment: null
+        };
         console.log($scope.chosenDetail);
         $scope.setView('details', true, true);
     }
@@ -81,11 +87,15 @@ angular.module('albearth').controller('albearthCtrl', function ($scope, $http, $
     $scope.getRating = function (ratings) {
         if (ratings.length == 0)
             return "Sem avaliações.";
-        return Math.round(ratings.reduce(getSum) / ratings.length);
+        var rates = [];
+        for (var i = 0; i < ratings.length; i++) {
+            rates.push(ratings[i].rating);
+        }
+        return Math.round(rates.reduce(getSum) / rates.length);
     }
 
     function getSum(total, num) {
-        return total + num;
+        return parseInt(total) + parseInt(num);
     }
 
     $scope.setAddState = function (state) {
@@ -101,8 +111,6 @@ angular.module('albearth').controller('albearthCtrl', function ($scope, $http, $
             $scope.local.marker = null;
             $scope.$broadcast("!add");
         }
-
-
     }
 
 });
