@@ -48,7 +48,7 @@
 			<button ng-if="!loggedIn" class="btn pink" style="margin: 2px" data-toggle="modal" data-target="#registerModal">Registo</button>
 			<div ng-show="loggedIn" style="padding: .500rem .75rem">Welcome, {{username}}!</div>
 			<button ng-show="loggedIn" ng-click="logout()" class="btn pink">Log out</button>
-			<span ng-show="!loggedIn" style="font-size:30px; cursor:pointer; margin-left: 40px" ng-click="toggleNav()">&#9776;</span>
+			<span style="font-size:30px; cursor:pointer; margin-left: 40px" ng-click="toggleNav()">&#9776;</span>
 		</div>
 	</nav>
 	<!-- Login Modal -->
