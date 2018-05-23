@@ -141,7 +141,7 @@
 
 	<!-- Sidebar -->
 	<div id="mySidenav" ng-class="{ 'open-sidenav': sidenav }" class="sidenav" transition-end="refreshSlider()" ng-controller="mapCtrl">
-		<a href="javascript:void(0)" id="backbtn" title="Go back to main page" class="fa fa-arrow-left" ng-click="setView('filters', true, true)"></a>
+		<a href="javascript:void(0)" id="backbtn" title="Go back to main page" class="fa fa-arrow-left" ng-show="currentView != 'filters'" ng-click="setView('filters', true, true)"></a>
 		<a href="javascript:void(0)" class="closebtn" ng-click="setAddState(false)">&times;</a>
 
 		<!-- VIEW - Locais de Estudo -->
@@ -155,8 +155,7 @@
 			<div class="col-12" id="bibliotecas">
 				<img src="Markers/mm_20_red.png" /> Bibliotecas
 				<div class="redCheck">
-					<input id="bib-input" type="checkbox" name="type" value="hotel" ng-checked="studies.includes('Biblioteca')" ng-click="clickType('Biblioteca')"
-					/>
+					<input id="bib-input" type="checkbox" name="type" value="hotel" ng-checked="studies.includes('Biblioteca')" ng-click="clickType('Biblioteca')"/>
 					<label for="bib-input">
 				</div>
 			</div>
@@ -281,9 +280,8 @@
 				</div>
 				<span class="col-12 sub-section-title">A partir de: </span>
 				<div class="col-12" style="margin: 0; margin-top: 8px;" align="center">
-					<input class="btn al-btn col-12" type="button" style="font-size: 14px" name="type" value="Localização actual" text="Add" ng-click="directions()"/>
-					<input class="btn al-btn col-12" style="margin-top: 2px; font-size: 14px" type="button" name="type" value="Ponto no mapa"
-					    text="Add" />
+					<input class="btn al-btn col-12" type="button" style="font-size: 14px" name="type" value="Localização actual" text="Add" ng-click="directions(false)"/>
+					<input class="btn al-btn col-12" style="margin-top: 2px; font-size: 14px" type="button" name="type" value="Ponto no mapa" ng-click="directions(true)" />
 					<input pull-bottom ng-click="setView('filters', true, true)" class="btn al-btn col-12" style="margin-top: 10px; font-size: 14px" type="button" name="type" value="Voltar" text="Add" />
 				</div>
 			</div>

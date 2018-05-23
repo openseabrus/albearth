@@ -62,13 +62,13 @@ angular.module('albearth').controller('albearthCtrl', function ($scope, $http, $
 
     $scope.toggleNav = function (state) {
         $scope.sidenav = state ? state : !$scope.sidenav;
-        console.log($scope.sidenav);
     };
 
     $scope.setView = function (view, changeNav, newNavState) {
         $scope.currentView = view;
         $scope.toggleNav(changeNav ? newNavState : $scope.sidenav);
         $scope.refreshSlider();
+        $scope.$broadcast("clearDirs");
     }
 
     $scope.getDetails = function (index) {

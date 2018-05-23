@@ -46,32 +46,55 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
     var geocoder = new google.maps.Geocoder;
     var bounds = new google.maps.LatLngBounds;
     var directionsService = new google.maps.DirectionsService();
-    var directionsDisplay = new google.maps.DirectionsRenderer();
-    directionsDisplay.setMap(map);
+    var directionsDisplay = new google.maps.DirectionsRenderer({
+        polylineOptions: {
+            strokeColor: "#ff0000",
+            strokeOpacity: .75,
+            clickable: false
+        },
+        suppressMarkers: true
+    });
 
-    $scope.directions = function () {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                var request = {
-                    origin: pos,
-                    destination: $scope.chosenDetail.marker.position,
-                    travelMode: "DRIVING",
-                    unitSystem: google.maps.UnitSystem.METRIC
-                };
-        
-                directionsService.route(request, function (result, status) {
-                    if (status == "OK") {
-                        directionsDisplay.setDirections(result);
-                    }
-                });
-            }, function () {
-                console.log("JJJJJ");
+    $scope.directions = function (b) {
+        if (b) {
+            var request = {
+                origin: "Estoril",
+                destination: $scope.chosenDetail.marker.position,
+                travelMode: "DRIVING",
+                unitSystem: google.maps.UnitSystem.METRIC
+            };
+
+            directionsService.route(request, function (result, status) {
+                if (status == "OK") {
+                    directionsDisplay.setDirections(result);
+                    directionsDisplay.setMap(map);
+                }
             });
         } else {
-            // Browser doesn't support Geolocation
-            alert("O seu browser não suporta Geolocalização.");
-            return;
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                    var request = {
+                        origin: pos,
+                        destination: $scope.chosenDetail.marker.position,
+                        travelMode: "DRIVING",
+                        unitSystem: google.maps.UnitSystem.METRIC
+                    };
+
+                    directionsService.route(request, function (result, status) {
+                        if (status == "OK") {
+                            directionsDisplay.setDirections(result);
+                            directionsDisplay.setMap(map);
+                        }
+                    });
+                }, function () {
+                    console.log("JJJJJ");
+                });
+            } else {
+                // Browser doesn't support Geolocation
+                alert("O seu browser não suporta Geolocalização.");
+                return;
+            }
         }
     }
 
@@ -424,7 +447,11 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         map.setOptions({
             draggableCursor: ""
         });
-    })
+    });
+
+    $scope.$on("clearDirs", function (e) {
+        directionsDisplay.setMap(null);
+    });
 
     $scope.addVerifications = function () {
         if (!$scope.add.nome) {
