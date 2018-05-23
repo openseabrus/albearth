@@ -66,6 +66,13 @@ div.gmnoprint:nth-child(11) {
 	visibility: hidden;
 }
 
+.al-btn{
+	background-image: linear-gradient(to right, #fe2626, #ed911a);
+	border-radius: 25px !important;
+	border: none !important;
+	color: white;
+}
+
 .sidenav {
     height: 100%;
     width: 0;
@@ -99,6 +106,13 @@ div.gmnoprint:nth-child(11) {
     right: 25px;
     font-size: 36px;
     margin-left: 50px;
+}
+
+#backbtn{
+	position: absolute;
+    top: 20px;
+    left: 10px;
+    font-size: 20px;
 }
 
 .open-sidenav{
