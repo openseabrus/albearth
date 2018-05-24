@@ -34,6 +34,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         stars: 1
     };
 
+    $scope.dirMode = "DRIVING";
     var directions = {
         state: false,
         point: null
@@ -77,35 +78,39 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
 
 
     $scope.directions = function (b) {
+        var request = {
+            destination: $scope.chosenDetail.marker.position,
+            travelMode: $scope.dirMode,
+            unitSystem: google.maps.UnitSystem.METRIC
+        };
+        var res = false;
         if (b) {
-            var request = {
-                origin: directions.point,
-                destination: $scope.chosenDetail.marker.position,
-                travelMode: "DRIVING",
-                unitSystem: google.maps.UnitSystem.METRIC
-            };
-
+            request.origin = directions.point;
             directionsService.route(request, function (result, status) {
                 if (status == "OK") {
+                    $scope.setView('directions', true, true);
                     directionsDisplay.setDirections(result);
                     directionsDisplay.setMap(map);
+                    directionsDisplay.setPanel(document.getElementById("directionsPanel"));
+                    res = true;
+                } else {
+                    alert("Não conseguimos obter uma rota com o modo de viagem escolhido.");
+                    return;
                 }
             });
         } else {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function (position) {
                     var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                    var request = {
-                        origin: pos,
-                        destination: $scope.chosenDetail.marker.position,
-                        travelMode: "DRIVING",
-                        unitSystem: google.maps.UnitSystem.METRIC
-                    };
+                    request.origin = pos;
 
                     directionsService.route(request, function (result, status) {
                         if (status == "OK") {
+                            $scope.setView('directions', true, true);
                             directionsDisplay.setDirections(result);
                             directionsDisplay.setMap(map);
+                            directionsDisplay.setPanel(document.getElementById("directionsPanel"));
+                            res =  true;
                         }
                     });
                 }, function () {
@@ -117,6 +122,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
                 return;
             }
         }
+        return res;
     }
 
 
@@ -140,9 +146,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
                 draggableCursor: ""
             });
             directions.point = event.latLng;
-            $scope.directions(true);
-            directionsDisplay.setPanel(document.getElementById("directionsPanel"));
-            $scope.setView('directions', true, true);
+            $scope.directions(true)
         } else if ($rootScope.area.adding) {
             studyArea.getPath().push(event.latLng);
         }
@@ -223,14 +227,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         }
 
         //PROCESS ALL evaluations
-        /*
-        <avaliacao idAvaliacao="1">
-            <username>alberto</username>
-            <idLocal>11</idLocal>
-            <avaliacao>2</avaliacao>
-            <comentario>Biblioteca demasiado barulhenta. É impossível estudar neste local. NÃO FREQUENTAR!</comentario>
-        </avaliacao>
-        */
+        
         var xmlavals = xml.documentElement.getElementsByTagName("avaliacao");
         for (var i = 0; i < xmlavals.length; i++) {
             var loc = xmlavals[i];

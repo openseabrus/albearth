@@ -143,7 +143,7 @@
 	</div>
 
 	<div class="col-12" style="position: absolute; bottom: 15px">
-		<input class="btn al-btn" ng-hide="local.add" type="button" name="type" value="Adicionar Local" ng-click="setAddState(true)"
+		<input class="btn al-btn" ng-hide="local.add || !loggedIn" type="button" name="type" value="Adicionar Local" ng-click="setAddState(true)"
 		/>
 	</div>
 
@@ -288,19 +288,19 @@
 					<span class="col-12" align="center">
 						<i class="fa fa-car" style="color: #fe2626"></i>
 					</span>
-					<input class="col-12" type="radio" name="transp" value="car" checked>
+					<input class="col-12" ng-checked="dirMode == 'DRIVING'" type="radio" name="transp" value="car" ng-click="dirMode = 'DRIVING'">
 				</div>
 				<div class="col-4 row" style="margin: 0">
 					<span class="col-12" align="center">
 						<i class="fa fa-bus" style="color: #fe2626"></i>
 					</span>
-					<input class="col-12" type="radio" name="transp" value="bus">
+					<input class="col-12" ng-checked="dirMode == 'TRANSIT'" type="radio" name="transp" value="bus" ng-click="dirMode = 'TRANSIT'">
 				</div>
 				<div class="col-4 row" style="margin: 0">
 					<span class="col-12" align="center">
 						<i class="material-icons" style="color: #fe2626">directions_walk</i>
 					</span>
-					<input class="col-12" type="radio" name="transp" value="foot">
+					<input class="col-12" ng-checked="dirMode == 'WALKING'" type="radio" name="transp" value="foot" ng-click="dirMode = 'WALKING'">
 				</div>
 				<span class="col-12 sub-section-title">A partir de: </span>
 				<div class="col-12" style="margin: 0; margin-top: 8px; margin-bottom: 5px;" align="center">
