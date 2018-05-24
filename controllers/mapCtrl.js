@@ -69,7 +69,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         paths: [],
         strokeColor: '#FF0000',
         strokeOpacity: 0.8,
-        strokeWeight: 3,
+        strokeWeight: 2,
         fillColor: '#FF0000',
         fillOpacity: 0.1
     });
@@ -141,6 +141,8 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
             });
             directions.point = event.latLng;
             $scope.directions(true);
+            directionsDisplay.setPanel(document.getElementById("directionsPanel"));
+            $scope.setView('directions', true, true);
         } else if ($rootScope.area.adding) {
             studyArea.getPath().push(event.latLng);
         }

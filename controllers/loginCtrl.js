@@ -1,7 +1,7 @@
-angular.module('albearth').controller('loginCtrl', ['$scope', '$http', function($scope, $http) {
+angular.module('albearth').controller('loginCtrl', ['$scope', '$http', function ($scope, $http) {
     $scope.email = "alberto@caeiro.pt";
     $scope.password = "alberto123";
-    $scope.login = function() {
+    $scope.login = function () {
         var encodedString = 'email=' + $scope.email +
             '&password=' + $scope.password;
 
@@ -10,9 +10,14 @@ angular.module('albearth').controller('loginCtrl', ['$scope', '$http', function(
             method: 'POST',
             url: 'userlogin.php',
             data: encodedString,
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).then(function(data) {
-            $scope.logon(data["data"]["username"], $scope.email, data["data"]["picture"]);
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(function (data) {
+            if (data.data != "DECLINED")
+                $scope.logon(data["data"]["username"], $scope.email, data["data"]["picture"]);
+            else
+                alert("Credenciais erradas!");
             //if (data.status === 200) {
             //    window.location.href = 'welcome.php';
             //} else {

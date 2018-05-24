@@ -50,7 +50,7 @@
 			<img class="d-block d-sm-none" src="icon.png" class="d-inline-block align-top" alt="" width="40" height="40">
 		</a>
 		<div class="row" style="margin-right: 2%" ng-cloak>
-			<img ng-show="loggedIn" id="userPic" ng-src="{{picture}}" />
+			<img ng-show="loggedIn && picture" id="userPic" ng-src="{{picture}}" />
 			<button ng-if="!loggedIn" class="btn pink" style="margin: 2px" data-toggle="modal" data-target="#loginModal">Login</button>
 			<button ng-if="!loggedIn" class="btn pink" style="margin: 2px" data-toggle="modal" data-target="#registerModal">Registo</button>
 			<div ng-show="loggedIn" style="padding: .500rem .75rem">Welcome, {{username}}!</div>
@@ -235,10 +235,10 @@
 				</div>
 			</div>
 
-			<div class="col-12 section-title">
+			<div class="col-12 section-title" ng-show="loggedIn">
 				Filtragem por Área
 			</div>
-			<div class="col-12" style="margin: 0; margin-top: 8px;" align="center">
+			<div class="col-12" ng-show="loggedIn" style="margin: 0; margin-top: 8px;" align="center">
 				<input class="btn al-btn col-12" style="margin-top: 2px; font-size: 14px" ng-show="loggedIn && !hasPoints() && !area.adding"type="button" name="type" value="Definir Área" ng-click="addArea(true)" />
 				<input class="btn al-btn col-12" style="margin-top: 2px; font-size: 14px" ng-show="area.adding && loggedIn" type="button" name="type" value="Aplicar" ng-click="applyContains()" />
 				<input class="btn al-btn col-12" style="margin-top: 2px; font-size: 14px" ng-show="hasPoints() && loggedIn" type="button" name="type" value="Remover Área" ng-click="removeArea()" />
@@ -313,12 +313,11 @@
 		</form>
 
 		<!-- VIEW de Direções -->
-		<div class="collapse">
+		<div ng-show="currentView == 'directions'">
 			<div class="col-12 section-title">
 				Direções
 			</div>
-			<div class="col-12" align="center" style="position: absolute; bottom: 15px">
-				<input class="btn al-btn" type="button" name="type" value="Voltar" />
+			<div id="directionsPanel">
 			</div>
 		</div>
 

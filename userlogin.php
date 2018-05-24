@@ -33,7 +33,7 @@ if ($row > 0){
     $j = json_encode($r);
     echo $j;
 } else{ 
-    echo "Declined";
+    echo "DECLINED";
 }
  
 ?>
