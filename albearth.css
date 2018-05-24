@@ -73,6 +73,12 @@ div.gmnoprint:nth-child(11) {
 	color: white;
 }
 
+.det-btn{
+	height: 20px;
+	font-size: 12px !important;
+	padding-top: 1px !important;
+}
+
 .sidenav {
     height: 100%;
     width: 0;

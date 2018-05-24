@@ -192,7 +192,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
             //html += "<br/><b>Computadores</b> " + (locais[i].computadores ? "Sim" : "Não");
             html += "<br/><b>Horário</b> " + locais[i].horario;
             html += locais[i].encerramento ? "<br/><b>Encerra</b> " + locais[i].encerramento : "";
-            html += "<br/><br/><br/><center><input onclick=\"angular.element(this).scope().getDetails('" + i + "')\" class='btn btn-danger' type='button' name='type' value='Ver detalhes' /></center>";
+            html += "<br/><br/><br/><center><input onclick=\"angular.element(this).scope().getDetails('" + i + "')\" class='btn al-btn det-btn' type='button' name='type' value='Ver detalhes' /></center>";
 
             bindInfoWindow(locais[i].marker, map, infoWindow, html);
             //bindRemove(locais[i], name);
