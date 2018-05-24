@@ -15,6 +15,11 @@ angular.module('albearth').controller('albearthCtrl', function ($scope, $http, $
         $scope.username = username ? username : "";
         $scope.email = email ? email : "";
         $scope.picture = picture ? picture : "";
+        var loc = document.location;
+        if(loc.protocol == "http:") {
+            $window.location.replace("https:" + loc.href.split(":")[1]);
+        }
+        console.log(loc);
     }
     setFields();
 
