@@ -35,9 +35,9 @@
 <body id="albearth" ng-app="albearth" ng-controller="albearthCtrl" ng-init="checkCookies()">
 
 	<div id="load-screen">
-		<div id="load-txt">Se soubesse que amanhã morria<br>
-		E a Primavera era depois de amanhã,<br> 
-		Morreria contente, porque ela era depois de amanhã. 
+		<div id="load-txt">Se soubesse que amanhã morria
+			<br> E a Primavera era depois de amanhã,
+			<br> Morreria contente, porque ela era depois de amanhã.
 		</div>
 	</div>
 
@@ -143,10 +143,8 @@
 	</div>
 
 	<div class="col-12" style="position: absolute; bottom: 15px">
-		<input class="btn al-btn" ng-hide="local.add" type="button" name="type" value="Adicionar Local" ng-click="setAddState(true)" />
-	</div>
-	<div class="col-12" style="position: absolute; bottom: 50px" ng-show="area.adding && loggedIn" >
-		<input class="btn al-btn" type="button" name="type" value="Aplicar" ng-click="applyContains()" />
+		<input class="btn al-btn" ng-hide="local.add" type="button" name="type" value="Adicionar Local" ng-click="setAddState(true)"
+		/>
 	</div>
 
 	<!-- Sidebar -->
@@ -241,7 +239,9 @@
 				Filtragem por Área
 			</div>
 			<div class="col-12" style="margin: 0; margin-top: 8px;" align="center">
-				<input class="btn al-btn col-12" style="margin-top: 2px; font-size: 14px" type="button" name="type" value="Definir Área" ng-click="addArea(true)" />
+				<input class="btn al-btn col-12" style="margin-top: 2px; font-size: 14px" ng-show="loggedIn && !hasPoints() && !area.adding"type="button" name="type" value="Definir Área" ng-click="addArea(true)" />
+				<input class="btn al-btn col-12" style="margin-top: 2px; font-size: 14px" ng-show="area.adding && loggedIn" type="button" name="type" value="Aplicar" ng-click="applyContains()" />
+				<input class="btn al-btn col-12" style="margin-top: 2px; font-size: 14px" ng-show="hasPoints() && loggedIn" type="button" name="type" value="Remover Área" ng-click="removeArea()" />
 			</div>
 		</form>
 
@@ -410,9 +410,9 @@
 			</div>
 			<div style="overflow-y: scroll; height: 250px;">
 				<div class="col-12" ng-repeat="aval in chosenDetail.ratings">
-					<span style="text-decoration: underline; font-weight: bold">{{aval.username}}:</span> {{aval.rating}} <i style="color: red" class="fa fa-star"></i>
-					<br>
-					{{aval.comment}}
+					<span style="text-decoration: underline; font-weight: bold">{{aval.username}}:</span> {{aval.rating}}
+					<i style="color: red" class="fa fa-star"></i>
+					<br> {{aval.comment}}
 				</div>
 			</div>
 			<div ng-show="loggedIn">
@@ -433,7 +433,8 @@
 					<textarea style="width: 100%" cols="31" rows="5" ng-model="chosenDetail.rating.comment"></textarea>
 				</div>
 				<div class="col-12" align="center" style="position: relative; bottom: 15px">
-					<input class="btn al-btn" type="button" name="type" value="Adicionar avaliação" ng-click="submitRating(username, chosenDetail)" />
+					<input class="btn al-btn" type="button" name="type" value="Adicionar avaliação" ng-click="submitRating(username, chosenDetail)"
+					/>
 				</div>
 			</div>
 		</div>

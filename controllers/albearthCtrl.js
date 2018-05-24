@@ -123,4 +123,8 @@ angular.module('albearth').controller('albearthCtrl', function ($scope, $http, $
         $rootScope.area.adding = false;
     }
 
+    $scope.removeArea = function() {
+        $scope.$broadcast("removeArea");
+        $rootScope.area.adding = false;
+    }
 });

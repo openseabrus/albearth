@@ -71,7 +71,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         strokeOpacity: 0.8,
         strokeWeight: 3,
         fillColor: '#FF0000',
-        fillOpacity: 0.35
+        fillOpacity: 0.1
     });
     studyArea.setMap(map);
 
@@ -382,7 +382,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         }
     }
 
-    $scope.performAllChecks = function (polygon) {
+    $scope.performAllChecks = function () {
         for (var i = 0; i < locais.length; i++) {
             var visible;
 
@@ -403,9 +403,9 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
 
             visible = visible && (getRating(i) >= $scope.rating.stars);
 
-            if(polygon) {
+            //Verificar se o ponto se encontra dentro do polígono
+            if (studyArea.getPath() && studyArea.getPath().length >= 3)
                 visible = visible && google.maps.geometry.poly.containsLocation(locais[i].marker.getPosition(), studyArea);
-            }
 
 
             locais[i].marker.setVisible(visible);
@@ -535,12 +535,27 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         directions.state = false;
     });
 
-    $scope.$on("applyContains", function(e) {
+    $scope.$on("applyContains", function (e) {
+        //$scope.addArea(false);
+        map.setOptions({
+            draggableCursor: ""
+        });
+        $scope.performAllChecks();
+
+        var b = new google.maps.LatLngBounds();
+        //var p = studyArea.getPath();
+        studyArea.getPath().forEach(function (latLng) {
+            b.extend(latLng);
+        });
+        map.fitBounds(b);
+    });
+
+    $scope.$on("removeArea", function (e) {
         $scope.addArea(false);
         map.setOptions({
             draggableCursor: ""
         });
-        $scope.performAllChecks(true);
+        $scope.performAllChecks();
     });
 
     $scope.setPoint = function () {
@@ -564,6 +579,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
     };
 
     $scope.addArea = function (val) {
+        $scope.performAllChecks();
         $rootScope.area.adding = true;
         if (val) {
             map.setOptions({
@@ -572,5 +588,11 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         }
         studyArea.setPath([]);
     };
+
+    $rootScope.hasPoints = function () {
+        if (studyArea.getPath())
+            return studyArea.getPath().length > 0;
+        return false;
+    }
 
 });
