@@ -399,8 +399,8 @@
 			<div class="col-12 section-title">
 				Comentários
 			</div>
-			<div class="col-12" ng-repeat="aval in chosenDetail.ratings">
-				<span style="text-decoration: underline">{{aval.username}}:</span> {{aval.rating}} <i class="fa fa-star"></i>
+			<div class="col-12" ng-repeat="aval in chosenDetail.ratings" style="overflow: scroll; height: 300px;">
+				<span style="text-decoration: underline; font-weight: bold">{{aval.username}}:</span> {{aval.rating}} <i style="color: red" class="fa fa-star"></i>
 				<br>
 				{{aval.comment}}
 			</div>
