@@ -279,7 +279,7 @@
 					<span class="col-12" align="center">
 						<i class="fa fa-car" style="color: #fe2626"></i>
 					</span>
-					<input class="col-12" type="radio" name="transp" value="car">
+					<input class="col-12" type="radio" name="transp" value="car" checked>
 				</div>
 				<div class="col-4 row" style="margin: 0">
 					<span class="col-12" align="center">
@@ -294,7 +294,7 @@
 					<input class="col-12" type="radio" name="transp" value="foot">
 				</div>
 				<span class="col-12 sub-section-title">A partir de: </span>
-				<div class="col-12" style="margin: 0; margin-top: 8px;" align="center">
+				<div class="col-12" style="margin: 0; margin-top: 8px; margin-bottom: 5px;" align="center">
 					<input class="btn al-btn col-12" type="button" style="font-size: 14px" name="type" value="Localização actual" ng-click="directions(false)"
 					/>
 					<input class="btn al-btn col-12" style="margin-top: 2px; font-size: 14px" type="button" name="type" value="Ponto no mapa"
@@ -399,7 +399,7 @@
 			<div class="col-12 section-title">
 				Comentários
 			</div>
-			<div style="overflow-y: scroll; height: 300px;">
+			<div style="overflow-y: scroll; height: 250px;">
 				<div class="col-12" ng-repeat="aval in chosenDetail.ratings">
 					<span style="text-decoration: underline; font-weight: bold">{{aval.username}}:</span> {{aval.rating}} <i style="color: red" class="fa fa-star"></i>
 					<br>
@@ -414,14 +414,14 @@
 					<span class="sub-section-title">Avaliação</span>
 					<div class="pull-right">
 						<input class="pull-left rating-input" id="aval-input-{{$index}}" style="margin-top: 5px" type="checkbox" name="type" ng-repeat="star in chosenDetail.rating.options"
-						    ng-model="chosenDetail.rating.selected[$index]" ng-click="rate(star, true)" />4	
+						    ng-model="chosenDetail.rating.selected[$index]" ng-click="rate(star, true)" />
 						<label for="aval-input-{{$index}}" ng-class="{'rating-selected': chosenDetail.rating.selected[$index] }" class="rating-star fa fa-star pull-left"
 						    ng-checked="chosenDetail.rating.selected[$index]" ng-repeat="star in rating.options"></label>
 					</div>
 				</div>
-				<div class="col-12" style="margin-bottom: 10px">
+				<div class="col-12" style="margin-bottom: 20px">
 					<span class="sub-section-title">Comentário</span>
-					<textarea cols="31" rows="5" ng-model="chosenDetail.rating.comment"></textarea>
+					<textarea style="width: 100%" cols="31" rows="5" ng-model="chosenDetail.rating.comment"></textarea>
 				</div>
 				<div class="col-12" align="center" style="position: relative; bottom: 15px">
 					<input class="btn al-btn" type="button" name="type" value="Adicionar avaliação" ng-click="submitRating(username, chosenDetail)" />
