@@ -33,7 +33,14 @@
 </head>
 
 <body id="albearth" ng-app="albearth" ng-controller="albearthCtrl" ng-init="checkCookies()">
-	<!-- include the actual image from PS ??? -->
+
+	<div id="load-screen">
+		<div id="load-txt">Se soubesse que amanhã morria<br>
+		E a Primavera era depois de amanhã,<br> 
+		Morreria contente, porque ela era depois de amanhã. 
+		</div>
+	</div>
+
 	<nav id="navbar" class="navbar navbar-light bg-light">
 		<a class="navbar-brand">
 			<!-- icon for big screens -->
@@ -156,6 +163,7 @@
 			</div>
 			<div class="col-12" id="bibliotecas">
 				<img src="Markers/mm_20_red.png" /> Bibliotecas
+				<!--<i class="fa fa-book" style="color: purple"></i>-->
 				<div class="redCheck">
 					<input id="bib-input" type="checkbox" name="type" value="hotel" ng-checked="studies.includes('Biblioteca')" ng-click="clickType('Biblioteca')"
 					/>
@@ -164,6 +172,7 @@
 			</div>
 			<div class="col-12" id="jardins">
 				<img src="Markers/mm_20_green.png" /> Jardins
+				<!--<i class="fa fa-leaf" style="color: green"></i>-->
 				<div class="redCheck">
 					<input id="gar-input" class="pull-right" type="checkbox" name="type" value="servicos" ng-checked="studies.includes('Jardim')"
 					    ng-click="clickType('Jardim')" />
@@ -172,6 +181,7 @@
 			</div>
 			<div class="col-12" id="salas">
 				<img src="Markers/mm_20_white.png" /> Salas de Leitura
+				<!--<i class="fa fa-book" style="color: steelblue"></i>-->
 				<div class="redCheck">
 					<input id="sala-input" class="pull-right" type="checkbox" name="type" value="policia" ng-checked="studies.includes('Sala de Leitura')"
 					    ng-click="clickType('Sala de Leitura')" />
@@ -180,6 +190,7 @@
 			</div>
 			<div class="col-12" style="margin-bottom: 10px" id="cafes">
 				<img src="Markers/mm_20_blue.png" /> Cafés
+				<!--<i class="fa fa-coffee" style="color: black"></i>-->
 				<div class="redCheck">
 					<input id="caf-input" class="pull-right" type="checkbox" name="type" value="restaurantes" ng-checked="studies.includes('Café')"
 					    ng-click="clickType('Café')" />
