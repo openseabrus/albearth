@@ -136,8 +136,10 @@
 	</div>
 
 	<div class="col-12" style="position: absolute; bottom: 15px">
-		<input class="btn al-btn" ng-hide="local.add" type="button" name="type" value="Adicionar Local" ng-click="setAddState(true)"
-		/>
+		<input class="btn al-btn" ng-hide="local.add" type="button" name="type" value="Adicionar Local" ng-click="setAddState(true)" />
+	</div>
+	<div class="col-12" style="position: absolute; bottom: 50px" ng-show="area.adding && loggedIn" >
+		<input class="btn al-btn" type="button" name="type" value="Aplicar" ng-click="applyContains()" />
 	</div>
 
 	<!-- Sidebar -->
@@ -149,7 +151,7 @@
 		<!-- VIEW - Locais de Estudo -->
 		<form style="margin-left: 5px; margin-right: 5px" id="legenda" ng-show="currentView == 'filters'">
 			<div class="col-12 section-title">
-				Locais de estudo
+				Filtragem
 			</div>
 			<div class="col-12 sub-section-title">
 				Tipo de local
@@ -222,6 +224,13 @@
 					<label for="rating-input-{{$index}}" ng-class="{'rating-selected': rating.selected[$index] }" class="rating-star fa fa-star pull-left"
 					    ng-checked="rating.selected[$index]" ng-repeat="star in rating.options"></label>
 				</div>
+			</div>
+
+			<div class="col-12 section-title">
+				Filtragem por Área
+			</div>
+			<div class="col-12" style="margin: 0; margin-top: 8px;" align="center">
+				<input class="btn al-btn col-12" style="margin-top: 2px; font-size: 14px" type="button" name="type" value="Definir Área" ng-click="addArea(true)" />
 			</div>
 		</form>
 

@@ -3,6 +3,13 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
     $scope.openTime = 11;
     $scope.closeTime = 17;
 
+    $rootScope.area = {
+        adding: false,
+        points: []
+    }
+
+    var points = [];
+
     $scope.add = {
         nome: "",
         open: 9,
@@ -57,6 +64,17 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         },
         suppressMarkers: true
     });
+
+    var studyArea = new google.maps.Polygon({
+        paths: [],
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.8,
+        strokeWeight: 3,
+        fillColor: '#FF0000',
+        fillOpacity: 0.35
+    });
+    studyArea.setMap(map);
+
 
     $scope.directions = function (b) {
         if (b) {
@@ -123,6 +141,8 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
             });
             directions.point = event.latLng;
             $scope.directions(true);
+        } else if ($rootScope.area.adding) {
+            studyArea.getPath().push(event.latLng);
         }
         $scope.addVerifications();
         $scope.refreshSlider();
@@ -362,7 +382,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         }
     }
 
-    $scope.performAllChecks = function () {
+    $scope.performAllChecks = function (polygon) {
         for (var i = 0; i < locais.length; i++) {
             var visible;
 
@@ -381,7 +401,11 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
             //Verificar qual o nivel de ruido
             visible = visible && (locais[i].ruido == $scope.noise.selected || $scope.noise.selected == "Todos");
 
-            visible = visible && (getRating(i) >= $scope.rating.stars)
+            visible = visible && (getRating(i) >= $scope.rating.stars);
+
+            if(polygon) {
+                visible = visible && google.maps.geometry.poly.containsLocation(locais[i].marker.getPosition(), studyArea);
+            }
 
 
             locais[i].marker.setVisible(visible);
@@ -511,6 +535,14 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         directions.state = false;
     });
 
+    $scope.$on("applyContains", function(e) {
+        $scope.addArea(false);
+        map.setOptions({
+            draggableCursor: ""
+        });
+        $scope.performAllChecks(true);
+    });
+
     $scope.setPoint = function () {
         directionsDisplay.setMap(null);
         directions.state = true;
@@ -529,6 +561,16 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         }
         $scope.add.error = "";
         return true;
-    }
+    };
+
+    $scope.addArea = function (val) {
+        $rootScope.area.adding = true;
+        if (val) {
+            map.setOptions({
+                draggableCursor: "crosshair"
+            });
+        }
+        studyArea.setPath([]);
+    };
 
 });
