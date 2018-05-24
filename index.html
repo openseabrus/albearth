@@ -400,7 +400,9 @@
 				Comentários
 			</div>
 			<div class="col-12" ng-repeat="aval in chosenDetail.ratings">
-				{{aval.username}}: {{aval.rating}} {{aval.comment}}
+				<span style="text-decoration: underline">{{aval.username}}:</span> {{aval.rating}} <i class="fa fa-star"></i>
+				<br>
+				{{aval.comment}}
 			</div>
 			<div ng-show="loggedIn">
 				<div class="col-12 section-title">
@@ -410,7 +412,7 @@
 					<span class="sub-section-title">Avaliação</span>
 					<div class="pull-right">
 						<input class="pull-left rating-input" id="aval-input-{{$index}}" style="margin-top: 5px" type="checkbox" name="type" ng-repeat="star in chosenDetail.rating.options"
-						    ng-model="chosenDetail.rating.selected[$index]" ng-click="rate(star, true)" />
+						    ng-model="chosenDetail.rating.selected[$index]" ng-click="rate(star, true)" />4	
 						<label for="aval-input-{{$index}}" ng-class="{'rating-selected': chosenDetail.rating.selected[$index] }" class="rating-star fa fa-star pull-left"
 						    ng-checked="chosenDetail.rating.selected[$index]" ng-repeat="star in rating.options"></label>
 					</div>
