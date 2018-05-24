@@ -33,7 +33,14 @@
 </head>
 
 <body id="albearth" ng-app="albearth" ng-controller="albearthCtrl" ng-init="checkCookies()">
-	<!-- include the actual image from PS ??? -->
+
+	<div id="load-screen">
+		<div id="load-txt">Se soubesse que amanhã morria<br>
+		E a Primavera era depois de amanhã,<br> 
+		Morreria contente, porque ela era depois de amanhã. 
+		</div>
+	</div>
+
 	<nav id="navbar" class="navbar navbar-light bg-light">
 		<a class="navbar-brand">
 			<!-- icon for big screens -->
@@ -158,6 +165,7 @@
 			</div>
 			<div class="col-12" id="bibliotecas">
 				<img src="Markers/mm_20_red.png" /> Bibliotecas
+				<!--<i class="fa fa-book" style="color: purple"></i>-->
 				<div class="redCheck">
 					<input id="bib-input" type="checkbox" name="type" value="hotel" ng-checked="studies.includes('Biblioteca')" ng-click="clickType('Biblioteca')"
 					/>
@@ -166,6 +174,7 @@
 			</div>
 			<div class="col-12" id="jardins">
 				<img src="Markers/mm_20_green.png" /> Jardins
+				<!--<i class="fa fa-leaf" style="color: green"></i>-->
 				<div class="redCheck">
 					<input id="gar-input" class="pull-right" type="checkbox" name="type" value="servicos" ng-checked="studies.includes('Jardim')"
 					    ng-click="clickType('Jardim')" />
@@ -174,6 +183,7 @@
 			</div>
 			<div class="col-12" id="salas">
 				<img src="Markers/mm_20_white.png" /> Salas de Leitura
+				<!--<i class="fa fa-book" style="color: steelblue"></i>-->
 				<div class="redCheck">
 					<input id="sala-input" class="pull-right" type="checkbox" name="type" value="policia" ng-checked="studies.includes('Sala de Leitura')"
 					    ng-click="clickType('Sala de Leitura')" />
@@ -182,6 +192,7 @@
 			</div>
 			<div class="col-12" style="margin-bottom: 10px" id="cafes">
 				<img src="Markers/mm_20_blue.png" /> Cafés
+				<!--<i class="fa fa-coffee" style="color: black"></i>-->
 				<div class="redCheck">
 					<input id="caf-input" class="pull-right" type="checkbox" name="type" value="restaurantes" ng-checked="studies.includes('Café')"
 					    ng-click="clickType('Café')" />
@@ -277,7 +288,7 @@
 					<span class="col-12" align="center">
 						<i class="fa fa-car" style="color: #fe2626"></i>
 					</span>
-					<input class="col-12" type="radio" name="transp" value="car">
+					<input class="col-12" type="radio" name="transp" value="car" checked>
 				</div>
 				<div class="col-4 row" style="margin: 0">
 					<span class="col-12" align="center">
@@ -292,7 +303,7 @@
 					<input class="col-12" type="radio" name="transp" value="foot">
 				</div>
 				<span class="col-12 sub-section-title">A partir de: </span>
-				<div class="col-12" style="margin: 0; margin-top: 8px;" align="center">
+				<div class="col-12" style="margin: 0; margin-top: 8px; margin-bottom: 5px;" align="center">
 					<input class="btn al-btn col-12" type="button" style="font-size: 14px" name="type" value="Localização actual" ng-click="directions(false)"
 					/>
 					<input class="btn al-btn col-12" style="margin-top: 2px; font-size: 14px" type="button" name="type" value="Ponto no mapa"
@@ -397,8 +408,12 @@
 			<div class="col-12 section-title">
 				Comentários
 			</div>
-			<div class="col-12" ng-repeat="aval in chosenDetail.ratings">
-				{{aval.username}}: {{aval.rating}} {{aval.comment}}
+			<div style="overflow-y: scroll; height: 250px;">
+				<div class="col-12" ng-repeat="aval in chosenDetail.ratings">
+					<span style="text-decoration: underline; font-weight: bold">{{aval.username}}:</span> {{aval.rating}} <i style="color: red" class="fa fa-star"></i>
+					<br>
+					{{aval.comment}}
+				</div>
 			</div>
 			<div ng-show="loggedIn">
 				<div class="col-12 section-title">
@@ -413,11 +428,11 @@
 						    ng-checked="chosenDetail.rating.selected[$index]" ng-repeat="star in rating.options"></label>
 					</div>
 				</div>
-				<div class="col-12" style="margin-bottom: 10px">
+				<div class="col-12" style="margin-bottom: 20px">
 					<span class="sub-section-title">Comentário</span>
-					<textarea cols="31" rows="5" ng-model="chosenDetail.rating.comment"></textarea>
+					<textarea style="width: 100%" cols="31" rows="5" ng-model="chosenDetail.rating.comment"></textarea>
 				</div>
-				<div class="col-12" align="center" style="position: absolute; bottom: 15px">
+				<div class="col-12" align="center" style="position: relative; bottom: 15px">
 					<input class="btn al-btn" type="button" name="type" value="Adicionar avaliação" ng-click="submitRating(username, chosenDetail)" />
 				</div>
 			</div>
