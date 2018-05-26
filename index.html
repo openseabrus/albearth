@@ -154,6 +154,15 @@
 				Filtragem
 			</div>
 			<div class="col-12 sub-section-title">
+				Filtragem de Locais
+			</div>
+			<div class="pull-right">
+				<label class="switch">
+					<input type="checkbox" ng-model="filtering" ng-change="performAllChecks()">
+					<span class="toggler round"></span>
+				</label>
+			</div>
+			<div class="col-12 sub-section-title" style="margin-top: 30px;">
 				Tipo de local
 			</div>
 			<div class="col-12" id="bibliotecas">
@@ -169,8 +178,8 @@
 				<img src="Markers/mm_20_green.png" /> Jardins
 				<!--<i class="fa fa-leaf" style="color: green"></i>-->
 				<div class="redCheck">
-					<input id="gar-input" class="pull-right" type="checkbox" name="type" ng-checked="studies.includes('Jardim')"
-					    ng-click="clickType('Jardim')" />
+					<input id="gar-input" class="pull-right" type="checkbox" name="type" ng-checked="studies.includes('Jardim')" ng-click="clickType('Jardim')"
+					/>
 					<label for="gar-input">
 				</div>
 			</div>
@@ -178,8 +187,8 @@
 				<img src="Markers/mm_20_white.png" /> Salas de Leitura
 				<!--<i class="fa fa-book" style="color: steelblue"></i>-->
 				<div class="redCheck">
-					<input id="sala-input" class="pull-right" type="checkbox" name="type" ng-checked="studies.includes('Sala de Leitura')"
-					    ng-click="clickType('Sala de Leitura')" />
+					<input id="sala-input" class="pull-right" type="checkbox" name="type" ng-checked="studies.includes('Sala de Leitura')" ng-click="clickType('Sala de Leitura')"
+					/>
 					<label for="sala-input">
 				</div>
 			</div>
@@ -187,8 +196,8 @@
 				<img src="Markers/mm_20_blue.png" /> Cafés
 				<!--<i class="fa fa-coffee" style="color: black"></i>-->
 				<div class="redCheck">
-					<input id="caf-input" class="pull-right" type="checkbox" name="type" ng-checked="studies.includes('Café')"
-					    ng-click="clickType('Café')" />
+					<input id="caf-input" class="pull-right" type="checkbox" name="type" ng-checked="studies.includes('Café')" ng-click="clickType('Café')"
+					/>
 					<label for="caf-input">
 				</div>
 			</div>
@@ -196,8 +205,8 @@
 				<img src="Markers/mm_20_yellow.png" /> Shoppings
 				<!--<i class="fa fa-coffee" style="color: black"></i>-->
 				<div class="redCheck">
-					<input id="shop-input" class="pull-right" type="checkbox" name="type" ng-checked="studies.includes('Shopping')"
-					    ng-click="clickType('Shopping')" />
+					<input id="shop-input" class="pull-right" type="checkbox" name="type" ng-checked="studies.includes('Shopping')" ng-click="clickType('Shopping')"
+					/>
 					<label for="shop-input">
 				</div>
 			</div>
@@ -251,9 +260,12 @@
 				Filtragem por Área
 			</div>
 			<div class="col-12" ng-show="loggedIn" style="margin: 0; margin-top: 8px;" align="center">
-				<input class="btn al-btn col-12" style="margin-top: 2px; font-size: 14px" ng-show="loggedIn && !hasPoints() && !area.adding"type="button" name="type" value="Definir Área" ng-click="addArea(true)" />
-				<input class="btn al-btn col-12" style="margin-top: 2px; font-size: 14px" ng-show="area.adding && loggedIn" type="button" name="type" value="Aplicar" ng-click="applyContains()" />
-				<input class="btn al-btn col-12" style="margin-top: 2px; font-size: 14px" ng-show="hasPoints() && loggedIn" type="button" name="type" value="Remover Área" ng-click="removeArea()" />
+				<input class="btn al-btn col-12" style="margin-top: 2px; font-size: 14px" ng-show="loggedIn && !hasPoints() && !area.adding"
+				    type="button" name="type" value="Definir Área" ng-click="addArea(true)" />
+				<input class="btn al-btn col-12" style="margin-top: 2px; font-size: 14px" ng-show="area.adding && loggedIn" type="button"
+				    name="type" value="Aplicar" ng-click="applyContains()" />
+				<input class="btn al-btn col-12" style="margin-top: 2px; font-size: 14px" ng-show="hasPoints() && loggedIn" type="button"
+				    name="type" value="Remover Área" ng-click="removeArea()" />
 			</div>
 		</form>
 
@@ -330,7 +342,8 @@
 				Remover Local
 			</div>
 			<div class="col-12" ng-show="loggedIn" style="margin: 0; margin-top: 8px;" align="center">
-				<input class="btn al-btn col-12" style="margin-top: 2px; font-size: 14px" type="button" name="type" value="Remover Local" ng-click="removeLocal()" />
+				<input class="btn al-btn col-12" style="margin-top: 2px; font-size: 14px" type="button" name="type" value="Remover Local"
+				    ng-click="removeLocal()" />
 			</div>
 		</form>
 
@@ -358,40 +371,40 @@
 			<div class="col-12" id="bibliotecas">
 				<img src="Markers/mm_20_red.png" /> Bibliotecas
 				<div class="redCheck1">
-					<input id="bib-input1" class="pull-right" type="radio" name="type_add" ng-checked="add.study == 'Biblioteca'"
-					    ng-click="add.study = 'Biblioteca'" />
+					<input id="bib-input1" class="pull-right" type="radio" name="type_add" ng-checked="add.study == 'Biblioteca'" ng-click="add.study = 'Biblioteca'"
+					/>
 					<label for="bib-input1">
 				</div>
 			</div>
 			<div class="col-12" id="jardins">
 				<img src="Markers/mm_20_green.png" /> Jardins
 				<div class="redCheck1">
-					<input id="gar-input1" class="pull-right" type="radio" name="type_add" ng-checked="add.study == 'Jardim'"
-					    ng-click="add.study = 'Jardim'" />
+					<input id="gar-input1" class="pull-right" type="radio" name="type_add" ng-checked="add.study == 'Jardim'" ng-click="add.study = 'Jardim'"
+					/>
 					<label for="gar-input1">
 				</div>
 			</div>
 			<div class="col-12" id="salas">
 				<img src="Markers/mm_20_white.png" /> Salas de Leitura
 				<div class="redCheck1">
-					<input id="sala-input1" class="pull-right" type="radio" name="type_add" ng-checked="add.study == 'Sala de Leitura'"
-					    ng-click="add.study = 'Sala de Leitura'" />
+					<input id="sala-input1" class="pull-right" type="radio" name="type_add" ng-checked="add.study == 'Sala de Leitura'" ng-click="add.study = 'Sala de Leitura'"
+					/>
 					<label for="sala-input1">
 				</div>
 			</div>
 			<div class="col-12" id="cafes">
 				<img src="Markers/mm_20_blue.png" /> Cafés
 				<div class="redCheck1">
-					<input id="caf-input1" class="pull-right" type="radio" name="type_add" ng-checked="add.study == 'Café'"
-					    ng-click="add.study = 'Café'" />
+					<input id="caf-input1" class="pull-right" type="radio" name="type_add" ng-checked="add.study == 'Café'" ng-click="add.study = 'Café'"
+					/>
 					<label for="caf-input1">
 				</div>
 			</div>
 			<div class="col-12" style="margin-bottom: 10px" id="shoppings">
 				<img src="Markers/mm_20_yellow.png" /> Shoppings
 				<div class="redCheck1">
-					<input id="shop-input1" class="pull-right" type="radio" name="type_add" ng-checked="add.study == 'Shopping'"
-					    ng-click="add.study = 'Shopping'" />
+					<input id="shop-input1" class="pull-right" type="radio" name="type_add" ng-checked="add.study == 'Shopping'" ng-click="add.study = 'Shopping'"
+					/>
 					<label for="shop-input1">
 				</div>
 			</div>

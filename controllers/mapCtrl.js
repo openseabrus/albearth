@@ -2,6 +2,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
     $scope.studies = ['Biblioteca', 'Jardim', 'Sala de Leitura', 'Café', 'Shopping'];
     $scope.openTime = 11;
     $scope.closeTime = 17;
+    $scope.filtering = false;
 
     $rootScope.area = {
         adding: false,
@@ -402,6 +403,10 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
 
     $scope.performAllChecks = function () {
         for (var i = 0; i < locais.length; i++) {
+            if (!$scope.filtering) {
+                locais[i].marker.setVisible(visible);
+                continue;
+            }
             var visible;
 
             //Verificar tipo de estudo
