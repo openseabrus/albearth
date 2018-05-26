@@ -56,6 +56,10 @@ while ($row = @mysqli_fetch_assoc($result)){
   $newnode -> appendChild($node);
   $node = $dom -> createElement("longitude",$row['longitude']);
   $newnode -> appendChild($node);
+  $node = $dom -> createElement("morada",$row['morada']);
+  $newnode -> appendChild($node);
+  $node = $dom -> createElement("internet",$row['internet']);
+  $newnode -> appendChild($node);
 } 
 
 

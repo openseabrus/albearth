@@ -160,7 +160,7 @@
 				<img src="Markers/mm_20_red.png" /> Bibliotecas
 				<!--<i class="fa fa-book" style="color: purple"></i>-->
 				<div class="redCheck">
-					<input id="bib-input" type="checkbox" name="type" value="hotel" ng-checked="studies.includes('Biblioteca')" ng-click="clickType('Biblioteca')"
+					<input id="bib-input" type="checkbox" name="type" ng-checked="studies.includes('Biblioteca')" ng-click="clickType('Biblioteca')"
 					/>
 					<label for="bib-input">
 				</div>
@@ -169,7 +169,7 @@
 				<img src="Markers/mm_20_green.png" /> Jardins
 				<!--<i class="fa fa-leaf" style="color: green"></i>-->
 				<div class="redCheck">
-					<input id="gar-input" class="pull-right" type="checkbox" name="type" value="servicos" ng-checked="studies.includes('Jardim')"
+					<input id="gar-input" class="pull-right" type="checkbox" name="type" ng-checked="studies.includes('Jardim')"
 					    ng-click="clickType('Jardim')" />
 					<label for="gar-input">
 				</div>
@@ -178,18 +178,27 @@
 				<img src="Markers/mm_20_white.png" /> Salas de Leitura
 				<!--<i class="fa fa-book" style="color: steelblue"></i>-->
 				<div class="redCheck">
-					<input id="sala-input" class="pull-right" type="checkbox" name="type" value="policia" ng-checked="studies.includes('Sala de Leitura')"
+					<input id="sala-input" class="pull-right" type="checkbox" name="type" ng-checked="studies.includes('Sala de Leitura')"
 					    ng-click="clickType('Sala de Leitura')" />
 					<label for="sala-input">
 				</div>
 			</div>
-			<div class="col-12" style="margin-bottom: 10px" id="cafes">
+			<div class="col-12" id="cafes">
 				<img src="Markers/mm_20_blue.png" /> Cafés
 				<!--<i class="fa fa-coffee" style="color: black"></i>-->
 				<div class="redCheck">
-					<input id="caf-input" class="pull-right" type="checkbox" name="type" value="restaurantes" ng-checked="studies.includes('Café')"
+					<input id="caf-input" class="pull-right" type="checkbox" name="type" ng-checked="studies.includes('Café')"
 					    ng-click="clickType('Café')" />
 					<label for="caf-input">
+				</div>
+			</div>
+			<div class="col-12" style="margin-bottom: 10px" id="shoppings">
+				<img src="Markers/mm_20_yellow.png" /> Shoppings
+				<!--<i class="fa fa-coffee" style="color: black"></i>-->
+				<div class="redCheck">
+					<input id="shop-input" class="pull-right" type="checkbox" name="type" ng-checked="studies.includes('Shopping')"
+					    ng-click="clickType('Shopping')" />
+					<label for="shop-input">
 				</div>
 			</div>
 			<div class="col-12" style="margin-bottom: 10px">
@@ -205,12 +214,20 @@
 					<label for="tom-input">
 				</div>
 			</div>
-			<div class="col-12">
+			<div class="col-12" style="margin-bottom: 10px">
 				<span class="sub-section-title">Acesso a computadores</span>
 				<div class="redCheck">
 					<input id="com-input" class="pull-right" type="checkbox" name="type" ng-checked="bools.includes('Computadores')" ng-click="clickBool('Computadores')"
 					/>
 					<label for="com-input">
+				</div>
+			</div>
+			<div class="col-12">
+				<span class="sub-section-title">Acesso à Internet</span>
+				<div class="redCheck">
+					<input id="int-input" class="pull-right" type="checkbox" name="type" ng-checked="bools.includes('Internet')" ng-click="clickBool('Internet')"
+					/>
+					<label for="int-input">
 				</div>
 			</div>
 			<div class="col-12">
@@ -260,6 +277,10 @@
 			<div class="col-12" style="margin-top: 5px;">
 				<span class="sub-section-title">Acesso a computadores: </span>
 				<span>{{chosenDetail.computadores == 1 ? "Sim" : "Não"}}</span>
+			</div>
+			<div class="col-12" style="margin-top: 5px;">
+				<span class="sub-section-title">Acesso à Internet: </span>
+				<span>{{chosenDetail.internet == 1 ? "Sim" : "Não"}}</span>
 			</div>
 			<div class="col-12" style="margin-top: 5px;">
 				<span class="sub-section-title">Nível de ruído: </span>
@@ -337,7 +358,7 @@
 			<div class="col-12" id="bibliotecas">
 				<img src="Markers/mm_20_red.png" /> Bibliotecas
 				<div class="redCheck1">
-					<input id="bib-input1" class="pull-right" type="radio" name="type_add" value="hotel" ng-checked="add.study == 'Biblioteca'"
+					<input id="bib-input1" class="pull-right" type="radio" name="type_add" ng-checked="add.study == 'Biblioteca'"
 					    ng-click="add.study = 'Biblioteca'" />
 					<label for="bib-input1">
 				</div>
@@ -345,7 +366,7 @@
 			<div class="col-12" id="jardins">
 				<img src="Markers/mm_20_green.png" /> Jardins
 				<div class="redCheck1">
-					<input id="gar-input1" class="pull-right" type="radio" name="type_add" value="servicos" ng-checked="add.study == 'Jardim'"
+					<input id="gar-input1" class="pull-right" type="radio" name="type_add" ng-checked="add.study == 'Jardim'"
 					    ng-click="add.study = 'Jardim'" />
 					<label for="gar-input1">
 				</div>
@@ -353,17 +374,25 @@
 			<div class="col-12" id="salas">
 				<img src="Markers/mm_20_white.png" /> Salas de Leitura
 				<div class="redCheck1">
-					<input id="sala-input1" class="pull-right" type="radio" name="type_add" value="policia" ng-checked="add.study == 'Sala de Leitura'"
+					<input id="sala-input1" class="pull-right" type="radio" name="type_add" ng-checked="add.study == 'Sala de Leitura'"
 					    ng-click="add.study = 'Sala de Leitura'" />
 					<label for="sala-input1">
 				</div>
 			</div>
-			<div class="col-12" style="margin-bottom: 10px" id="cafes">
+			<div class="col-12" id="cafes">
 				<img src="Markers/mm_20_blue.png" /> Cafés
 				<div class="redCheck1">
-					<input id="caf-input1" class="pull-right" type="radio" name="type_add" value="restaurantes" ng-checked="add.study == 'Café'"
+					<input id="caf-input1" class="pull-right" type="radio" name="type_add" ng-checked="add.study == 'Café'"
 					    ng-click="add.study = 'Café'" />
 					<label for="caf-input1">
+				</div>
+			</div>
+			<div class="col-12" style="margin-bottom: 10px" id="shoppings">
+				<img src="Markers/mm_20_yellow.png" /> Shoppings
+				<div class="redCheck1">
+					<input id="shop-input1" class="pull-right" type="radio" name="type_add" ng-checked="add.study == 'Shopping'"
+					    ng-click="add.study = 'Shopping'" />
+					<label for="shop-input1">
 				</div>
 			</div>
 			<div class="col-12" style="margin-bottom: 10px">
@@ -382,7 +411,7 @@
 					<label for="tom-input1">
 				</div>
 			</div>
-			<div class="col-12">
+			<div class="col-12" style="margin-bottom: 10px">
 				<span class="sub-section-title">Acesso a computadores</span>
 				<div class="redCheck">
 					<input id="com-input1" class="pull-right" type="checkbox" name="type" ng-model="add.computadores" />
@@ -390,10 +419,20 @@
 				</div>
 			</div>
 			<div class="col-12">
+				<span class="sub-section-title">Acesso à Internet</span>
+				<div class="redCheck">
+					<input id="int-input1" class="pull-right" type="checkbox" name="type" ng-model="add.internet" />
+					<label for="int-input1">
+				</div>
+			</div>
+			<div class="col-12">
 				<label class="sub-section-title" style="margin-top: 8px" for="noiseSelect">Nível de ruído</label>
 				<select class="pull-right" style="margin: 8px 0" name="noise" id="noiseSelect" ng-options="option for option in add.noiseOptions"
 				    ng-model="add.noiseSelected"></select>
 				<!--{{noise.selected}} -->
+			</div>
+			<div class="col-12">
+				<label class="sub-section-title" style="margin-top: 8px" for="noiseSelect">Morada</label> {{add.morada}}
 			</div>
 			<div class="col-12 sub-section-title">
 				{{add.error}}

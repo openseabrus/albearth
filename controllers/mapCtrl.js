@@ -1,5 +1,5 @@
 angular.module('albearth').controller('mapCtrl', function ($scope, $http, $window, $rootScope) {
-    $scope.studies = ['Biblioteca', 'Jardim', 'Sala de Leitura', 'Café'];
+    $scope.studies = ['Biblioteca', 'Jardim', 'Sala de Leitura', 'Café', 'Shopping'];
     $scope.openTime = 11;
     $scope.closeTime = 17;
 
@@ -19,11 +19,13 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         noiseSelected: "Moderado",
         tomadas: false,
         computadores: false,
+        internet: false,
         encerramento: "",
-        error: ""
+        error: "",
+        morada: ""
     };
 
-    $scope.bools = ["Tomadas", "Computadores"];
+    $scope.bools = ["Tomadas", "Computadores", "Internet"];
     $scope.noise = {
         options: ["Todos", "Muito Alto", "Alto", "Moderado", "Baixo", "Muito Baixo"],
         selected: "Todos"
@@ -110,7 +112,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
                             directionsDisplay.setDirections(result);
                             directionsDisplay.setMap(map);
                             directionsDisplay.setPanel(document.getElementById("directionsPanel"));
-                            res =  true;
+                            res = true;
                         }
                     });
                 }, function () {
@@ -139,6 +141,24 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
                     draggable: true
                 });
             }
+
+            geocoder.geocode({
+                'location': event.latLng
+            }, function (results, status) {
+                if (status === 'OK') {
+                    if (results[0]) {
+                        $scope.add.morada = results[0].formatted_address;
+                        //setForm(latLng.lat(), latLng.lng(), results[0].formatted_address);
+                    } else {
+                        // window.alert('No results found');
+                        $scope.add.morada = "";
+                    }
+                } else {
+                    // window.alert('Geocoder failed due to: ' + status);
+                    $scope.add.morada = "";
+                }
+                $scope.refreshSlider();
+            });
             //geocodeLatLng(geocoder, map, infoWindow, event.latLng);
         } else if (directions.state) {
             directions.state = false;
@@ -198,6 +218,9 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
                 parseFloat(loc.childNodes[7].childNodes[0].nodeValue),
                 parseFloat(loc.childNodes[8].childNodes[0].nodeValue)
             );
+            var morada = loc.childNodes[9].childNodes[0];
+            locais[i].morada = morada ? morada.nodeValue : null;
+            locais[i].internet = loc.childNodes[10].childNodes[0].nodeValue;
             var icon = null;
             if (locais[i].type.toUpperCase() == "BIBLIOTECA")
                 icon = "Markers/mm_20_red.png";
@@ -207,6 +230,8 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
                 icon = "Markers/mm_20_white.png";
             else if (locais[i].type.toUpperCase() == "JARDIM")
                 icon = "Markers/mm_20_green.png";
+            else if (locais[i].type.toUpperCase() == "SHOPPING")
+                icon = "Markers/mm_20_yellow.png";
             locais[i].marker = new google.maps.Marker({
                 map: map,
                 position: point,
@@ -218,6 +243,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
             //html += "<br/><b>Computadores</b> " + (locais[i].computadores ? "Sim" : "Não");
             html += "<br/><b>Horário</b> " + locais[i].horario;
             html += locais[i].encerramento ? "<br/><b>Encerra</b> " + locais[i].encerramento : "";
+            html += locais[i].morada ? "<br/><b>Morada</b> " + locais[i].morada : "";
             html += "<br/><br/><br/><center><input onclick=\"angular.element(this).scope().getDetails('" + i + "')\" class='btn al-btn det-btn' type='button' name='type' value='Ver detalhes' /></center>";
 
             bindInfoWindow(locais[i].marker, map, infoWindow, html);
@@ -227,7 +253,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         }
 
         //PROCESS ALL evaluations
-        
+
         var xmlavals = xml.documentElement.getElementsByTagName("avaliacao");
         for (var i = 0; i < xmlavals.length; i++) {
             var loc = xmlavals[i];
@@ -303,7 +329,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
     }*/
 
 
-    function geocodeLatLng(geocoder, map, infowindow, latLng) {
+    function geocodeLatLng(geocoder, map, latLng) {
         var address = "";
         geocoder.geocode({
             'location': latLng
@@ -322,13 +348,6 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
                 window.alert('Geocoder failed due to: ' + status);
             }
         });
-    }
-
-    function setForm(lat, lng, name) {
-        var form = document.getElementById("mar");
-        form[0].value = lat;
-        form[1].value = lng;
-        form[2].value = name;
     }
 
     $scope.clickType = function (type) {
@@ -396,6 +415,9 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
 
             //Verificar se tem ou nao computadores
             visible = visible && ($scope.bools.includes('Computadores') == locais[i].computadores);
+
+            //Verificar se tem ou nao acesso a Internet
+            visible = visible && ($scope.bools.includes('Internet') == locais[i].internet);
 
             //Verificar qual o nivel de ruido
             visible = visible && (locais[i].ruido == $scope.noise.selected || $scope.noise.selected == "Todos");
