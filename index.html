@@ -50,7 +50,6 @@
 			<img class="d-block d-sm-none" src="icon.png" class="d-inline-block align-top" alt="" width="40" height="40">
 		</a>
 		<div class="row" style="margin-right: 2%" ng-cloak>
-			<img ng-show="loggedIn && picture" id="userPic" ng-src="{{picture}}" />
 			<button ng-if="!loggedIn" class="btn pink" style="margin: 2px" data-toggle="modal" data-target="#loginModal">Login</button>
 			<button ng-if="!loggedIn" class="btn pink" style="margin: 2px" data-toggle="modal" data-target="#registerModal">Registo</button>
 			<div ng-show="loggedIn" style="padding: .500rem .75rem">Welcome, {{username}}!</div>
@@ -105,10 +104,6 @@
 					<div class="form-group">
 						<input ng-model="email" type="email" class="form-control" id="registerEmail" placeholder="Email">
 					</div>
-					<div class="form-group">
-						<input ng-model="picture" type="url" class="form-control" id="registerPicture" placeholder="Picture URL">
-					</div>
-
 					<button id="login-btn" ng-click="register()" class="btn btn-primary col-4 offset-4" data-dismiss="modal">Enter</button>
 				</div>
 			</div>
@@ -309,6 +304,12 @@
 					<input class="btn al-btn col-12" style="margin-top: 2px; font-size: 14px" type="button" name="type" value="Ponto no mapa"
 					    ng-click="setPoint()" />
 				</div>
+			</div>
+			<div class="col-12 section-title" ng-show="loggedIn">
+				Remover Local
+			</div>
+			<div class="col-12" ng-show="loggedIn" style="margin: 0; margin-top: 8px;" align="center">
+				<input class="btn al-btn col-12" style="margin-top: 2px; font-size: 14px" type="button" name="type" value="Remover Local" ng-click="removeLocal()" />
 			</div>
 		</form>
 

@@ -10,7 +10,6 @@ $user = $_POST["username"];
 $pw = hash('sha512', $_POST['password']);
 $name = $_POST["name"];
 $em = $_POST["email"];
-$pic = $_POST["picture"];
  
 $stmt = "INSERT INTO user
 VALUES('$user', '$pw', '$name', '$em', '$pic')";

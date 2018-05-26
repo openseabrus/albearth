@@ -10,11 +10,10 @@ angular.module('albearth').controller('albearthCtrl', function ($scope, $http, $
         marker: null
     };
 
-    var setFields = function (loggedIn, username, email, picture) {
+    var setFields = function (loggedIn, username, email) {
         $scope.loggedIn = loggedIn ? loggedIn : false;
         $scope.username = username ? username : "";
         $scope.email = email ? email : "";
-        $scope.picture = picture ? picture : "";
         var loc = document.location;
         /* if(loc.protocol == "http:") {
             $window.location.replace("https:" + loc.href.split(":")[1]);
@@ -24,15 +23,13 @@ angular.module('albearth').controller('albearthCtrl', function ($scope, $http, $
     setFields();
 
 
-    $scope.logon = function (username, email, picture) {
+    $scope.logon = function (username, email) {
         $scope.loggedIn = true;
         $scope.username = username;
         $scope.email = email;
-        $scope.picture = picture;
         var user = {
             "username": username,
-            "email": email,
-            "picture": picture
+            "email": email
         }
         $window.Cookies.set('loggedUser', user);
     }
@@ -40,14 +37,13 @@ angular.module('albearth').controller('albearthCtrl', function ($scope, $http, $
     $scope.checkCookies = function () {
         var c = $window.Cookies.getJSON('loggedUser');
         if (c) {
-            $scope.logon(c["username"], c["email"], c["picture"]);
+            $scope.logon(c["username"], c["email"]);
         }
 
     }
 
     $scope.logout = function () {
         $scope.loggedIn = false;
-        $scope.picture = "";
         $window.Cookies.remove('loggedUser');
     }
 

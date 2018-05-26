@@ -486,6 +486,34 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         });
     };
 
+
+    $scope.removeLocal = function () {
+        var local = {
+            idLocal: $scope.chosenDetail.idLocal
+        }
+        $http({
+            method: 'POST',
+            url: 'removeLocal.php',
+            data: local,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(function (data) {
+            //if (data.status === 200) {
+            //    window.location.href = 'welcome.php';
+            //} else {
+            //    console.log(data);
+            //    $scope.errorMsg = "Username and password do not match.";
+            //}
+            console.log(data);
+            if (data.data.toUpperCase() == "ACCEPTED")
+                $window.location.reload();
+            console.log("YES");
+        }, function error(data) {
+            console.log(data);
+        });
+    };
+
     $scope.submitRating = function (username, place) {
         var data = {
             username: username,

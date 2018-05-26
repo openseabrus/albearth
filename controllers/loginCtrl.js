@@ -15,7 +15,7 @@ angular.module('albearth').controller('loginCtrl', ['$scope', '$http', function 
             }
         }).then(function (data) {
             if (data.data != "DECLINED")
-                $scope.logon(data["data"]["username"], $scope.email, data["data"]["picture"]);
+                $scope.logon(data["data"]["username"], $scope.email);
             else
                 alert("Credenciais erradas!");
             //if (data.status === 200) {
