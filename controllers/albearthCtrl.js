@@ -61,8 +61,13 @@ angular.module('albearth').controller('albearthCtrl', function ($scope, $http, $
 
 
 
-    $scope.toggleNav = function (state) {
+    $scope.toggleNav = function (state) {		
         $scope.sidenav = state ? state : !$scope.sidenav;
+		
+		if($scope.sidenav)
+			$("#main-container").css("width","calc(100% - 350px)").css("transition","width 0.5s ease-in-out");
+		else
+			$("#main-container").css("width","100%").css("transition","width 0.5s ease-in-out");
     };
 
     $scope.setView = function (view, changeNav, newNavState) {
