@@ -703,7 +703,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         return false;
     };
 
-    $scope.fitBounds = function() {
+    $rootScope.fitBounds = function() {
         var b = new google.maps.LatLngBounds();
         for(var x = 0; x < locais.length; x++) {
             b.extend(locais[x].marker.getPosition());

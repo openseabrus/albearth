@@ -55,7 +55,9 @@
 			<button ng-if="!loggedIn" class="btn pink" style="margin: 2px" data-toggle="modal" data-target="#registerModal">Registo</button>
 			<div ng-show="loggedIn" style="padding: .500rem .75rem">Welcome, {{username}}!</div>
 			<button ng-show="loggedIn" class="btn pink" style="margin: 2px" data-toggle="modal" data-target="#importModal">Importar</button>
-			<a href="xmloutdom.php" download="mapcontents.xml"><button ng-show="loggedIn" class="btn pink" style="margin: 2px">Exportar</button></a>
+			<a href="xmloutdom.php" download="mapcontents.xml">
+				<button ng-show="loggedIn" class="btn pink" style="margin: 2px; height: 41px">Exportar</button>
+			</a>
 			<button ng-show="loggedIn" ng-click="logout()" class="btn pink" style="margin: 2px">Log out</button>
 			<span style="font-size:30px; cursor:pointer; margin-left: 40px" ng-click="toggleNav()">&#9776;</span>
 		</div>
@@ -113,7 +115,7 @@
 
 		</div>
 	</div>
-	
+
 	<!-- Import Modal -->
 	<div id="importModal" class="modal fade" role="dialog">
 		<div class="modal-dialog">
@@ -125,9 +127,9 @@
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
 				<div class="modal-body">
-						<input id="import" type="file" name="pic" accept=".xml">
-						<!-- <input type="submit"> -->
-						<button id="login-btn" ng-click="uploadFile()" class="btn btn-primary col-4 offset-4 al-btn" data-dismiss="modal">Importar</button>
+					<input id="import" type="file" name="pic" accept=".xml">
+					<!-- <input type="submit"> -->
+					<button id="login-btn" ng-click="uploadFile()" class="btn btn-primary col-4 offset-4 al-btn" data-dismiss="modal">Importar</button>
 				</div>
 			</div>
 
@@ -172,114 +174,120 @@
 					</label>
 				</div>
 			</div>
-			<div class="col-12 sub-section-title" style="margin-top: 20px;">
-				Tipo de local
-			</div>
-			<div class="col-12" id="bibliotecas">
-				<img src="Markers/mm_20_red.png" /> Bibliotecas
-				<!--<i class="fa fa-book" style="color: purple"></i>-->
-				<div class="redCheck">
-					<input id="bib-input" type="checkbox" name="type" ng-checked="studies.includes('Biblioteca')" ng-click="clickType('Biblioteca')"/>
-					<label for="bib-input">
-				</div>
-			</div>
-			<div class="col-12" id="jardins">
-				<img src="Markers/mm_20_green.png" /> Jardins
-				<!--<i class="fa fa-leaf" style="color: green"></i>-->
-				<div class="redCheck">
-					<input id="gar-input" class="pull-right" type="checkbox" name="type" ng-checked="studies.includes('Jardim')" ng-click="clickType('Jardim')"
-					/>
-					<label for="gar-input">
-				</div>
-			</div>
-			<div class="col-12" id="salas">
-				<img src="Markers/mm_20_white.png" /> Salas de Leitura
-				<!--<i class="fa fa-book" style="color: steelblue"></i>-->
-				<div class="redCheck">
-					<input id="sala-input" class="pull-right" type="checkbox" name="type" ng-checked="studies.includes('Sala de Leitura')" ng-click="clickType('Sala de Leitura')"
-					/>
-					<label for="sala-input">
-				</div>
-			</div>
-			<div class="col-12" id="cafes">
-				<img src="Markers/mm_20_blue.png" /> Cafés
-				<!--<i class="fa fa-coffee" style="color: black"></i>-->
-				<div class="redCheck">
-					<input id="caf-input" class="pull-right" type="checkbox" name="type" ng-checked="studies.includes('Café')" ng-click="clickType('Café')"
-					/>
-					<label for="caf-input">
-				</div>
-			</div>
-			<div class="col-12" style="margin-bottom: 10px" id="shoppings">
-				<img src="Markers/mm_20_yellow.png" /> Shoppings
-				<!--<i class="fa fa-coffee" style="color: black"></i>-->
-				<div class="redCheck">
-					<input id="shop-input" class="pull-right" type="checkbox" name="type" ng-checked="studies.includes('Shopping')" ng-click="clickType('Shopping')"
-					/>
-					<label for="shop-input">
-				</div>
-			</div>
-			<div class="col-12" style="margin-bottom: 10px">
-				<span class="sub-section-title">Horário</span>
-				<div id="slider-range" ng-model="values"></div>
-				Aberto entre as {{openTime}}h e as {{closeTime}}h
-			</div>
-			<div class="col-12" style="margin-bottom: 10px">
-				<span class="sub-section-title">Acesso a tomadas</span>
-				<div class="redCheck">
-					<input id="tom-input" class="pull-right" type="checkbox" name="type" ng-checked="bools.includes('Tomadas')" ng-click="clickBool('Tomadas')"
-					/>
-					<label for="tom-input">
-				</div>
-			</div>
-			<div class="col-12" style="margin-bottom: 10px">
-				<span class="sub-section-title">Acesso a computadores</span>
-				<div class="redCheck">
-					<input id="com-input" class="pull-right" type="checkbox" name="type" ng-checked="bools.includes('Computadores')" ng-click="clickBool('Computadores')"
-					/>
-					<label for="com-input">
-				</div>
-			</div>
-			<div class="col-12">
-				<span class="sub-section-title">Acesso à Internet</span>
-				<div class="redCheck">
-					<input id="int-input" class="pull-right" type="checkbox" name="type" ng-checked="bools.includes('Internet')" ng-click="clickBool('Internet')"
-					/>
-					<label for="int-input">
-				</div>
-			</div>
-			<div class="col-12">
-				<label class="sub-section-title" style="margin-top: 8px" for="noiseSelect">Nível de ruído</label>
-				<select class="pull-right form-control custom-input" style="margin: 8px 0" name="noise" id="noiseSelect" ng-options="option for option in noise.options"
-				    ng-model="noise.selected" ng-change="performAllChecks()"></select>
-				<!--{{noise.selected}} -->
-			</div>
 
-			<div class="col-12" style="margin-top: 10px">
-				<span class="sub-section-title">Avaliação mínima</span>
-				<div class="pull-right" style="padding-top: 5px;">
-					<input class="pull-left rating-input" id="rating-input-{{$index}}" style="margin-top: 5px" type="checkbox" name="type" ng-repeat="star in rating.options"
-					    ng-model="rating.selected[$index]" ng-click="rate(star)" />
-					<label for="rating-input-{{$index}}" ng-class="{'rating-selected': rating.selected[$index] }" class="rating-star fa fa-star pull-left"
-					    ng-checked="rating.selected[$index]" ng-repeat="star in rating.options"></label>
+			<div ng-show="filtering">
+				<div class="col-12 sub-section-title" style="margin-top: 20px;">
+					Tipo de local
 				</div>
-			</div>
+				<div class="col-12" id="bibliotecas">
+					<img src="Markers/mm_20_red.png" /> Bibliotecas
+					<!--<i class="fa fa-book" style="color: purple"></i>-->
+					<div class="redCheck">
+						<input id="bib-input" type="checkbox" name="type" ng-checked="studies.includes('Biblioteca')" ng-click="clickType('Biblioteca')"
+						/>
+						<label for="bib-input">
+					</div>
+				</div>
+				<div class="col-12" id="jardins">
+					<img src="Markers/mm_20_green.png" /> Jardins
+					<!--<i class="fa fa-leaf" style="color: green"></i>-->
+					<div class="redCheck">
+						<input id="gar-input" class="pull-right" type="checkbox" name="type" ng-checked="studies.includes('Jardim')" ng-click="clickType('Jardim')"
+						/>
+						<label for="gar-input">
+					</div>
+				</div>
+				<div class="col-12" id="salas">
+					<img src="Markers/mm_20_white.png" /> Salas de Leitura
+					<!--<i class="fa fa-book" style="color: steelblue"></i>-->
+					<div class="redCheck">
+						<input id="sala-input" class="pull-right" type="checkbox" name="type" ng-checked="studies.includes('Sala de Leitura')" ng-click="clickType('Sala de Leitura')"
+						/>
+						<label for="sala-input">
+					</div>
+				</div>
+				<div class="col-12" id="cafes">
+					<img src="Markers/mm_20_blue.png" /> Cafés
+					<!--<i class="fa fa-coffee" style="color: black"></i>-->
+					<div class="redCheck">
+						<input id="caf-input" class="pull-right" type="checkbox" name="type" ng-checked="studies.includes('Café')" ng-click="clickType('Café')"
+						/>
+						<label for="caf-input">
+					</div>
+				</div>
+				<div class="col-12" style="margin-bottom: 10px" id="shoppings">
+					<img src="Markers/mm_20_yellow.png" /> Shoppings
+					<!--<i class="fa fa-coffee" style="color: black"></i>-->
+					<div class="redCheck">
+						<input id="shop-input" class="pull-right" type="checkbox" name="type" ng-checked="studies.includes('Shopping')" ng-click="clickType('Shopping')"
+						/>
+						<label for="shop-input">
+					</div>
+				</div>
+				<div class="col-12" style="margin-bottom: 10px">
+					<span class="sub-section-title">Horário</span>
+					<div id="slider-range" ng-model="values"></div>
+					Aberto entre as {{openTime}}h e as {{closeTime}}h
+				</div>
+				<div class="col-12 sub-section-title" style="margin-top: 20px; margin-bottom: 5px">
+					Lista de Requisitos
+				</div>
+				<div class="col-12" style="margin-bottom: 10px">
+					Acesso a tomadas
+					<div class="redCheck">
+						<input id="tom-input" class="pull-right" type="checkbox" name="type" ng-checked="bools.includes('Tomadas')" ng-click="clickBool('Tomadas')"
+						/>
+						<label for="tom-input">
+					</div>
+				</div>
+				<div class="col-12" style="margin-bottom: 10px">
+					Acesso a computadores
+					<div class="redCheck">
+						<input id="com-input" class="pull-right" type="checkbox" name="type" ng-checked="bools.includes('Computadores')" ng-click="clickBool('Computadores')"
+						/>
+						<label for="com-input">
+					</div>
+				</div>
+				<div class="col-12">
+					Acesso à Internet
+					<div class="redCheck">
+						<input id="int-input" class="pull-right" type="checkbox" name="type" ng-checked="bools.includes('Internet')" ng-click="clickBool('Internet')"
+						/>
+						<label for="int-input">
+					</div>
+				</div>
+				<div class="col-12">
+					<label class="sub-section-title" style="margin-top: 8px" for="noiseSelect">Nível de ruído</label>
+					<select class="pull-right form-control custom-input" style="margin: 8px 0" name="noise" id="noiseSelect" ng-options="option for option in noise.options"
+					    ng-model="noise.selected" ng-change="performAllChecks()"></select>
+					<!--{{noise.selected}} -->
+				</div>
 
-			<div class="col-12 section-title" ng-show="loggedIn">
-				Filtragem por Área
-			</div>
-			<div class="col-12" ng-show="loggedIn" style="margin: 0; margin-top: 8px; margin-bottom: 5px" align="center">
-				<input class="btn al-btn col-12" style="margin-top: 2px; font-size: 14px" ng-show="loggedIn && !hasPoints() && !area.adding"
-				    type="button" name="type" value="Definir Área" ng-click="addArea(true)" />
-				<input class="btn al-btn col-12" style="margin-top: 2px; font-size: 14px" ng-show="area.adding && loggedIn" type="button"
-				    name="type" value="Aplicar" ng-click="applyContains()" />
-				<input class="btn al-btn col-12" style="margin-top: 2px; font-size: 14px" ng-show="hasPoints() && loggedIn" type="button"
-				    name="type" value="Remover Área" ng-click="removeArea()" />
-			</div>
+				<div class="col-12" style="margin-top: 10px">
+					<span class="sub-section-title">Avaliação mínima</span>
+					<div class="pull-right" style="padding-top: 5px;">
+						<input class="pull-left rating-input" id="rating-input-{{$index}}" style="margin-top: 5px" type="checkbox" name="type" ng-repeat="star in rating.options"
+						    ng-model="rating.selected[$index]" ng-click="rate(star)" />
+						<label for="rating-input-{{$index}}" ng-class="{'rating-selected': rating.selected[$index] }" class="rating-star fa fa-star pull-left"
+						    ng-checked="rating.selected[$index]" ng-repeat="star in rating.options"></label>
+					</div>
+				</div>
+
+				<div class="col-12 section-title" ng-show="loggedIn">
+					Filtragem por Área
+				</div>
+				<div class="col-12" ng-show="loggedIn" style="margin: 0; margin-top: 8px; margin-bottom: 5px" align="center">
+					<input class="btn al-btn col-12" style="margin-top: 2px; font-size: 14px" ng-show="loggedIn && !hasPoints() && !area.adding"
+					    type="button" name="type" value="Definir Área" ng-click="addArea(true)" />
+					<input class="btn al-btn col-12" style="margin-top: 2px; font-size: 14px" ng-show="area.adding && loggedIn" type="button"
+					    name="type" value="Aplicar" ng-click="applyContains()" />
+					<input class="btn al-btn col-12" style="margin-top: 2px; font-size: 14px" ng-show="hasPoints() && loggedIn" type="button"
+					    name="type" value="Remover Área" ng-click="removeArea()" />
+				</div>
 		</form>
-
+		</div>
 		<!-- VIEW - Detalhes -->
-		<form class="no-padding" ng-show="currentView == 'details'" id="detalhes"> 
+		<form class="no-padding" ng-show="currentView == 'details'" id="detalhes">
 			<div class="col-12 section-title">
 				Detalhes
 			</div>
@@ -502,8 +510,8 @@
 
 	</div>
 	<div class="col-12" style="position: absolute; bottom: 15px">
-		<input ng-controller="mapCtrl" style="opacity: 1 !important;" class="btn al-btn" type="button" name="type" value="Zoom Automático" ng-click="fitBounds()"
-		/>
+		<input style="opacity: 1 !important;" class="btn al-btn" type="button" name="type" value="Zoom Automático"
+		    ng-click="fitBounds()" />
 	</div>
 
 	<script type="text/javascript" src="controllers/albearth.js"></script>
