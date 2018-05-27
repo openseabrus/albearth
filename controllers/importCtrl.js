@@ -1,8 +1,5 @@
 angular.module('albearth').controller('importCtrl', ['$scope', '$rootScope', '$http', '$window', function ($scope, $rootScope, $http, $window) {
 
-    $scope.test = {};
-    $scope.test.src = "";
-
     $scope.uploadFile = function () {
         var file = document.getElementById("import").files[0];
         if (file) {

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-	<title>Albearth 1.8</title>
+	<title>Albearth 1.91</title>
 	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 	<meta charset="utf-8" />
 	<link rel="stylesheet" type="text/css" href="albearth.css">
@@ -55,7 +55,7 @@
 			<button ng-if="!loggedIn" class="btn pink" style="margin: 2px" data-toggle="modal" data-target="#registerModal">Registo</button>
 			<div ng-show="loggedIn" style="padding: .500rem .75rem">Welcome, {{username}}!</div>
 			<button ng-show="loggedIn" class="btn pink" style="margin: 2px" data-toggle="modal" data-target="#importModal">Importar</button>
-			<button ng-show="loggedIn" ng-click="logout()" class="btn pink" style="margin: 2px" data-toggle="modal" data-target="#loginModal">Exportar</button>
+			<a href="xmloutdom.php" download="mapcontents.xml"><button ng-show="loggedIn" class="btn pink" style="margin: 2px">Exportar</button></a>
 			<button ng-show="loggedIn" ng-click="logout()" class="btn pink" style="margin: 2px">Log out</button>
 			<span style="font-size:30px; cursor:pointer; margin-left: 40px" ng-click="toggleNav()">&#9776;</span>
 		</div>
@@ -138,7 +138,7 @@
 		<div style="width: 100%; height: 100%" id="map" ng-controller="mapCtrl"></div>
 	</div>
 
-	<div class="col-12" style="position: absolute; bottom: 15px">
+	<div class="col-12" style="position: absolute; bottom: 60px">
 		<input class="btn al-btn" ng-hide="local.add || !loggedIn" type="button" name="type" value="Adicionar Local" ng-click="setAddState(true)"
 		/>
 	</div>
@@ -500,6 +500,10 @@
 			</div>
 		</div>
 
+	</div>
+	<div class="col-12" style="position: absolute; bottom: 15px">
+		<input ng-controller="mapCtrl" style="opacity: 1 !important;" class="btn al-btn" type="button" name="type" value="Zoom Automático" ng-click="fitBounds()"
+		/>
 	</div>
 
 	<script type="text/javascript" src="controllers/albearth.js"></script>

@@ -448,7 +448,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         markerCluster.clearMarkers();
         if (!$scope.clustering) {
             markerCluster.setMinClusterSize(Number.MAX_SAFE_INTEGER);
-        }  else {
+        } else {
             markerCluster.setMinClusterSize(2);
         }
         for (var i = 0; i < locais.length; i++) {
@@ -618,7 +618,8 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
             console.log(data);
             if (data.data.toUpperCase() == "ACCEPTED")
                 $window.location.reload();
-            console.log("YES");
+            else
+                $window.alert("Já submeteu uma avaliação a este local.");
         }, function error(data) {
             console.log("ERROR");
         });
@@ -702,5 +703,11 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         return false;
     };
 
-
+    $scope.fitBounds = function() {
+        var b = new google.maps.LatLngBounds();
+        for(var x = 0; x < locais.length; x++) {
+            b.extend(locais[x].marker.getPosition());
+        }
+        map.fitBounds(b);
+    }
 });

@@ -32,7 +32,7 @@ VALUES ("Biblioteca", "Biblioteca Municipal de Cascais", 1, "Moderado", 1, "10:0
 */
 $result = $mysqli->query($stmt);
 if (!$result) {
-    die($idLocal);
+    die("DECLINED");
 }
 
 echo 'ACCEPTED';
