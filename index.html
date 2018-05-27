@@ -169,7 +169,7 @@
 				Clustering de Locais
 				<div class="pull-right">
 					<label class="switch">
-						<input id="clicker" type="checkbox" ng-model="clustering" ng-change="performAllChecks()">
+						<input id="clicker" type="checkbox" ng-model="clustering" ng-change="performAllChecks(true)">
 						<span class="toggler round"></span>
 					</label>
 				</div>
@@ -235,7 +235,7 @@
 				<div class="col-12" style="margin-bottom: 10px">
 					Acesso a tomadas
 					<div class="redCheck">
-						<input id="tom-input" class="pull-right" type="checkbox" name="type" ng-checked="bools.includes('Tomadas')" ng-click="clickBool('Tomadas')"
+						<input id="tom-input" class="pull-right" type="checkbox" name="type" ng-checked="studies.includes('Tomadas')" ng-click="clickType('Tomadas')"
 						/>
 						<label for="tom-input">
 					</div>
@@ -243,7 +243,7 @@
 				<div class="col-12" style="margin-bottom: 10px">
 					Acesso a computadores
 					<div class="redCheck">
-						<input id="com-input" class="pull-right" type="checkbox" name="type" ng-checked="bools.includes('Computadores')" ng-click="clickBool('Computadores')"
+						<input id="com-input" class="pull-right" type="checkbox" name="type" ng-checked="studies.includes('Computadores')" ng-click="clickType('Computadores')"
 						/>
 						<label for="com-input">
 					</div>
@@ -251,7 +251,7 @@
 				<div class="col-12">
 					Acesso à Internet
 					<div class="redCheck">
-						<input id="int-input" class="pull-right" type="checkbox" name="type" ng-checked="bools.includes('Internet')" ng-click="clickBool('Internet')"
+						<input id="int-input" class="pull-right" type="checkbox" name="type" ng-checked="studies.includes('Internet')" ng-click="clickType('Internet')"
 						/>
 						<label for="int-input">
 					</div>

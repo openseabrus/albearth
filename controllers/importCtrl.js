@@ -1,5 +1,8 @@
 angular.module('albearth').controller('importCtrl', ['$scope', '$rootScope', '$http', '$window', function ($scope, $rootScope, $http, $window) {
 
+    /**
+     * Carrega o ficheiro especificado e chama a função submitXML para submeter a informação do ficheiro na base de dados
+     */
     $scope.uploadFile = function () {
         var file = document.getElementById("import").files[0];
         if (file) {
@@ -15,6 +18,11 @@ angular.module('albearth').controller('importCtrl', ['$scope', '$rootScope', '$h
         }
     };
 
+    /**
+     * Adiciona o conteúdo de um ficheiro XML à base de dados
+     * 
+     * @param {string} xml caminho para o ficheiro XML
+     */
     function submitXML(xml) {
         $http({
             method: 'POST',

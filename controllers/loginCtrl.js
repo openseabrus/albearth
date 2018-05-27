@@ -1,7 +1,12 @@
 angular.module('albearth').controller('loginCtrl', ['$scope', '$http', function ($scope, $http) {
-    $scope.email = "alberto@caeiro.pt";
-    $scope.password = "alberto123";
+    $scope.email = "";
+    $scope.password = "";
+
+    /**
+     * Efectua o login de utilizadores com os parâmetros fornecidos no modal. Dados verificados através do ficheiro userlogin.php
+     */
     $scope.login = function () {
+        //Codificação dos dados em string
         var encodedString = 'email=' + $scope.email +
             '&password=' + $scope.password;
 

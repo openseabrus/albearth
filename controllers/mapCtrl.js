@@ -27,7 +27,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         morada: ""
     };
 
-    $scope.bools = ["Tomadas", "Computadores", "Internet"];
+    $scope.bools = [];
     $scope.noise = {
         options: ["Todos", "Muito Alto", "Alto", "Moderado", "Baixo", "Muito Baixo"],
         selected: "Todos"
@@ -123,6 +123,11 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
     studyArea.setMap(map);
 
 
+    /**
+     * Obter direcções para o ponto $scope.chosenDetail
+     * 
+     * @param {boolean} b Indicação do tipo de origem. true indica que a origem é calculada a partir de um ponto marcado previamente no mapa. false se a origem for baseada na posição real do utilizador
+     */
     $scope.directions = function (b) {
         var request = {
             destination: $scope.chosenDetail.marker.position,
@@ -172,6 +177,12 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
     }
 
 
+    /**
+     * Event listener de cliques no mapa.
+     * Se $scope.local.add estiver a true, o ponto onde é efectuado o click no mapa é o local do novo ponto no mapa.
+     * 
+     * Caso contrário, se directions.state for true, o ponto escolhido no mapa será o ponto de origem utilizado para calcular direções até um local
+     */
     google.maps.event.addListener(map, 'click', function (event) {
         if ($scope.local.add) {
             $scope.add.error = "";
@@ -186,6 +197,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
                 });
             }
 
+            //Obter morada do ponto escolhido
             geocoder.geocode({
                 'location': event.latLng
             }, function (results, status) {
@@ -219,6 +231,12 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
     });
 
 
+    /**
+     * Função que irá fazer download dos dados a serem utilizados pela aplicação
+     * 
+     * @param {string} url onde se encontra o ficheiro XML com os dados.
+     * @param {function} callback função que irá fazer o tratamento dos dados recebidos
+     */
     function downloadUrl(url, callback) {
         var request = window.ActiveXObject ?
             new ActiveXObject('Microsoft.XMLHTTP') :
@@ -235,8 +253,12 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         request.send(null);
     }
 
+
     function doNothing() {}
 
+    /*
+     * Chamada da função downloadUrl, que obtém os dados do ficheiro disponível em href/xmloutdom.php e que irá atribuir a objectos e introduzi-los no array locais. 
+     */
     downloadUrl("xmloutdom.php", function (data) {
         var xml = data.responseXML;
 
@@ -266,6 +288,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
             locais[i].morada = morada ? morada.nodeValue : null;
             locais[i].internet = loc.childNodes[10].childNodes[0].nodeValue;
             var icon = null;
+            //Determinar tipo de icon
             if (locais[i].type.toUpperCase() == "BIBLIOTECA")
                 icon = "Markers/mm_20_red.png";
             else if (locais[i].type.toUpperCase() == "CAFÉ")
@@ -282,6 +305,8 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
                 icon: icon
             });
 
+
+            //Definir o que aparecerá na infoWindow
             var html = "<b>" + locais[i].name + "</b> <br/>" + locais[i].type + "<br/><br/>"
             //html += "<b> Tomadas</b> " + (locais[i].tomadas ? "Sim" : "Não");
             //html += "<br/><b>Computadores</b> " + (locais[i].computadores ? "Sim" : "Não");
@@ -297,7 +322,6 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         }
 
         //PROCESS ALL evaluations
-
         var xmlavals = xml.documentElement.getElementsByTagName("avaliacao");
         for (var i = 0; i < xmlavals.length; i++) {
             var loc = xmlavals[i];
@@ -309,7 +333,8 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
             var comment = loc.childNodes[3].childNodes[0];
             comment = comment ? comment.nodeValue : null;
 
-            if (aval || true) {
+
+            if (aval) {
                 for (var j = 0; j < locais.length; j++) {
                     if (locais[j].idLocal == idLocal) {
                         var eval = {
@@ -332,10 +357,18 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
 
         //console.log(locais);
 
+
+        //No fim, verificar quais os pontos a ser mostrados
         $scope.performAllChecks();
     });
 
 
+    /**
+     * Função que retorna o rating do local com o índice index (média)
+     * 
+     * @param {int} index O índice do local em locais
+     * @return {int} rating do local com índice index
+     */
     function getRating(index) {
         if (locais[index].ratings.length == 0)
             return 1;
@@ -343,14 +376,29 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         for (var i = 0; i < locais[index].ratings.length; i++) {
             rates.push(locais[index].ratings[i].rating);
         }
+
+        //Divisão da soma dos valores pela quantidade de valores, para obter a média
         var sum = rates.reduce(getSum);
         return Math.round(rates.reduce(getSum) / rates.length);
     }
 
+    /**
+     * Função que retorna a soma de todos os valores contidos num array.
+     * 
+     * @return soma total.
+     */
     function getSum(total, num) {
         return parseInt(total) + parseInt(num);
     }
 
+    /**
+     * Método que associa uma infoWindow, juntamente com um dado conteúdo aos marcadores dos locais 
+     * 
+     * @param {Marker} marker Marker a ser afectado 
+     * @param {Map} map Mapa onde o marker será posicionado
+     * @param {InfoWindow} infoWindow Janela a ser mostrada quando se carrega no marker
+     * @param {string} html Conteúdo a ser mostrado dentro da infoWindow
+     */
     function bindInfoWindow(marker, map, infoWindow, html) {
         google.maps.event.addListener(marker, 'click', function () {
             infoWindow.setContent(html);
@@ -358,42 +406,21 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         });
     }
 
+    /**
+     * Método que retorn o local no índice l
+     * 
+     * @param {int} l índice do local
+     * @return local no índice l
+     */
     $rootScope.getLocal = function (l) {
         return locais[l];
     }
 
-    /* REMOVE MARKER
-    function bindRemove(marker, name) {
-        google.maps.event.addListener(marker, 'dblclick', function () {
-            var apaga = document.getElementById("del");
-            var n = apaga.elements[0];
-            n.value = name;
-            marker.setIcon("http://labs.google.com/ridefinder/images/mm_20_black.png");
-        });
-    }*/
-
-
-    function geocodeLatLng(geocoder, map, latLng) {
-        var address = "";
-        geocoder.geocode({
-            'location': latLng
-        }, function (results, status) {
-            if (status === 'OK') {
-                if (results[0]) {
-                    var marker = new google.maps.Marker({
-                        position: latLng,
-                        map: map
-                    });
-                    //setForm(latLng.lat(), latLng.lng(), results[0].formatted_address);
-                } else {
-                    window.alert('No results found');
-                }
-            } else {
-                window.alert('Geocoder failed due to: ' + status);
-            }
-        });
-    }
-
+    /**
+     * Método que serve de "toggle" para os parâmetros booleanos (Tipos de Estudo, Tomadas, etc). Se type já estiver em $scope.studies, é retirado de lá. Caso contrário, é acrescentado. Por fim, desencadeia verificações para mostrar apenas locais que respeitam os filtros
+     * 
+     * @param {string} type Tipo de local
+     */
     $scope.clickType = function (type) {
         if ($scope.studies.includes(type))
             $scope.studies = $scope.studies.filter(e => e != type);
@@ -403,15 +430,12 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         $scope.performAllChecks();
     }
 
-    $scope.clickBool = function (type) {
-        if ($scope.bools.includes(type))
-            $scope.bools = $scope.bools.filter(e => e != type);
-        else
-            $scope.bools.push(type);
-        console.log($scope.bools);
-        $scope.performAllChecks();
-    }
-
+    /**
+     * Função que recebe uma string de horário de funcionamento e verifica se respeita o horário especificado na filtragem ($scope.openTime e $scope.closeTime).
+     * 
+     * @param {string} hours horario de funcionamento.
+     * @return {boolean} resultado da verificação
+     */
     function checkHours(hours) {
         console.log($scope.openTime + " " + $scope.closeTime);
         if (!hours)
@@ -422,6 +446,12 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         return (abertura.split(":")[0] <= $scope.openTime && fecho.split(":")[0] >= $scope.closeTime);
     }
 
+    /**
+     * Função responsável pelo mecanismo de rating. Garante, por exemplo, que se a estrela 4 for seleccionada, a 1, 2 e 3 também são automaticamente seleccionadas.
+     * 
+     * @param {int} star Número de estrelas escolhidas
+     * @param {boolean} evaluating Variável booleana que indica se se trata de uma avaliação ou da filtragem.
+     */
     $scope.rate = function (star, evaluating) {
         if (!evaluating) {
             $scope.rating.stars = star;
@@ -444,11 +474,18 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         }
     }
 
-    $scope.performAllChecks = function () {
-        markerCluster.clearMarkers();
+    /**
+     * Função responsável por determinar que pontos devem ser mostrados no mapa, através da verificação dos parâmetros definidos na interface. Também tem em conta se os pontos são para ser aglomerados ou não.
+     * 
+     * @param {boolean} clusterChange Indica se o toggle de cluster foi alterado. Se sim, é necessário limpar os pontos do markerCluster.
+     */
+    $scope.performAllChecks = function (clusterChange) {
+        if (clusterChange)
+            markerCluster.clearMarkers();
         if (!$scope.clustering) {
             markerCluster.setMinClusterSize(Number.MAX_SAFE_INTEGER);
         } else {
+            markerCluster.clearMarkers();
             markerCluster.setMinClusterSize(2);
         }
         for (var i = 0; i < locais.length; i++) {
@@ -466,13 +503,14 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
             visible = visible && checkHours(locais[i].horario);
 
             //Verificar se tem ou nao tomadas
-            visible = visible && ($scope.bools.includes('Tomadas') == locais[i].tomadas);
+            visible = $scope.studies.includes('Tomadas') ? $scope.studies.includes('Tomadas') == locais[i].tomadas : visible;
+            // visible = visible && ($scope.bools.includes('Tomadas') == locais[i].tomadas);
 
             //Verificar se tem ou nao computadores
-            visible = visible && ($scope.bools.includes('Computadores') == locais[i].computadores);
+            visible = $scope.studies.includes('Computadores') ? $scope.studies.includes('Computadores') == locais[i].computadores : visible;
 
             //Verificar se tem ou nao acesso a Internet
-            visible = visible && ($scope.bools.includes('Internet') == locais[i].internet);
+            visible = $scope.studies.includes('Internet') ? $scope.studies.includes('Internet') == locais[i].internet : visible;
 
             //Verificar qual o nivel de ruido
             visible = visible && (locais[i].ruido == $scope.noise.selected || $scope.noise.selected == "Todos");
@@ -485,6 +523,8 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
 
             if (visible) {
                 markerCluster.addMarker(locais[i].marker);
+            } else {
+                markerCluster.removeMarker(locais[i].marker);
             }
             locais[i].marker.setVisible(visible);
         }
@@ -492,6 +532,13 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
     $scope.performAllChecks();
 
 
+    /**
+     * Função que atribui os valores enviados pelos sliders às variáveis respectivas. É fei
+     * 
+     * @param {int} open Valor inferior do range slider
+     * @param {int} close Valor superior do range slider
+     * @param {int} add Indica se a alteração se deu no slider de adicionar local ou na filtragem
+     */
     $scope.setTimes = function (open, close, add) {
         if (!add) {
             $scope.openTime = open;
@@ -505,6 +552,9 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         $scope.performAllChecks();
     }
 
+    /**
+     * Função responsável por capturar os eventos despoletados nos range sliders e enviá-los para outras funções para serem tratados
+     */
     $scope.start = function () {
         $(function () {
             // change this so they are independent from each other
@@ -535,6 +585,9 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
     $scope.start();
 
 
+    /**
+     * Adiciona um local à base de dados, através do ficheiro addLocal.php, enviando o objecto do local escolhido
+     */
     $scope.addLocal = function () {
         if (!$scope.addVerifications()) {
             return;
@@ -567,6 +620,9 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
     };
 
 
+    /**
+     * Remove um local da base de dados, através do ficheiro removeLocal.php, enviando o id do local escolhido
+     */
     $scope.removeLocal = function () {
         var local = {
             idLocal: $scope.chosenDetail.idLocal
@@ -594,6 +650,12 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         });
     };
 
+    /**
+     * Adiciona um rating ao local place através do ficheiro addRating.php, enviando o username, place id, avaliacao e comentario.
+     * 
+     * @param {string} username 
+     * @param {local} place 
+     */
     $scope.submitRating = function (username, place) {
         var data = {
             username: username,
@@ -625,6 +687,9 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         });
     }
 
+    /**
+     * Função que recebe o broadcast "add" da classe albearthCtrl.js e que determina que se irá escolher um ponto no mapa para associar a um novo local
+     */
     $scope.$on('add', function (e) {
         map.setOptions({
             draggableCursor: "crosshair"
@@ -632,17 +697,26 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         $scope.addVerifications();
     });
 
+    /**
+     * Função que recebe o broadcast "!add" da classe albearthCtrl.js e que indica que já não se está a adicionar um ponto no mapa
+     */
     $scope.$on("!add", function (e) {
         map.setOptions({
             draggableCursor: ""
         });
     });
 
+    /**
+     * Função que recebe o broadcast "clearDirs" da classe albearthCtrl.js, retirando do mapa as direções até um dado ponto
+     */
     $scope.$on("clearDirs", function (e) {
         directionsDisplay.setMap(null);
         directions.state = false;
     });
 
+    /**
+     * Função que recebe o broadcast "applyContains" da classe albearthCtrl.js, responsável por aplicar a filtragem por área e focar o mapa nessa mesma área
+     */
     $scope.$on("applyContains", function (e) {
         //$scope.addArea(false);
         map.setOptions({
@@ -658,6 +732,9 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         map.fitBounds(b);
     });
 
+    /**
+     * Recebe o broadcast "removeArea" da classe albearthCtrl.js, responsável por retirar a área de filtragem do mapa e aplicar a nova filtragem aos pontos
+     */
     $scope.$on("removeArea", function (e) {
         $scope.addArea(false);
         map.setOptions({
@@ -666,6 +743,9 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         $scope.performAllChecks();
     });
 
+    /**
+     * Muda o estado da aplicação para aceitação de um clique no mapa, que irá determinar o ponto de origem das direções até ao ponto escolhido
+     */
     $scope.setPoint = function () {
         directionsDisplay.setMap(null);
         directions.state = true;
@@ -674,6 +754,9 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         });
     }
 
+    /**
+     * Verifica se os campos da view Adicionar Local estão minimamente preenchidos, mostrando uma mensagem de erro caso contrário
+     */
     $scope.addVerifications = function () {
         if (!$scope.add.nome) {
             $scope.add.error = "Campo Nome vazio.";
@@ -686,6 +769,11 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         return true;
     };
 
+    /**
+     * Muda o estado da área de filtragem da aplicação. Se o parâmetro for true, a app esperará pela definição de uma área de filtragem. Se for false, irá limpar a área existente.
+     * 
+     * @param {boolean} val representa o novo estado da área. true indica que será definida uma nova área. false indica a remoção da área.
+     */
     $scope.addArea = function (val) {
         $scope.performAllChecks();
         $rootScope.area.adding = true;
@@ -697,16 +785,24 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         studyArea.setPath([]);
     };
 
+    /**
+     * Indica se o utilizador já definiu algum ponto da área.
+     * @return existe um ponto da área
+     */
     $rootScope.hasPoints = function () {
         if (studyArea.getPath())
             return studyArea.getPath().length > 0;
         return false;
     };
 
-    $rootScope.fitBounds = function() {
+    /**
+     * Efectua um zoom automático nos locais visíveis no mapa.
+     */
+    $rootScope.fitBounds = function () {
         var b = new google.maps.LatLngBounds();
-        for(var x = 0; x < locais.length; x++) {
-            b.extend(locais[x].marker.getPosition());
+        var p = markerCluster.getMarkers();
+        for (var x = 0; x < locais.length; x++) {
+            b.extend(p[x].getPosition());
         }
         map.fitBounds(b);
     }

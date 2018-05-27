@@ -5,8 +5,12 @@ angular.module('albearth').controller('registerCtrl', ['$scope', '$window', '$ht
     $scope.email = "";
 
 
+    /**
+     * Efectua o registo de um utilizador com os parâmetros especificados na view correspondente. O registo é feito através do ficheiro userregister.php
+     */
     $scope.register = function () {
         if ($scope.username && $scope.password && $scope.name && $scope.email) {
+            //Codificação dos dados em string
             var encodedString = "username=" + $scope.username + "&password=" + $scope.password + "&name=" + $scope.name + '&email=' + $scope.email;
 
 
@@ -24,12 +28,6 @@ angular.module('albearth').controller('registerCtrl', ['$scope', '$window', '$ht
                     return;
                 } else
                     $scope.logon(data["data"], $scope.email);
-                //if (data.status === 200) {
-                //    window.location.href = 'welcome.php';
-                //} else {
-                //    console.log(data);
-                //    $scope.errorMsg = "Username and password do not match.";
-                //}
                 console.log(data);
                 console.log("YES");
             }, function error(data) {
