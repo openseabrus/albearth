@@ -325,7 +325,7 @@
 					    ng-click="setPoint()" />
 				</div>
 			</div>
-			<div class="col-12 section-title" ng-show="loggedIn">
+			<div class="col-12 section-title" ng-show="loggedIn" style="margin-bottom: 5px">
 				Remover Local
 			</div>
 			<div class="col-12" ng-show="loggedIn" style="margin: 0; margin-top: 8px;" align="center">
@@ -335,7 +335,7 @@
 		</form>
 
 		<!-- VIEW de Direções -->
-		<div ng-show="currentView == 'directions'">
+		<div ng-show="currentView == 'directions'" class="col-12">
 			<div class="col-12 section-title">
 				Direções
 			</div>
@@ -350,7 +350,7 @@
 			</div>
 			<div class="col-12" style="margin-bottom: 10px">
 				<span class="sub-section-title">Nome do Local</span>
-				<input type="text" name="localName" ng-model="add.nome" ng-change="addVerifications()">
+				<input class="form-control" type="text" name="localName" ng-model="add.nome" ng-change="addVerifications()">
 			</div>
 			<div class="col-12 sub-section-title">
 				Tipo de local
@@ -402,7 +402,7 @@
 			</div>
 			<div class="col-12" style="margin-bottom: 10px">
 				<span class="sub-section-title">Encerramento</span>
-				<input type="text" name="localClosing" ng-model="add.encerramento">
+				<input class="form-control" type="text" name="localClosing" ng-model="add.encerramento">
 			</div>
 			<div class="col-12" style="margin-bottom: 10px">
 				<span class="sub-section-title">Acesso a tomadas</span>
@@ -427,17 +427,17 @@
 			</div>
 			<div class="col-12">
 				<label class="sub-section-title" style="margin-top: 8px" for="noiseSelect">Nível de ruído</label>
-				<select class="pull-right" style="margin: 8px 0" name="noise" id="noiseSelect" ng-options="option for option in add.noiseOptions"
+				<select class="pull-right form-control custom-input" style="margin: 8px 0" name="noise" id="noiseSelect" ng-options="option for option in add.noiseOptions"
 				    ng-model="add.noiseSelected"></select>
 				<!--{{noise.selected}} -->
 			</div>
 			<div class="col-12">
 				<label class="sub-section-title" style="margin-top: 8px" for="noiseSelect">Morada</label> {{add.morada}}
 			</div>
-			<div class="col-12 sub-section-title">
+			<div class="col-12" style="text-align: center; color: red">
 				{{add.error}}
 			</div>
-			<div class="col-12" align="center" style="position: absolute; bottom: 15px">
+			<div class="col-12" align="center" style="position: relative; margin-top: 30px; bottom: 15px">
 				<input class="btn al-btn" type="button" name="type" value="Adicionar" ng-click="addLocal()" />
 			</div>
 		</form>
