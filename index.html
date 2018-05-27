@@ -11,6 +11,7 @@
 	<link rel="icon" href="icon.png">
 	<script src="angular.min.js"></script>
 	<script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDQp507Nd6PXQXvRzeDywxHomaSnWLTKUI" type="text/javascript"></script>
+	<script src="markerclusterer.js"></script>
 	<link href="jqui/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet">
 
 
@@ -159,6 +160,15 @@
 			<div class="pull-right">
 				<label class="switch">
 					<input type="checkbox" ng-model="filtering" ng-change="performAllChecks()">
+					<span class="toggler round"></span>
+				</label>
+			</div>
+			<div class="col-12 sub-section-title">
+				Clustering de Locais
+			</div>
+			<div class="pull-right">
+				<label class="switch">
+					<input id="clicker" type="checkbox" ng-model="clustering" ng-change="performAllChecks()">
 					<span class="toggler round"></span>
 				</label>
 			</div>

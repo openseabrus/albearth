@@ -3,6 +3,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
     $scope.openTime = 11;
     $scope.closeTime = 17;
     $scope.filtering = false;
+    $scope.clustering = false;
 
     $rootScope.area = {
         adding: false,
@@ -43,14 +44,52 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         point: null
     };
     var map = $window.map;
+    var styles = [{
+            "featureType": "administrative.land_parcel",
+            "elementType": "labels",
+            "stylers": [{
+                "visibility": "off"
+            }]
+        },
+        {
+            "featureType": "poi",
+            "elementType": "labels.text",
+            "stylers": [{
+                "visibility": "off"
+            }]
+        },
+        {
+            "featureType": "poi.business",
+            "stylers": [{
+                "visibility": "off"
+            }]
+        },
+        {
+            "featureType": "poi.park",
+            "elementType": "labels.text",
+            "stylers": [{
+                "visibility": "off"
+            }]
+        },
+        {
+            "featureType": "road.local",
+            "elementType": "labels",
+            "stylers": [{
+                "visibility": "off"
+            }]
+        }
+    ];
     var options = {
         center: {
             lat: 38.644711,
             lng: -9.235200
         },
-        zoom: 8
+        zoom: 8,
+        clickableIcons: false,
+        styles: styles
         //draggableCursor: "crosshair"
     };
+
 
     var locais = [];
 
@@ -67,6 +106,10 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
             clickable: false
         },
         suppressMarkers: true
+    });
+
+    var markerCluster = new MarkerClusterer(map, null, {
+        imagePath: 'Markers/clusters/m'
     });
 
     var studyArea = new google.maps.Polygon({
@@ -402,9 +445,16 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
     }
 
     $scope.performAllChecks = function () {
+        markerCluster.clearMarkers();
+        if (!$scope.clustering) {
+            markerCluster.setMinClusterSize(Number.MAX_SAFE_INTEGER);
+        }  else {
+            markerCluster.setMinClusterSize(2);
+        }
         for (var i = 0; i < locais.length; i++) {
             if (!$scope.filtering) {
                 locais[i].marker.setVisible(visible);
+                markerCluster.addMarker(locais[i].marker);
                 continue;
             }
             var visible;
@@ -433,10 +483,13 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
             if (studyArea.getPath() && studyArea.getPath().length >= 3)
                 visible = visible && google.maps.geometry.poly.containsLocation(locais[i].marker.getPosition(), studyArea);
 
-
+            if (visible) {
+                markerCluster.addMarker(locais[i].marker);
+            }
             locais[i].marker.setVisible(visible);
         }
     }
+    $scope.performAllChecks();
 
 
     $scope.setTimes = function (open, close, add) {
@@ -647,6 +700,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         if (studyArea.getPath())
             return studyArea.getPath().length > 0;
         return false;
-    }
+    };
+
 
 });
