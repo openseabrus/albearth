@@ -79,7 +79,7 @@
 					<div class="form-group">
 						<input ng-model="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
 					</div>
-					<button id="login-btn" ng-click="login()" class="btn btn-primary col-4 offset-4 al-btn" data-dismiss="modal">Entrar</button>
+					<button ng-disabled="!email || !password" id="login-btn" ng-click="login()" class="btn btn-primary col-4 offset-4 al-btn" data-dismiss="modal">Entrar</button>
 				</div>
 			</div>
 
@@ -109,7 +109,7 @@
 					<div class="form-group">
 						<input ng-model="email" type="email" class="form-control" id="registerEmail" placeholder="Email">
 					</div>
-					<button id="login-btn" ng-click="register()" class="btn btn-primary col-4 offset-4 al-btn" data-dismiss="modal">Registar</button>
+					<button ng-disabled="!username || !password || !name || !email" id="login-btn" ng-click="register()" class="btn btn-primary col-4 offset-4 al-btn" data-dismiss="modal">Registar</button>
 				</div>
 			</div>
 

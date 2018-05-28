@@ -79,6 +79,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
             }]
         }
     ];
+
     var options = {
         center: {
             lat: 38.644711,
@@ -89,6 +90,16 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         styles: styles
         //draggableCursor: "crosshair"
     };
+    var hadCookie = false;
+
+    var lastPos = $window.Cookies.getJSON("lastPos");
+    console.log("LASTPOS");
+    console.log(lastPos);
+    if(lastPos) {
+        options.center = lastPos.center;
+        options.zoom = lastPos.zoom;
+        hadCookie = true;
+    }
 
 
     var locais = [];
@@ -232,6 +243,18 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
 
 
     /**
+     * Detecta quando os bounds do mapa mudam e guarda numa Cookie, para poder recuperar numa futura sessão
+     */
+    google.maps.event.addListener(map, 'bounds_changed', function(event) {
+        $window.Cookies.remove("lastPos");
+        var lastPos = {
+            center: map.getCenter(),
+            zoom: map.getZoom()
+        }
+        $window.Cookies.set("lastPos", lastPos);
+    });
+
+    /**
      * Função que irá fazer download dos dados a serem utilizados pela aplicação
      * 
      * @param {string} url onde se encontra o ficheiro XML com os dados.
@@ -318,7 +341,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
             bindInfoWindow(locais[i].marker, map, infoWindow, html);
             //bindRemove(locais[i], name);
             bounds.extend(point);
-            map.fitBounds(bounds);
+            //map.fitBounds(bounds);
         }
 
         //PROCESS ALL evaluations
@@ -347,15 +370,11 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
                     }
                 }
             }
-
-
-            //bindInfoWindow(locais[i].marker, map, infoWindow, html);
-            //bindRemove(locais[i], name);
-            //bounds.extend(point);
-            //map.fitBounds(bounds);
         }
 
-        //console.log(locais);
+        
+        if(!hadCookie)
+            map.fitBounds(bounds);
 
 
         //No fim, verificar quais os pontos a ser mostrados
@@ -698,12 +717,26 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
     });
 
     /**
-     * Função que recebe o broadcast "!add" da classe albearthCtrl.js e que indica que já não se está a adicionar um ponto no mapa
+     * Função que recebe o broadcast "!add" da classe albearthCtrl.js e que indica que já não se está a adicionar um ponto no mapa. Dá reset aos dados possivelmente introduzidos anteriormente
      */
     $scope.$on("!add", function (e) {
         map.setOptions({
             draggableCursor: ""
         });
+        $scope.add = {
+            nome: "",
+            open: 9,
+            close: 20,
+            study: "Biblioteca",
+            noiseOptions: ["Muito Alto", "Alto", "Moderado", "Baixo", "Muito Baixo"],
+            noiseSelected: "Moderado",
+            tomadas: false,
+            computadores: false,
+            internet: false,
+            encerramento: "",
+            error: "",
+            morada: ""
+        };
     });
 
     /**
