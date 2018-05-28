@@ -290,15 +290,15 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
             var icon = null;
             //Determinar tipo de icon
             if (locais[i].type.toUpperCase() == "BIBLIOTECA")
-                icon = "Markers/mm_20_red.png";
+                icon = "Markers/biblioteca_arrow.png";
             else if (locais[i].type.toUpperCase() == "CAFÉ")
-                icon = "Markers/mm_20_blue.png";
+                icon = "Markers/cafe_arrow.png";
             else if (locais[i].type.toUpperCase() == "SALA DE LEITURA")
-                icon = "Markers/mm_20_white.png";
+                icon = "Markers/sala_arrow.png";
             else if (locais[i].type.toUpperCase() == "JARDIM")
-                icon = "Markers/mm_20_green.png";
+                icon = "Markers/jardim_arrow.png";
             else if (locais[i].type.toUpperCase() == "SHOPPING")
-                icon = "Markers/mm_20_yellow.png";
+                icon = "Markers/shopping_.png";
             locais[i].marker = new google.maps.Marker({
                 map: map,
                 position: point,
