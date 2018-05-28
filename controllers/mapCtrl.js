@@ -298,7 +298,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
             else if (locais[i].type.toUpperCase() == "JARDIM")
                 icon = "Markers/jardim_arrow.png";
             else if (locais[i].type.toUpperCase() == "SHOPPING")
-                icon = "Markers/shopping_.png";
+                icon = "Markers/shopping_arrow.png";
             locais[i].marker = new google.maps.Marker({
                 map: map,
                 position: point,
