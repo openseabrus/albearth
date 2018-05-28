@@ -1,9 +1,10 @@
 angular.module('albearth').controller('mapCtrl', function ($scope, $http, $window, $rootScope) {
-    $scope.studies = ['Biblioteca', 'Jardim', 'Sala de Leitura', 'Café', 'Shopping'];
-    $scope.openTime = 11;
-    $scope.closeTime = 17;
-    $scope.filtering = false;
-    $scope.clustering = false;
+    var lastFilters = $window.Cookies.getJSON("filters");
+    $scope.studies = lastFilters ? lastFilters.studies : ['Biblioteca', 'Jardim', 'Sala de Leitura', 'Café', 'Shopping'];
+    $scope.openTime = lastFilters ? lastFilters.openTime : 11;
+    $scope.closeTime = lastFilters ? lastFilters.closeTime : 17;
+    $scope.filtering = lastFilters ? lastFilters.filtering : false;
+    $scope.clustering = lastFilters ? lastFilters.clustering : false;
 
     $rootScope.area = {
         adding: false,
@@ -27,12 +28,11 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         morada: ""
     };
 
-    $scope.bools = [];
-    $scope.noise = {
+    $scope.noise = lastFilters ? lastFilters.noise : {
         options: ["Todos", "Muito Alto", "Alto", "Moderado", "Baixo", "Muito Baixo"],
         selected: "Todos"
     };
-    $scope.rating = {
+    $scope.rating = lastFilters ? lastFilters.rating : {
         options: [1, 2, 3, 4, 5],
         selected: [true, false, false, false, false],
         stars: 1
@@ -253,6 +253,20 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         }
         $window.Cookies.set("lastPos", lastPos);
     });
+
+    function updateCookie() {
+        $window.Cookies.remove("filters");
+        var cookie = {
+            studies: $scope.studies,
+            openTime: $scope.openTime,
+            closeTime: $scope.closeTime,
+            filtering: $scope.filtering,
+            clustering: $scope.clustering,
+            noise: $scope.noise,
+            rating: $scope.rating
+        }
+        $window.Cookies.set("filters", cookie);
+    }
 
     /**
      * Função que irá fazer download dos dados a serem utilizados pela aplicação
@@ -522,14 +536,14 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
             visible = visible && checkHours(locais[i].horario);
 
             //Verificar se tem ou nao tomadas
-            visible = $scope.studies.includes('Tomadas') ? $scope.studies.includes('Tomadas') == locais[i].tomadas : visible;
+            visible = $scope.studies.includes('Tomadas') ? visible && $scope.studies.includes('Tomadas') == locais[i].tomadas : visible;
             // visible = visible && ($scope.bools.includes('Tomadas') == locais[i].tomadas);
 
             //Verificar se tem ou nao computadores
-            visible = $scope.studies.includes('Computadores') ? $scope.studies.includes('Computadores') == locais[i].computadores : visible;
+            visible = $scope.studies.includes('Computadores') ? visible && $scope.studies.includes('Computadores') == locais[i].computadores : visible;
 
             //Verificar se tem ou nao acesso a Internet
-            visible = $scope.studies.includes('Internet') ? $scope.studies.includes('Internet') == locais[i].internet : visible;
+            visible = $scope.studies.includes('Internet') ? visible && $scope.studies.includes('Internet') == locais[i].internet : visible;
 
             //Verificar qual o nivel de ruido
             visible = visible && (locais[i].ruido == $scope.noise.selected || $scope.noise.selected == "Todos");
@@ -547,6 +561,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
             }
             locais[i].marker.setVisible(visible);
         }
+        updateCookie();
     }
     $scope.performAllChecks();
 
@@ -581,7 +596,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
                 range: true,
                 min: 0,
                 max: 24,
-                values: [11, 17],
+                values: [$scope.openTime, $scope.closeTime],
                 slide: function (event, ui) {
                     $scope.setTimes(ui.values[0], ui.values[1], false);
                 }
@@ -594,7 +609,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
                 range: true,
                 min: 0,
                 max: 24,
-                values: [9, 20],
+                values: [$scope.add.open, $scope.add.close],
                 slide: function (event, ui) {
                     $scope.setTimes(ui.values[0], ui.values[1], true);
                 }
