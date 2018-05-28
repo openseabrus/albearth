@@ -356,6 +356,13 @@
 				</div>
 			</div>
 			<div class="col-12 section-title" ng-show="loggedIn">
+				Modificar Local
+			</div>
+			<div class="col-12" ng-show="loggedIn" style="margin: 0; margin-top: 8px; margin-bottom: 5px" align="center">
+				<input class="btn al-btn col-12" style="margin-top: 2px; font-size: 14px" type="button" name="type" value="Modificar Local"
+				    ng-click="modifyLocal(); setView('modify', true, true)" />
+			</div>
+			<div class="col-12 section-title" ng-show="loggedIn">
 				Remover Local
 			</div>
 			<div class="col-12" ng-show="loggedIn" style="margin: 0; margin-top: 8px; margin-bottom: 5px" align="center">
@@ -462,13 +469,113 @@
 				<!--{{noise.selected}} -->
 			</div>
 			<div class="col-12">
-				<label class="sub-section-title" style="margin-top: 8px" for="noiseSelect">Morada</label> {{add.morada}}
+				<label class="sub-section-title" style="margin-top: 8px">Morada</label> {{add.morada}}
 			</div>
 			<div class="col-12" style="text-align: center; color: red">
 				{{add.error}}
 			</div>
 			<div class="col-12" align="center" style="position: relative; margin-top: 30px; bottom: 15px">
 				<input class="btn al-btn" type="button" name="type" value="Adicionar" ng-click="addLocal()" />
+			</div>
+		</form>
+
+		<!-- VIEW de Modificar Local -->
+		<form ng-show="currentView == 'modify'" style="margin-left: 5px; margin-right: 5px" id="modify-local">
+			<div class="col-12 section-title">
+				Modificar local
+			</div>
+			<div class="col-12" style="margin-bottom: 10px">
+				<span class="sub-section-title">Nome do Local</span>
+				<input class="form-control" type="text" name="localName" ng-model="modify.name" ng-change="modifyVerifications()">
+			</div>
+			<div class="col-12 sub-section-title">
+				Tipo de local
+			</div>
+			<div class="col-12" id="bibliotecas">
+				<img src="Markers/biblioteca.png"/> Bibliotecas
+				<div class="redCheck1">
+					<input id="bib-input12" class="pull-right" type="radio" name="type_modify" ng-checked="modify.type == 'Biblioteca'" ng-click="modify.type = 'Biblioteca'"
+					/>
+					<label for="bib-input12">
+				</div>
+			</div>
+			<div class="col-12" id="jardins">
+				<img src="Markers/jardim.png" /> Jardins
+				<div class="redCheck1">
+					<input id="gar-input12" class="pull-right" type="radio" name="type_modify" ng-checked="modify.type == 'Jardim'" ng-click="modify.type = 'Jardim'"
+					/>
+					<label for="gar-input12">
+				</div>
+			</div>
+			<div class="col-12" id="salas">
+				<img src="Markers/sala.png" /> Salas de Leitura
+				<div class="redCheck1">
+					<input id="sala-input12" class="pull-right" type="radio" name="type_modify" ng-checked="modify.type == 'Sala de Leitura'" ng-click="modify.type = 'Sala de Leitura'"
+					/>
+					<label for="sala-input12">
+				</div>
+			</div>
+			<div class="col-12" id="cafes">
+				<img src="Markers/cafe.png" /> Cafés
+				<div class="redCheck1">
+					<input id="caf-input12" class="pull-right" type="radio" name="type_modify" ng-checked="modify.type == 'Café'" ng-click="modify.type = 'Café'"
+					/>
+					<label for="caf-input12">
+				</div>
+			</div>
+			<div class="col-12" style="margin-bottom: 10px" id="shoppings">
+				<img src="Markers/shopping.png" /> Shoppings
+				<div class="redCheck1">
+					<input id="shop-input12" class="pull-right" type="radio" name="type_modify" ng-checked="modify.type == 'Shopping'" ng-click="modify.type = 'Shopping'"
+					/>
+					<label for="shop-input12">
+				</div>
+			</div>
+			<div class="col-12" style="margin-bottom: 10px">
+				<span class="sub-section-title">Horário</span>
+				<div id="slider-range-modify"></div>
+				Aberto entre as {{modify.open}}h e as {{modify.close}}h
+			</div>
+			<div class="col-12" style="margin-bottom: 10px">
+				<span class="sub-section-title">Encerramento</span>
+				<input class="form-control" type="text" name="localClosing" ng-model="modify.encerramento">
+			</div>
+			<div class="col-12" style="margin-bottom: 10px">
+				<span class="sub-section-title">Acesso a tomadas</span>
+				<div class="redCheck">
+					<input id="tom-input12" class="pull-right" type="checkbox" name="type" ng-model="modify.tomadas" />
+					<label for="tom-input12">
+				</div>
+			</div>
+			<div class="col-12" style="margin-bottom: 10px">
+				<span class="sub-section-title">Acesso a computadores</span>
+				<div class="redCheck">
+					<input id="com-input12" class="pull-right" type="checkbox" name="type" ng-model="modify.computadores" />
+					<label for="com-input12">
+				</div>
+			</div>
+			<div class="col-12">
+				<span class="sub-section-title">Acesso à Internet</span>
+				<div class="redCheck">
+					<input id="int-input12" class="pull-right" type="checkbox" name="type" ng-model="modify.internet" />
+					<label for="int-input12">
+				</div>
+			</div>
+			<div class="col-12">
+				<label class="sub-section-title" style="margin-top: 8px" for="noiseSelect2">Nível de ruído</label>
+				<select class="pull-right form-control custom-input" style="margin: 8px 0" name="noise" id="noiseSelect2" ng-options="option for option in modify.ruidos"
+				    ng-model="modify.ruido"></select>
+				<!--{{noise.selected}} -->
+			</div>
+			<div class="col-12">
+				<label class="sub-section-title" style="margin-top: 8px" for="address">Morada</label>
+				<input id="address" class="form-control" type="text" name="localName" ng-model="modify.morada">
+			</div>
+			<div ng-hide="modify.name" class="col-12" style="text-align: center; color: red">
+				O campo nome tem que ser preenchido!
+			</div>
+			<div class="col-12" align="center" style="position: relative; margin-top: 30px; bottom: 15px">
+				<input ng-disabled="!modify.name" class="btn al-btn" type="button" name="type" value="Modificar" ng-click="submitModifications()" />
 			</div>
 		</form>
 

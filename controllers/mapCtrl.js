@@ -28,6 +28,11 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
         morada: ""
     };
 
+    $scope.modify = {
+        ruidos: ["Muito Alto", "Alto", "Moderado", "Baixo", "Muito Baixo"],
+        ruido: "Moderado"
+    };
+
     $scope.noise = lastFilters ? lastFilters.noise : {
         options: ["Todos", "Muito Alto", "Alto", "Moderado", "Baixo", "Muito Baixo"],
         selected: "Todos"
@@ -95,7 +100,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
     var lastPos = $window.Cookies.getJSON("lastPos");
     console.log("LASTPOS");
     console.log(lastPos);
-    if(lastPos) {
+    if (lastPos) {
         options.center = lastPos.center;
         options.zoom = lastPos.zoom;
         hadCookie = true;
@@ -245,7 +250,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
     /**
      * Detecta quando os bounds do mapa mudam e guarda numa Cookie, para poder recuperar numa futura sessão
      */
-    google.maps.event.addListener(map, 'bounds_changed', function(event) {
+    google.maps.event.addListener(map, 'bounds_changed', function (event) {
         $window.Cookies.remove("lastPos");
         var lastPos = {
             center: map.getCenter(),
@@ -386,8 +391,8 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
             }
         }
 
-        
-        if(!hadCookie)
+
+        if (!hadCookie)
             map.fitBounds(bounds);
 
 
@@ -571,16 +576,19 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
      * 
      * @param {int} open Valor inferior do range slider
      * @param {int} close Valor superior do range slider
-     * @param {int} add Indica se a alteração se deu no slider de adicionar local ou na filtragem
+     * @param {string} add Indica se a alteração se deu no slider de adicionar local, modificar local ou na filtragem
      */
     $scope.setTimes = function (open, close, add) {
-        if (!add) {
+        if (add == "filter") {
             $scope.openTime = open;
             $scope.closeTime = close;
             console.log($scope.openTime);
-        } else {
+        } else if (add == "add") {
             $scope.add.open = open;
             $scope.add.close = close;
+        } else if (add == "modify") {
+            $scope.modify.open = open;
+            $scope.modify.close = close;
         }
         $scope.refreshSlider();
         $scope.performAllChecks();
@@ -598,7 +606,7 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
                 max: 24,
                 values: [$scope.openTime, $scope.closeTime],
                 slide: function (event, ui) {
-                    $scope.setTimes(ui.values[0], ui.values[1], false);
+                    $scope.setTimes(ui.values[0], ui.values[1], "filter");
                 }
             });
         });
@@ -611,7 +619,20 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
                 max: 24,
                 values: [$scope.add.open, $scope.add.close],
                 slide: function (event, ui) {
-                    $scope.setTimes(ui.values[0], ui.values[1], true);
+                    $scope.setTimes(ui.values[0], ui.values[1], "add");
+                }
+            });
+        });
+
+        $(function () {
+            // change this so they are independent from each other
+            $("#slider-range-modify").slider({
+                range: true,
+                min: 0,
+                max: 24,
+                values: [9, 17],
+                slide: function (event, ui) {
+                    $scope.setTimes(ui.values[0], ui.values[1], "modify");
                 }
             });
         });
@@ -853,5 +874,59 @@ angular.module('albearth').controller('mapCtrl', function ($scope, $http, $windo
             b.extend(p[x].getPosition());
         }
         map.fitBounds(b);
+    }
+
+    /**
+     * Inicialização dos parâmetros para a modificação de um local
+     */
+    $scope.modifyLocal = function () {
+        $scope.modify = $scope.chosenDetail;
+        $scope.modify.open = 9;
+        $scope.modify.close = 17;
+        $scope.modify.tomadas = $scope.modify.tomadas == "1" ? true : false;
+        $scope.modify.internet = $scope.modify.internet == "1" ? true : false;
+        $scope.modify.computadores = $scope.modify.computadores == "1" ? true : false;
+        $scope.modify.ruidos = ["Muito Alto", "Alto", "Moderado", "Baixo", "Muito Baixo"];
+    }
+
+    /**
+     * Submete as modificações feitas pelo utilizador feitas em $scope.chosenDetail
+     */
+    $scope.submitModifications = function () {
+        console.log($scope.modify);
+        var mod = {
+            idLocal: $scope.modify.idLocal,
+            tipoEstudo: $scope.modify.type,
+            name: $scope.modify.name,
+            tomadas: $scope.modify.tomadas,
+            ruido: $scope.modify.ruido,
+            computadores: $scope.modify.computadores,
+            internet: $scope.modify.internet,
+            open: $scope.modify.open,
+            close: $scope.modify.close,
+            encerramento: $scope.modify.encerramento,
+            morada: $scope.modify.morada
+        }
+        $http({
+            method: 'POST',
+            url: 'updateLocal.php',
+            data: mod,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(function (data) {
+            //if (data.status === 200) {
+            //    window.location.href = 'welcome.php';
+            //} else {
+            //    console.log(data);
+            //    $scope.errorMsg = "Username and password do not match.";
+            //}
+            console.log(data);
+            if (data.data.toUpperCase() == "ACCEPTED")
+                $window.location.reload();
+            console.log("YES");
+        }, function error(data) {
+            console.log(data);
+        });
     }
 });
