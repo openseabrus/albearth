@@ -55,12 +55,13 @@ if($users) {
     foreach($users->children() as $user) {
         $username = $user->username;
         $password = $user->password;
+        $pw = hash('sha512', $password);
         $nome = $user->nome;
         $email = $user->email;
         
         
         $stmt = "INSERT INTO user
-        VALUES ('$username', '$password', '$nome', '$email')";
+        VALUES ('$username', '$pw', '$nome', '$email')";
         $result = $mysqli->query('SET NAMES utf8');
         $result = $mysqli->query('SET CHARACTER SET utf8');
         
