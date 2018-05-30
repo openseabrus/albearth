@@ -25,6 +25,7 @@ angular.module('albearth').controller('registerCtrl', ['$scope', '$window', '$ht
             }).then(function (data) {
                 if (data["data"].toUpperCase() == "DECLINED") {
                     alert("Registo sem sucesso. O email ou username já existe.");
+                    console.log(data);
                     return;
                 } else
                     $scope.logon(data["data"], $scope.email);

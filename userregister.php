@@ -12,7 +12,7 @@ $name = $_POST["name"];
 $em = $_POST["email"];
  
 $stmt = "INSERT INTO user
-VALUES('$user', '$pw', '$name', '$em', '$pic')";
+VALUES('$user', '$pw', '$name', '$em')";
 $result = $mysqli->query('SET NAMES utf8');
 $result = $mysqli->query('SET CHARACTER SET utf8');
 
